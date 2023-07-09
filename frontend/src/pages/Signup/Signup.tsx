@@ -14,6 +14,7 @@ export function Signup() {
 		const formData = new FormData(e.currentTarget);
 		const emailValue = formData.get("email") as string;
 		console.log(emailValue);
+		navigate('/age');
 	}
 
 	return (

@@ -1,0 +1,13 @@
+.button {
+	width: 250px;
+	height: 64px;
+	border-radius: 50px;
+	background: #FB6D6C;
+	border: none;
+	box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+	font-family: Poppins;
+	color: white;
+	font-size: 32px;
+	font-weight: 700;
+	cursor: pointer;
+}

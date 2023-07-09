@@ -14,6 +14,7 @@ export function Signin() {
 		const formData = new FormData(e.currentTarget);
 		const emailValue = formData.get("username") as string;
 		console.log(emailValue);
+		navigate('/age');
 	}
 
 	return (
