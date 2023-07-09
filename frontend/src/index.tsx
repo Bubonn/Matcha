@@ -41,8 +41,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import { App } from './App';
-import { Signup } from './components/Signup/Signup'
+import { Signup } from './pages/Signup/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Signin } from './pages/Signin/Signin';
+import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -65,6 +67,9 @@ if (rootElement) {
       <Routes>
         {/* <Route path='/' element={<App />} /> */}
         <Route path='/' element={<Signup />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/signin' element={<Signin />} />
+        <Route path='/forgotPassword' element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
