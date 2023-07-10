@@ -24,6 +24,7 @@ export function InterestList({ name, interests, setInterests }: InterestListProp
 
 	return (
 		<button
+			type='button'
 			className={s.container}
 			onClick={handleClick}
 			style={{
