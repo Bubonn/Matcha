@@ -1,0 +1,19 @@
+.container {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.button {
+	height: 40px;
+	width: 128px;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-family: Poppins;
+	font-size: 16px;
+	box-shadow: 1px 2px 6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.button:hover {
+	background-color: rgba(251, 109, 108, 0.80) !important;
+}

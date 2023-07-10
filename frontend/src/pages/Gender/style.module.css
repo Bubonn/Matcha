@@ -48,19 +48,12 @@ html, body {
 	line-height: 1;
 }
 
-.input {
-	width: 100px;
-	height: 64px;
-	border-radius: 20px;
-	border: 2px solid #FB6D6C;
-	background: white;
-	margin-right: 10px;
-	text-align: center;
-	font-size: 16px;
+.choice {
+	display: flex;
 }
 
 .button {
 	display: flex;
 	justify-content: center;
-	margin-top: 72px;
+	margin-top: 102px;
 }
