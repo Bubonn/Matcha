@@ -1,0 +1,20 @@
+.container {
+	display: inline-flex;
+	height: 25px;
+	margin: 2px;
+	padding: 10px;
+	align-items: center;
+	border-radius: 10px;
+	/* background: #FB6D6C; */
+	border: none;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	/* color: black; */
+	font-family: Poppins;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.container:hover {
+	background-color: #f89a9a !important;
+}
