@@ -1,9 +1,9 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/photo.png'
-import s from './style.module.css'
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
+import s from './style.module.css'
 
 export function MainPhoto() {
 	const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function MainPhoto() {
 		// const emailValue = formData.get("username") as string;
 		// console.log(description);
 		// console.log('OK');
-		navigate('/signin');
+		navigate('/additionalsPhoto');
 	}
 
 	// async function setProfilePicture(e: React.ChangeEvent<HTMLInputElement>) {

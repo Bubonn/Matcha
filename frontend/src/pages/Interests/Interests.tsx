@@ -1,10 +1,9 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
+import { Interest } from '../../components/Interest/Interest';
 import logo from '../../assets/interest.png'
 import s from './style.module.css'
-import { InterestList } from '../../components/InterestList/InterestList';
-import { Interest } from '../../components/Interest/Interest';
 
 export function Interests() {
 	const navigate = useNavigate();
