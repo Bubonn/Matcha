@@ -1,9 +1,9 @@
-import logo from '../../assets/logo.png'
-import s from './style.module.css'
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png'
+import s from './style.module.css'
 
 export function ForgotPassword() {
 

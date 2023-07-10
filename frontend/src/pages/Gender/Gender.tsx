@@ -1,9 +1,9 @@
 import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
+import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
 import logo from '../../assets/gender.png'
 import s from './style.module.css'
-import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
 
 export function Gender() {
 
@@ -16,14 +16,14 @@ export function Gender() {
 		const emailValue = formData.get("username") as string;
 		// console.log(choice);
 		console.log('OK');
-		// navigate('/age');
+		navigate('/preference');
 	}
 
 	return (
 		<div className={s.container}>
 			<div className={s.box}>
 				<div className={s.logo}>
-					<img src={logo} alt='calendar'/>
+					<img src={logo} alt='gender'/>
 				</div>
 				<div className={s.description}>
 					<p>You are...</p>

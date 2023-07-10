@@ -47,6 +47,8 @@ import { Signin } from './pages/Signin/Signin';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { Age } from './pages/Age/Age';
 import { Gender } from './pages/Gender/Gender';
+import { Preference } from './pages/Preference/Preference';
+import { Description } from './pages/Description/Description';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -74,6 +76,8 @@ if (rootElement) {
         <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path='/age' element={<Age />} />
         <Route path='/gender' element={<Gender />} />
+        <Route path='/preference' element={<Preference />} />
+        <Route path='/description' element={<Description />} />
       </Routes>
     </BrowserRouter>
   );

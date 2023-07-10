@@ -41,6 +41,10 @@ html, body {
 	justify-content: center;
 }
 
+.image {
+	margin: -13px;
+}
+
 .description {
 	font-family: Poppins;
 	font-size: 48px;
@@ -48,12 +52,33 @@ html, body {
 	line-height: 1;
 }
 
-.choice {
+.textBox {
 	display: flex;
+	/* flex-direction: column; */
+	align-items: center;
+	background-color: red;
+	width: 50vw;
+	height: 10vw;
+	max-width: 500px;
+}
+
+.textAera {
+	width: 100%;
+	height: 100%;
+	font-family: Poppins;
+	resize: none;
+}
+
+.char {
+	line-height: 0.5;
+	font-family: Poppins;
+	color: #C3C8D3;
+	font-size: 12px;
+	font-weight: 400;
 }
 
 .button {
 	display: flex;
 	justify-content: center;
-	margin-top: 102px;
+	margin-top: 50px;
 }
