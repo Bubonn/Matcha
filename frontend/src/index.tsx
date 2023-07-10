@@ -49,6 +49,7 @@ import { Age } from './pages/Age/Age';
 import { Gender } from './pages/Gender/Gender';
 import { Preference } from './pages/Preference/Preference';
 import { Description } from './pages/Description/Description';
+import { Interests } from './pages/Interests/Interests';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -78,6 +79,7 @@ if (rootElement) {
         <Route path='/gender' element={<Gender />} />
         <Route path='/preference' element={<Preference />} />
         <Route path='/description' element={<Description />} />
+        <Route path='/interests' element={<Interests />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,13 +1,16 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/comma.png'
+import logo from '../../assets/interest.png'
 import s from './style.module.css'
 
-export function Description() {
+export function Interests() {
 	const navigate = useNavigate();
 	const [description, setDescription] = useState<string>('');
-	const maxChar = 200;
+
+	const interests = ['sport', 'music', 'Travel', 'Movies', 'TV Shows', 'Reading',
+					'Cooking', 'Art', 'Fitness', 'Gaming', 'Dancing', 'Technology', 'Photography',
+					'Running', 'Pets', 'Pets', 'Nature', 'Sciences', 'Cars', '42']
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -15,40 +18,21 @@ export function Description() {
 		const emailValue = formData.get("username") as string;
 		console.log(description);
 		// console.log('OK');
-		navigate('/interests');
+		// navigate('/age');
 	}
-
-	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		// console.log(event);
-		const value = event.target.value;
-		if (value.length <= maxChar) {
-			setDescription(value);
-		  } else {
-			setDescription(value.slice(0, maxChar));
-		  }
-	};
 
 	return (
 		<div className={s.container}>
 			<div className={s.box}>
 				<div className={s.logo}>
 					<img className={s.image} src={logo} alt='comma'/>
-					<img className={s.image} src={logo} alt='comma'/>
 				</div>
 				<div className={s.description}>
-					<p>Describe yourself</p>
+					<p>Tell us about your interests</p>
 				</div>
 				<form onSubmit={handleSubmit}>
-					<div className={s.textBox}>
-						<textarea
-							className={s.textAera}
-							placeholder='Enter a brief description of yourself...'
-							name="description"
-							value={description}
-							onChange={handleChange}
-						/>
-					</div>
-					<p className={s.char}>{description?.length}/{maxChar}</p>
+					{/* <div className={s.textBox}> */}
+					{/* </div> */}
 					<div className={s.button}>
 						<ButtonNext disabled={description.length === 0}/>
 					</div>
