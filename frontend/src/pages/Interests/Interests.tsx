@@ -6,9 +6,9 @@ import s from './style.module.css'
 
 export function Interests() {
 	const navigate = useNavigate();
-	const [description, setDescription] = useState<string>('');
+	const [interests, setInterests] = useState<string>('');
 
-	const interests = ['sport', 'music', 'Travel', 'Movies', 'TV Shows', 'Reading',
+	const listInterests = ['sport', 'music', 'Travel', 'Movies', 'TV Shows', 'Reading',
 					'Cooking', 'Art', 'Fitness', 'Gaming', 'Dancing', 'Technology', 'Photography',
 					'Running', 'Pets', 'Pets', 'Nature', 'Sciences', 'Cars', '42']
 
@@ -16,7 +16,7 @@ export function Interests() {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const emailValue = formData.get("username") as string;
-		console.log(description);
+		// console.log(description);
 		// console.log('OK');
 		// navigate('/age');
 	}
@@ -34,7 +34,7 @@ export function Interests() {
 					{/* <div className={s.textBox}> */}
 					{/* </div> */}
 					<div className={s.button}>
-						<ButtonNext disabled={description.length === 0}/>
+						<ButtonNext disabled={interests.length === 0}/>
 					</div>
 				</form>
 			</div>
