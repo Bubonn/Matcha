@@ -49,27 +49,27 @@ html, body {
 	font-family: Poppins;
 	font-size: 48px;
 	font-weight: 700;
-	line-height: 1;
+	line-height: 0.7;
 }
 
 .textBox {
 	display: flex;
 	align-items: center;
-	background-color: red;
 	width: 50vw;
-	height: 10vw;
+	/* height: 150px; */
 	max-width: 500px;
 }
 
 .textAera {
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
+	height: 100px;
 	font-family: Poppins;
 	resize: none;
 }
 
 .char {
-	line-height: 0.5;
+	line-height: 0.2;
 	font-family: Poppins;
 	color: #C3C8D3;
 	font-size: 12px;
