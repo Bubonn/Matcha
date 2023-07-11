@@ -1,69 +1,107 @@
-import cross from '../../assets/crossPhoto.svg'
-import logo from '../../assets/test.svg'
-import s from './style.module.css'
+// import cross from '../../assets/crossPhoto.svg'
+// import logo from '../../assets/test.svg'
+// import s from './style.module.css'
+
+// interface SelectPhotoProps {
+// 	photo: any;
+// 	setPhoto: any;
+// 	handlePhotoSelection: any;
+// }
+
+// export function SelectPhoto({ photo, setPhoto, handlePhotoSelection }: SelectPhotoProps) {
+
+// 	const uniqueId = `photo-input-${Math.random().toString(36).substring(2, 11)}`;
+
+// 	function handleRemovePhoto() {
+// 			setPhoto(null);
+// 	}
+
+// 	return (
+// 		<div className={s.box}>
+// 			<div
+// 				className={s.container}
+// 				style={{
+// 					backgroundColor: photo ? 'transparent' : 'white'
+// 				}}
+// 				onClick={() => {
+// 					const fileInput = document.getElementById(uniqueId);
+// 					if (fileInput) {
+// 						fileInput.click();
+// 					}
+// 				}}
+// 				>
+// 				{photo ? (
+// 					<img
+// 						className={s.image}
+// 						src={URL.createObjectURL(photo)}
+// 						alt="SelectedPhoto"
+// 					/>
+// 					) : (
+// 					<img className={s.logo} src={logo} alt='cross' />
+// 				)}
+// 			</div>
+// 			{photo && <img className={s.remove} src={cross} onClick={handleRemovePhoto} alt='cross' />}
+// 			<input
+// 				id={uniqueId}
+// 				type="file"
+// 				accept="image/*"
+// 				style={{ display: 'none' }}
+// 				onChange={handlePhotoSelection}
+// 			/>
+// 		</div>
+// 	);
+// }
+
+import React from 'react';
+import cross from '../../assets/crossPhoto.svg';
+import logo from '../../assets/test.svg';
+import styles from './style.module.css';
 
 interface SelectPhotoProps {
-	photo: any;
-	setPhoto: any;
-	handlePhotoSelection: any;
-	// index?: any;
+  photo: File | null;
+  handlePhotoSelection: (file: File) => void;
+  handleRemovePhoto: () => void;
 }
 
-export function SelectPhoto({ photo, setPhoto, handlePhotoSelection }: SelectPhotoProps) {
+export function SelectPhoto({ photo, handlePhotoSelection, handleRemovePhoto }: SelectPhotoProps) {
+  const uniqueId = React.useRef(`photo-input-${Math.random().toString(36).substring(2, 11)}`);
 
-	const uniqueId = `photo-input-${Math.random().toString(36).substring(2, 11)}`;
+  const handleClick = () => {
+    const fileInput = document.getElementById(uniqueId.current);
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
 
-	function handleRemovePhoto() {
-		// if (index === null) {
-			setPhoto(null);
-		// }
-		// else {
-			// const photosCopy = Array.from(photo);
-			// photosCopy[index] = null;
-			// setPhoto(photosCopy);
-			// const photosCopy = Array.from(photo);
-			// photosCopy[index] = null;
-			// const filteredPhotos = photosCopy.filter((item) => item !== null && item !== undefined);
-			// setPhoto(filteredPhotos);
-		// 	const photosCopy = Array.from(photo);
-		// 	photosCopy[index] = null;
-		// 	const filteredPhotos = photosCopy.map(item => (item === '<1 empty slot>' ? null : item));
-		// 	setPhoto(filteredPhotos);
-		// }
-	}
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File | null = e.target.files && e.target.files[0];
+    if (file) {
+      handlePhotoSelection(file);
+    }
+  };
 
-	return (
-		<div className={s.box}>
-			<div
-				className={s.container}
-				style={{
-					backgroundColor: photo ? 'transparent' : 'white'
-				}}
-				onClick={() => {
-					const fileInput = document.getElementById(uniqueId);
-					if (fileInput) {
-						fileInput.click();
-					}
-				}}
-				>
-				{photo ? (
-					<img
-						className={s.image}
-						src={URL.createObjectURL(photo)}
-						alt="SelectedPhoto"
-					/>
-					) : (
-					<img className={s.logo} src={logo} alt='cross' />
-				)}
-			</div>
-			{photo && <img className={s.remove} src={cross} onClick={handleRemovePhoto} alt='cross' />}
-			<input
-				id={uniqueId}
-				type="file"
-				accept="image/*"
-				style={{ display: 'none' }}
-				onChange={handlePhotoSelection}
-			/>
-		</div>
-	);
+  return (
+    <div className={styles.box}>
+      <div
+        className={`${styles.container} ${photo ? '' : styles.empty}`}
+        onClick={handleClick}
+      >
+        {photo ? (
+          <img className={styles.image} src={URL.createObjectURL(photo)} alt="SelectedPhoto" />
+        ) : (
+          <img className={styles.logo} src={logo} alt="cross" />
+        )}
+      </div>
+      {photo && (
+        <img className={styles.remove} src={cross} onClick={handleRemovePhoto} alt="cross" />
+      )}
+      <input
+        id={uniqueId.current}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handleInputChange}
+      />
+    </div>
+  );
 }

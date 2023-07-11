@@ -15,17 +15,12 @@ export function MainPhoto() {
 		navigate('/additionalsPhoto');
 	}
 
-	const handlePhotoSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// console.log('test', e.target.files);
-		const file: File | null = e.target.files && e.target.files[0];
-		if (file) {
-			setPhoto(file);
-			// const reader = new FileReader();
-			// reader.readAsDataURL(file);
-			// reader.onload = () => {
-				// 	dispatch(setAvatar(reader.result as string));
-				// };
-		}
+	const handlePhotoSelection = (file: File) => {
+		setPhoto(file);
+	};
+
+	const handleRemovePhoto = () => {
+		setPhoto(null);
 	};
 
 	return (
@@ -41,8 +36,8 @@ export function MainPhoto() {
 					<div className={s.interest}>
 						<SelectPhoto
 							photo={photo}
-							setPhoto={setPhoto}
-							handlePhotoSelection={handlePhotoSelection}
+							handlePhotoSelection={(file: File) => handlePhotoSelection(file)}
+							handleRemovePhoto={() => handleRemovePhoto()}
 						/>
 					</div>
 					<div className={s.button}>
@@ -52,5 +47,4 @@ export function MainPhoto() {
 			</div>
 		</div>
 	);
-
 }

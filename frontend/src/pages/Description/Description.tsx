@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/comma.png'
