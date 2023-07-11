@@ -12,10 +12,7 @@ export function Gender() {
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const emailValue = formData.get("username") as string;
-		// console.log(choice);
-		console.log('OK');
+		console.log(choice);
 		navigate('/preference');
 	}
 

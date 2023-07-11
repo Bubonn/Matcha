@@ -12,7 +12,7 @@ export function ForgotPassword() {
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const emailValue = formData.get("username") as string;
+		const emailValue = formData.get("email");
 		console.log(emailValue);
 	}
 

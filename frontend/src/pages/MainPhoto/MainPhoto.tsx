@@ -11,24 +11,21 @@ export function MainPhoto() {
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// const formData = new FormData(e.currentTarget);
-		// const emailValue = formData.get("username") as string;
-		// console.log(description);
-		// console.log('OK');
+		console.log(photo);
 		navigate('/additionalsPhoto');
 	}
 
-	// async function setProfilePicture(e: React.ChangeEvent<HTMLInputElement>) {
-	// 	const file = e.target.files?.[0];
-	// 	if (file) {
-	// 		const reader = new FileReader();
-	// 		reader.readAsDataURL(file);
-	// 	}
-	// }
-
 	const handlePhotoSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+		// console.log('test', e.target.files);
 		const file: File | null = e.target.files && e.target.files[0];
-		setPhoto(file);
+		if (file) {
+			setPhoto(file);
+			// const reader = new FileReader();
+			// reader.readAsDataURL(file);
+			// reader.onload = () => {
+				// 	dispatch(setAvatar(reader.result as string));
+				// };
+		}
 	};
 
 	return (
@@ -44,6 +41,7 @@ export function MainPhoto() {
 					<div className={s.interest}>
 						<SelectPhoto
 							photo={photo}
+							setPhoto={setPhoto}
 							handlePhotoSelection={handlePhotoSelection}
 						/>
 					</div>

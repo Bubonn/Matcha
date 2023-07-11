@@ -34,6 +34,7 @@ export function Age() {
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		console.log(selectedDay, selectedMonth, selectedYear)
 		navigate('/gender');
 	}
 

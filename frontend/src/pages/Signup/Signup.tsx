@@ -12,10 +12,11 @@ export function Signup() {
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const emailValue = formData.get("email") as string;
-		console.log(emailValue);
+		const obj = Object.fromEntries(formData);
+		console.log(obj);
 		navigate('/age');
 	}
+
 
 	return (
 		<div className={s.container}>

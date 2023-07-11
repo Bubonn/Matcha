@@ -12,8 +12,8 @@ export function Signin() {
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const emailValue = formData.get("username") as string;
-		console.log(emailValue);
+		const obj = Object.fromEntries(formData);
+		console.log(obj);
 		navigate('/age');
 	}
 

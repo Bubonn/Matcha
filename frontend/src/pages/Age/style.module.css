@@ -61,6 +61,7 @@ html, body {
 }
 
 .error {
+	font-family: Poppins;
 	position: absolute;
 	color: rgb(255, 255, 255);
 	/* top: 15px; */

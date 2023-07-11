@@ -11,21 +11,17 @@ export function Description() {
 
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const emailValue = formData.get("username") as string;
 		console.log(description);
-		// console.log('OK');
 		navigate('/interests');
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		// console.log(event);
 		const value = event.target.value;
 		if (value.length <= maxChar) {
 			setDescription(value);
-		  } else {
+		} else {
 			setDescription(value.slice(0, maxChar));
-		  }
+		}
 	};
 
 	return (

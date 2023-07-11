@@ -9,16 +9,9 @@ export function Interests() {
 	const navigate = useNavigate();
 	const [interests, setInterests] = useState<string[]>([]);
 
-	// const listInterests = ['sport', 'music', 'Travel', 'Movies', 'TV Shows', 'Reading',
-	// 				'Cooking', 'Art', 'Fitness', 'Gaming', 'Dancing', 'Technology', 'Photography',
-	// 				'Running', 'Pets', 'Pets', 'Nature', 'Sciences', 'Cars', '42']
-
 	function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// const formData = new FormData(e.currentTarget);
-		// const emailValue = formData.get("username") as string;
-		// console.log(description);
-		// console.log('OK');
+		console.log(interests);
 		navigate('/mainPhoto');
 	}
 
