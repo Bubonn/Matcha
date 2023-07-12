@@ -52,6 +52,7 @@ import { Description } from './pages/Description/Description';
 import { Interests } from './pages/Interests/Interests';
 import { MainPhoto } from './pages/MainPhoto/MainPhoto';
 import { AdditionalsPhotos } from './pages/AdditionalsPhotos/AdditionalsPhotos';
+import { Test } from './pages/Test/Test';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -73,7 +74,7 @@ if (rootElement) {
     <BrowserRouter>
       <Routes>
         {/* <Route path='/' element={<App />} /> */}
-        <Route path='/' element={<Signup />} />
+        <Route path='/test' element={<Test />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />

@@ -1,0 +1,32 @@
+.app {
+	display: flex;
+	min-height: 100vh;
+	/* background-color: #121212; */
+}
+
+.header {
+	background-color: #f1f1f1;
+	/* background-color: #282828; */
+	padding: 20px;
+	height: 48px;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+/* .sidebar {
+	background-color: #e0e0e0;
+	background-color: #282828;
+	width: 250px;
+	height: calc(100vh - 10px);
+	margin: 5px 5px 5px 5px;
+	border-radius: 30px;
+} */
+
+.mainContent {
+	flex: 1;
+	padding: 20px;
+}
