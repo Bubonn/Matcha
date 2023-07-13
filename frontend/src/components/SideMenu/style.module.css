@@ -1,8 +1,41 @@
 .sideMenu {
-	background-color: #e0e0e0;
-	/* background-color: #282828; */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: #282828;
 	width: 250px;
 	height: calc(100vh - 10px);
 	margin: 5px 5px 5px 5px;
 	border-radius: 30px;
+}
+
+.nameSite {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25px;
+	font-family: Poppins;
+	font-weight: 700;
+	font-size: 32px;
+	color: white;
+}
+
+.pink {
+	color: #FB025D;
+}
+
+.logo {
+	margin-left: -10px;
+	width: 70px;
+	height: 70px;
+}
+
+.navButtons {
+	display: flex;
+	flex-direction: column;
+	margin-top: -200px;
+}
+
+.endNavButtons {
+	margin-bottom: 10px;
 }
