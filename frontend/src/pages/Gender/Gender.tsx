@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
-import logo from '../../assets/gender.png'
+import logo from '../../assets/signupQuestions/gender.png'
 import s from './style.module.css'
 
 export function Gender() {

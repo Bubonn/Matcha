@@ -1,0 +1,12 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(195, 200, 211, 0.10);
+	height: 30px;
+	border-radius: 5px;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 13px;
+	font-weight: 400;
+}

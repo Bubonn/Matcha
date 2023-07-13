@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/comma.png'
+import logo from '../../assets/signupQuestions/comma.png'
 import s from './style.module.css'
 
 export function Description() {

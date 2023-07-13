@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/calendar.png';
+import logo from '../../assets/signupQuestions/calendar.png';
 import s from './style.module.css';
 
 export function Age() {

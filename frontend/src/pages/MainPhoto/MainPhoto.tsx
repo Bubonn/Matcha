@@ -1,8 +1,8 @@
 import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/photo.png'
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
+import logo from '../../assets/signupQuestions/photo.png'
 import s from './style.module.css'
 
 export function MainPhoto() {

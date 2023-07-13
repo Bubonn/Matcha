@@ -1,0 +1,60 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #121212;
+	padding: 20px;
+	height: 48px;
+}
+
+.section {
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	color: #FFF;
+}
+
+.notification {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 45px;
+	width: 45px;
+	border-radius: 25px;
+	background-color: #666F80;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.notification:hover {
+	background-color: #FB025D;
+}
+
+.logoBell {
+	width: 30px;
+	height: 30px;
+}
+
+.infoUser {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.logoUser {
+	width: 45px;
+	height: 45px;
+	margin-right: 10px;
+}

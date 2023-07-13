@@ -1,6 +1,6 @@
 import React from 'react';
 import cross from '../../assets/crossPhoto.svg';
-import logo from '../../assets/test.svg';
+import logo from '../../assets/addPhoto.svg';
 import styles from './style.module.css';
 
 interface SelectPhotoProps {

@@ -1,0 +1,16 @@
+.app {
+	display: flex;
+	min-height: 100vh;
+	background-color: #121212;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.mainContent {
+	flex: 1;
+	padding: 20px;
+}

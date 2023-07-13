@@ -1,20 +1,19 @@
-import { useState } from 'react';
 import s from './style.module.css'
 
 interface ButtonSideMenuProps {
+	section: any;
+	updateSection: any;
 	name: string;
 	logo: any;
 }
 
-export function ButtonSideMenu({ name, logo }: ButtonSideMenuProps) {
-	const [mouseOn, setMouseOn] = useState(false);
+export function ButtonSideMenu({ section, updateSection, name, logo }: ButtonSideMenuProps) {
 
 	return (
 		<div 
 			className={s.container}
-			onMouseEnter={() => setMouseOn(true)}
-			onMouseLeave={() => setMouseOn(false)}
-			style={{backgroundColor: mouseOn ? '#000000' : '#282828'}}
+			onClick={() => updateSection(name)}
+			style={{backgroundColor: section === name ? '#000000' : '#282828'}}
 		>
 			<img className={s.logo} src={logo} alt='logoMenu'/>
 			{name}
