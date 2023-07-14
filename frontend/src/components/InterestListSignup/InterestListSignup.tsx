@@ -6,7 +6,7 @@ interface InterestListProps {
 	setInterests: any;
 }
 
-export function InterestList({ name, interests, setInterests }: InterestListProps) {
+export function InterestListSignup({ name, interests, setInterests }: InterestListProps) {
 
 	function handleClick() {
 		if (interests.includes(name)) {

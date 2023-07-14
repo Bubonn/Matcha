@@ -3,12 +3,9 @@
 	justify-content: space-evenly;
 	height: 100%;
 	border-radius: 50px;
-	/* background-color: aqua; */
 }
 
 .images {
-	background-color: aqua;
-	/* max-width: 90%; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -23,8 +20,6 @@
 
 .image {
 	max-height: 80vh;
-	/* max-width: 80vh; */
-	/* min-width: 90%; */
 	max-width: 100%;
 	border-radius: 10px;
 }
@@ -50,7 +45,6 @@
 }
 
 .infos {
-	background-color: orange;
 	display: flex;
 	flex-direction: column;
 	border-radius: 20px;
@@ -60,9 +54,8 @@
 
 .location {
 	display: flex;
-	align-items: end;
+	align-items: flex-end;
 	margin-top: 50px;
-
 	color: #C3C8D3;
 	font-family: Poppins;
 	font-size: 16px;
@@ -131,4 +124,32 @@
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
+}
+
+.hobbies {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.interests {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	gap: 5px;
+}
+
+
+.actionButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	display: flex;
+	padding: 3px;
+	border-radius: 50%;
+	background-color: #666F80;
+	cursor: pointer;
 }

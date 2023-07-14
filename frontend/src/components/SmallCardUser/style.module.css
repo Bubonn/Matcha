@@ -1,0 +1,54 @@
+.container {
+	height: 270px;
+	width: 250px;
+	border-radius: 30px;
+	cursor: pointer;
+	padding: 30px;
+}
+
+.infoUser {
+	color: white;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	height: 60px;
+	width: 250px;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 5;
+	margin-top: -64px;
+	border-bottom-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+}
+
+
+
+.user {
+	display: flex;
+	justify-content: space-between;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.name {
+	margin-left: 15px;
+}
+
+.popularity {
+	display: flex;
+	margin-right: 10px;
+}
+
+.city {
+	color: #666F80;
+	font-family: Poppins;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.imgLocation {
+	height: 18px;
+	margin-left: 10px;
+	margin-right: 5px;
+}

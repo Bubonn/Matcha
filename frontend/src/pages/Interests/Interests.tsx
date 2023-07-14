@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import { Interest } from '../../components/Interest/Interest';
+import { InterestSignup } from '../../components/InterestSignup/InterestSignup';
 import logo from '../../assets/signupQuestions/interest.png'
 import s from './style.module.css'
 
@@ -26,7 +26,7 @@ export function Interests() {
 				</div>
 				<form onSubmit={handleSubmit}>
 					<div className={s.interest}>
-						<Interest interests={interests} setInterests={setInterests}/>
+						<InterestSignup interests={interests} setInterests={setInterests}/>
 					</div>
 					<div className={s.button}>
 						<ButtonNext disabled={interests.length === 0}/>

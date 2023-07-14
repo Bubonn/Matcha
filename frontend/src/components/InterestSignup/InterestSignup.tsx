@@ -1,4 +1,4 @@
-import { InterestList } from '../InterestList/InterestList';
+import { InterestListSignup } from '../InterestListSignup/InterestListSignup';
 import s from './style.module.css'
 
 interface InterestProps {
@@ -6,7 +6,7 @@ interface InterestProps {
 	setInterests: any;
 }
 
-export function Interest({ interests, setInterests }: InterestProps) {
+export function InterestSignup({ interests, setInterests }: InterestProps) {
 
 	const listInterests = ['sport', 'music', 'Travel', 'Movies', 'TV Shows', 'Reading',
 	'Cooking', 'Art', 'Fitness', 'Gaming', 'Dancing', 'Technology', 'Photography',
@@ -17,7 +17,7 @@ export function Interest({ interests, setInterests }: InterestProps) {
 			{listInterests.map((interest: string) => {
 				return (
 					<div className={s.container} key={interest}>
-						<InterestList
+						<InterestListSignup
 							name={interest}
 							interests={interests}
 							setInterests={setInterests}
