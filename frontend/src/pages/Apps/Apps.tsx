@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { SideMenu } from '../../components/SideMenu/SideMenu';
-import s from './style.module.css'
 import { Header } from '../../components/Header/Header';
 import { Outlet } from 'react-router-dom';
+import s from './style.module.css'
 
 export function Apps() {
 	const [section, setSection] = useState<string>('Search');
