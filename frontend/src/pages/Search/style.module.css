@@ -1,20 +1,16 @@
 .container {
-	/* background-color: aliceblue; */
 	display: flex;
 	flex-direction: row;
 	margin-left: 260px;
 	margin-top: 88px;
 	height: 100%;
-	/* width: 100%; */
 	width: calc(100% - 260px);
 
 }
 
 .button {
 	display: flex;
-	justify-content: end;
-	/* width: 80px; */
-	/* background-color: aqua; */
+	justify-content: flex-end;
 }
 
 .filter {
@@ -33,21 +29,68 @@
 	background-color: #FB025D;
 }
 
+.boxFilters {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	background-color: #4F4F4F;
+	top: 130px;
+	left: 370px;
+	width: 1000px;
+	height: 600px;
+	border-radius: 20px;
+	z-index: 2;
+}
+
+.boxTitle {
+	/* background-color: #FB025D; */
+	height: 10%;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.title {
+	margin-left: 20px;
+	/* margin-top: 15px; */
+}
+
+.allFilters {
+	background-color:aliceblue;
+	height: 80%;
+}
+
+.buttonSubmit {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	height: 10%;
+	/* background-color: aqua; */
+}
+
+.buttonFilters {
+	margin-right: 20px;
+	border: none;
+	width: 150px;
+	height: 48px;
+	border-radius: 20px;
+	background-color: #FB025D;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
 .users {
-
-
-
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
 	width: calc(100% - 80px);
 	justify-content: center;
 	align-content: flex-start;
-
-
-
-	/* background-color: bisque; */
 	border-radius: 25px;
-	/* width: 100%; */
-	/* gap: 15px; */
+	opacity: 0.5;
+	z-index: 1;
 }

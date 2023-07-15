@@ -14,6 +14,7 @@ import { Apps } from './pages/Apps/Apps';
 import { Profile } from './pages/Profile/Profile';
 import { Likes } from './pages/Likes/Likes';
 import { Search } from './pages/Search/Search';
+import { History } from './pages/History/History';
 
 const rootElement = document.getElementById('root');
 
@@ -27,6 +28,7 @@ if (rootElement) {
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/likes' element={<Likes />} />
 					<Route path='/search' element={<Search />} />
+					<Route path='/history' element={<History />} />
 				</Route>
 				<Route path='/signup' element={<Signup />} />
 				<Route path='/signin' element={<Signin />} />

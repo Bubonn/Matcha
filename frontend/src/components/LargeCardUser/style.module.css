@@ -1,14 +1,9 @@
 .container {
 	height: 380px;
 	width: 350px;
-	/* width: 380px; */
 	overflow: hidden;
-	/* padding: 3px; */
-	/* padding: 10px; */
 	margin: 5px;
 	display: inline-block;
-	/* background-color: black; */
-	/* background-color: orange; */
 	overflow-x: hidden;
 
 }
@@ -30,7 +25,6 @@
 	position: absolute;
 	height: 180px;
 	width: 380px;
-	/* background-color: rgba(0, 0, 0, 0.8); */
 	z-index: 5;
 	margin-top: -184px;
 	border-bottom-left-radius: 30px;
@@ -55,33 +49,22 @@
 .otherInfo {
 	display: flex;
 	flex-direction: column;
-	justify-content: start;
-	align-items: start;
+	justify-content: flex-start;
+	align-items: flex-start;
 	color: #666F80;
 	font-family: Poppins;
 	font-size: 16px;
 	font-weight: 400;
-
-	/* background-color: aqua; */
 }
 
 .logoFire {
 	height: 20px;
 	margin-right: 5px;
-	/* color: red; */
 }
 
 .popularity {
 	display: flex;
-	/* margin-right: 10px; */
 }
-
-/* .city {
-	color: #666F80;
-	font-family: Poppins;
-	font-size: 16px;
-	font-weight: 400;
-} */
 
 .location {
 	display: flex;
@@ -89,6 +72,5 @@
 
 .imgLocation {
 	height: 18px;
-	/* margin-left: 10px; */
 	margin-right: 5px;
 }
