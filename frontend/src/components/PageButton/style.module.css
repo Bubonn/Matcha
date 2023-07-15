@@ -1,0 +1,13 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 150px;
+	height: 48px;
+	border-radius: 20px;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+}
