@@ -1,0 +1,26 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+
+.label {
+	display: flex;
+	align-items: center;
+}
+
+.select {
+	width: 220px;
+	height: 48px;
+	border: none;
+	border-radius: 10px;
+	background: #666F80;
+	font-size: 16px;
+	/* margin-left: 16px; */
+	padding-left: 8px;
+}

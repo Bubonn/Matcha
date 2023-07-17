@@ -43,7 +43,6 @@
 }
 
 .boxTitle {
-	/* background-color: #FB025D; */
 	height: 10%;
 	color: #FFF;
 	font-family: Poppins;
@@ -53,12 +52,68 @@
 
 .title {
 	margin-left: 20px;
-	/* margin-top: 15px; */
 }
 
 .allFilters {
-	background-color:aliceblue;
+	display: flex;
+	/* background-color:aliceblue; */
 	height: 80%;
+}
+
+.filterA {
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	/* justify-content: center; */
+	width: 50%;
+	/* background-color: aqua; */
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.slider {
+	display: flex;
+	flex-direction: column;
+	max-width: 250px;
+	margin-bottom: 30px;
+}
+
+.label {
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.pink {
+	color: #FB025D;
+}
+
+.ageFilter {
+	display: flex;
+	gap: 10px;
+}
+
+.filterB {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	/* flex-wrap: wrap; */
+	/* background-color: #FB025D; */
+}
+
+.hobbiesTitle {
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 24px;
+	font-weight: 800;
+	margin-bottom: 15px;
+}
+
+.hobbies {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
 }
 
 .buttonSubmit {
@@ -66,7 +121,6 @@
 	align-items: center;
 	justify-content: flex-end;
 	height: 10%;
-	/* background-color: aqua; */
 }
 
 .buttonFilters {
