@@ -4,19 +4,26 @@ import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BackApi } from '../../api/back';
 
 export function Signup() {
 
 	const navigate = useNavigate();
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const obj = Object.fromEntries(formData);
-		console.log(obj);
-		navigate('/age');
-	}
+		await BackApi.signup(obj)
+			.then(response => {
 
+				navigate('/age');
+			})
+			.catch(error => {
+				// console.error('3 Erreur lors de la création de l\'utilisateur :', error);
+				console.error(error.response.data.error);
+			});
+	}
 
 	return (
 		<div className={s.container}>
