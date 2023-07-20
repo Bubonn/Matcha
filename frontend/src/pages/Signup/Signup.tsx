@@ -11,22 +11,29 @@ export function Signup() {
 	const navigate = useNavigate();
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const obj = Object.fromEntries(formData);
-		await BackApi.signup(obj)
-			.then(response => {
+		try {
 
-				navigate('/age');
-			})
-			.catch(error => {
-				// console.error('3 Erreur lors de la création de l\'utilisateur :', error);
-				console.error(error.response.data.error);
-			});
+			e.preventDefault();
+			const formData = new FormData(e.currentTarget);
+			const obj = Object.fromEntries(formData);
+			const rep = await BackApi.signup(obj)
+			// .then(response => {
+				
+				// 	navigate('/age');
+				// })
+				// .catch(error => {
+					// 	// console.error('3 Erreur lors de la création de l\'utilisateur :', error);
+					// 	// console.error(error.response.data.error);
+					// 	console.error(error);
+					// 	navigate('/age');
+					// });
+		} catch (error) {
+			console.log('Test error:', error);
+		}
 	}
-
-	return (
-		<div className={s.container}>
+				
+				return (
+					<div className={s.container}>
 			<div className={s.bgSignupBox}>
 				<div className={s.signupBox}>
 					<div className={s.name}>

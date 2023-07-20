@@ -53,6 +53,36 @@ app.post('/signup', acceptJsonOnly, async (req, res) => {
 			throw new Error('Tous les champs sont obligatoires.');
 		}
 
+		const checkUserQuery = 'SELECT * FROM user WHERE username = ?';
+		const checkUserValues = [username];
+	
+		// connection.query(checkUserQuery, checkUserValues, async (checkUserErr, checkUserResults) => {
+		//   if (checkUserErr) {
+		// 	console.error('Erreur lors de la vérification du nom d\'utilisateur :', checkUserErr);
+		// 	throw new Error('Une erreur est survenue lors de la vérification du nom d\'utilisateur.');
+		//   }
+
+		// const test = await 
+	
+		
+		const checkUserResult = await new Promise((resolve, reject) => {
+			connection.query(checkUserQuery, checkUserValues, (checkUserErr, checkUserResults) => {
+				if (checkUserErr) {
+					console.error('Erreur lors de la vérification du nom d\'utilisateur :', checkUserErr);
+					reject(new Error('Une erreur est survenue lors de la vérification du nom d\'utilisateur.'));
+				} else {
+					resolve(checkUserResults);
+				}
+			});
+		});
+
+
+		if (checkUserResults.length > 0) {
+		  // Un utilisateur avec le même nom d'utilisateur existe déjà dans la base de données.
+		  throw new Error('Le nom d\'utilisateur est déjà pris.');
+		}
+	//   });
+
 		const hashedPassword = await argon2.hash(password);
 
 		const sql = 'INSERT INTO user (email, username, firstName, lastName, password) VALUES (?, ?, ?, ?, ?);';
@@ -61,59 +91,17 @@ app.post('/signup', acceptJsonOnly, async (req, res) => {
 		connection.query(sql, values, (err, result) => {
 			if (err) {
 				console.error('Erreur lors de l\'ajout de l\'utilisateur :', err);
-				return res.status(500).json({ error: 'Une erreur est survenue lors de l\'ajout de l\'utilisateur.' });
+				throw new Error('Une erreur est survenue lors de l\'ajout de l\'utilisateur.');
+				// return res.status(500).json({ error: 'Une erreur est survenue lors de l\'ajout de l\'utilisateur.' });
 			}
 			console.log('Nouvel utilisateur ajouté avec l\'ID :', result.insertId);
 			res.json({ success: true });
 		});
 	} catch (error) {
-		// console.error('Erreur lors de l\'ajout de l\'utilisateur :', error.message);
+		console.error('Erreur lors de l\'ajout de l\'utilisateur :', error.message);
 		res.status(400).json({ error: error.message }); // Répondre avec un JSON d'erreur plus explicite
 	}
 });
-
-// app.post('/signin', acceptJsonOnly, async (req, res) => {
-// 	try {
-// 		const { username, password } = req.body;
-
-// 		if (!username || !password) {
-// 			throw new Error('Tous les champs sont obligatoires.');
-// 		}
-
-// 		const sql = 'SELECT username, password FROM user WHERE username = ?;';
-// 		const values = [username];
-
-// 		connection.query(sql, values, (err, results) => {
-// 			if (err) {
-// 				console.error('Erreur lors de la récupération des informations d\'utilisateur :', err);
-// 				return;
-// 			}
-
-// 			if (results.length === 0) {
-// 				// Aucun utilisateur avec ce nom d'utilisateur n'a été trouvé dans la base de données.
-// 				// Vous pouvez renvoyer un message d'erreur ou gérer l'authentification en conséquence.
-// 				console.log('Utilisateur non trouvé');
-// 			} else {
-// 				const user = results[0];
-// 				const storedUsername = user.username;
-// 				const storedPassword = user.password;
-// 				try {
-// 					const isMatch = await argon2.verify(storedPassword, password);
-// 					// Ici, vous pouvez comparer le mot de passe haché stocké dans la base de données (storedPassword)
-// 					// avec le mot de passe fourni par l'utilisateur lors de la tentative de connexion pour valider l'authentification.
-// 					console.log('Nom d\'utilisateur trouvé :', storedUsername);
-// 					console.log('Mot de passe haché :', storedPassword);
-// 				} catch (error) {
-// 					console.error('Erreur lors de la vérification du mot de passe :', error);
-// 					throw error; // Propager l'erreur pour qu'elle soit gérée par le bloc catch externe
-// 				}
-// 			}
-// 		});
-// 	} catch (error) {
-// 		// console.error('Erreur lors de l\'ajout de l\'utilisateur :', error.message);
-// 		res.status(400).json({ error: error.message }); // Répondre avec un JSON d'erreur plus explicite
-// 	}
-// });
 
 app.post('/signin', acceptJsonOnly, async (req, res) => {
 	try {
