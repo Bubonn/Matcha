@@ -2,13 +2,14 @@ import logo from '../../assets/logo.png'
 import s from './style.module.css'
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 
 export function Signin() {
 
 	const navigate = useNavigate();
+	const [backErr, setBackErr] = useState<string>('');
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -16,7 +17,12 @@ export function Signin() {
 		const obj = Object.fromEntries(formData);
 		// console.log(obj);
 		const rep = await BackApi.signin(obj);
-		navigate('/age');
+		if (rep.status === 200) {
+			navigate('/age');
+		} else {
+			setBackErr(rep);
+		}
+
 	}
 
 	return (
@@ -41,6 +47,7 @@ export function Signin() {
 									name='password'
 									placeholder='Enter your password'
 									small={false}
+									isPassword={true}
 								/>
 								<div
 									className={s.forgot}
@@ -49,6 +56,7 @@ export function Signin() {
 									Forgot password ?
 								</div>
 							</div>
+							{backErr && <span className={s.error}>{backErr}</span>}
 							<div className={s.space}>
 								<div className={s.button}>
 									<ButtonLogin

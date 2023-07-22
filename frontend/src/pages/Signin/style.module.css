@@ -90,3 +90,10 @@ html, body {
 .forgot:hover {
 	text-decoration: underline;
 }
+
+.error {
+	color: red;
+	font-family: 'poppins', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+}

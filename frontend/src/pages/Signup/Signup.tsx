@@ -2,38 +2,85 @@ import logo from '../../assets/logo.png'
 import s from './style.module.css'
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 
 export function Signup() {
 
 	const navigate = useNavigate();
+	const [password, setPassword] = useState<string>('');
+	const [confPassword, setConfPassword] = useState<string>('');
+	const [err, setErr] = useState<string>('');
+	const [backErr, setBackErr] = useState<string>('');
 
-	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-		try {
-
-			e.preventDefault();
-			const formData = new FormData(e.currentTarget);
-			const obj = Object.fromEntries(formData);
-			const rep = await BackApi.signup(obj)
-			// .then(response => {
-				
-				// 	navigate('/age');
-				// })
-				// .catch(error => {
-					// 	// console.error('3 Erreur lors de la création de l\'utilisateur :', error);
-					// 	// console.error(error.response.data.error);
-					// 	console.error(error);
-					// 	navigate('/age');
-					// });
-		} catch (error) {
-			console.log('Test error:', error);
+	function checkValues(obj: any) {
+		const { email, username, firstName, lastName, password, confirmPassword } = obj;
+		if (!email || !username || !firstName || !lastName || !password || !confirmPassword ) {
+			return setErr('Missing required parameters');
 		}
 	}
-				
-				return (
-					<div className={s.container}>
+
+	function containsUpperCase(str: string) {
+		const regex = /[A-Z]/;
+		return regex.test(str);
+	}
+
+	function containsSpecialCharacter(str: string) {
+		const regex = /[!@#$%^&*()_+{}[\]:;<>,.?~\\|]/;
+		return regex.test(str);
+	}
+
+	function containsDigit(str: string) {
+		const regex = /\d/;
+		return regex.test(str);
+	}
+
+	function checkPassword() {
+		setBackErr('');
+		if (!password && !confPassword) {
+			return setErr('');
+		}
+		if (password.length < 8) {
+			return setErr('Password must contain at least eight characters');
+		}
+		if (!containsUpperCase(password)) {
+			return setErr('Password must contain at least one uppercase character');
+		}
+		if (!containsSpecialCharacter(password)) {
+			return setErr('Password must contain at least one special character');
+		}
+		if (!containsDigit(password)) {
+			return setErr('Password must contain at least one digit');
+		}
+		if (password !== confPassword) {
+			return setErr('The two passwords must be the same');
+		}
+		setErr('');
+	}
+
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		const obj = Object.fromEntries(formData);
+		checkValues(obj);
+		if (!err) {
+			const rep = await BackApi.signup(obj);
+			if (rep.status === 200) {
+				navigate('/age');
+			} else {
+				setBackErr(rep);
+			}
+		}
+	}
+
+	useEffect(() => {
+		checkPassword();
+		// eslint-disable-next-line
+	}, [password, confPassword])
+
+	return (
+		<div className={s.container}>
 			<div className={s.bgSignupBox}>
 				<div className={s.signupBox}>
 					<div className={s.name}>
@@ -72,14 +119,22 @@ export function Signup() {
 									name='password'
 									placeholder='Enter your password'
 									small={true}
+									password={password}
+									setPassword={setPassword}
+									isPassword={true}
 								/>
 								<InputLogin
 									label='Confirm Password'
 									name='confirmPassword'
 									placeholder='Enter your password'
 									small={true}
+									password={confPassword}
+									setPassword={setConfPassword}
+									isPassword={true}
 								/>
 							</div>
+							{err && <span className={s.error}>{err}</span>}
+							{!err && backErr && <span className={s.error}>{backErr}</span>}
 							<div className={s.space}>
 								<ButtonLogin
 									name={'Join now'}

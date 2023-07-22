@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000';
 
 export class BackApi {
 	static async getAllUsers() {
-		const rep = await axios.get(`${BASE_URL}/users`)
+		const rep = await axios.get(`${BASE_URL}/login/users`)
 			// .then(rep => rep)
 			// .catch(error => error)
 		return rep;
@@ -12,22 +12,19 @@ export class BackApi {
 
 	static async signup(infoUser: any) {
 		try {
-			const response = await axios.post(`${BASE_URL}/signup`, infoUser);
+			const response = await axios.post(`${BASE_URL}/login/signup`, infoUser);
 			return response;
 		} catch (error: any) {
-			// console.error('Erreur lors de la création de l\'utilisateur :', error);
-			// console.log('TEST', error.message);
-			// console.log('TEST', error);
-			throw error;
+			return error.response.data.error;
 		}
 	}
 
 	static async signin(infoUser: any) {
-		// try {
-			const response = await axios.post(`${BASE_URL}/signin`, infoUser);
+		try {
+			const response = await axios.post(`${BASE_URL}/login/signin`, infoUser);
 			return response;
-		// } catch (error: any) {
-			// throw error;
-		// }
+		} catch (error: any) {
+			return error.response.data.error;
+		}
 	}
 }
