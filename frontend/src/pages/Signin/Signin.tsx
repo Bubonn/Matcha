@@ -18,6 +18,7 @@ export function Signin() {
 		// console.log(obj);
 		const rep = await BackApi.signin(obj);
 		if (rep.status === 200) {
+			console.log('REACT', rep.data);
 			navigate('/age');
 		} else {
 			setBackErr(rep);
