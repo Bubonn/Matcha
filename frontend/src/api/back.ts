@@ -17,8 +17,11 @@ export class BackApi {
 		} catch (error: any) {
 			// console.error('Erreur lors de la création de l\'utilisateur :', error);
 			// console.log('TEST', error.message);
-			// console.log('TEST', error);
-			throw error;
+			// console.log('error', error.response.data.error);
+			console.log('error', error.response);
+			return error;
+			// return response
+			// throw error;
 		}
 	}
 

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import logo from '../../assets/userFilter.svg'
 import s from './style.module.css'
 
@@ -11,7 +10,6 @@ interface InputAgeFilterProps {
 
 export function InputAgeFilter({ label, name, selectedAge, setAge }: InputAgeFilterProps) {
 	const age = Array.from(Array(82), (_, index) => index + 18);
-
 
 	return (
 		<div className={s.container}>

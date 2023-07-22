@@ -5,13 +5,19 @@ interface InputLoginProps {
 	label: string;
 	name: string;
 	placeholder: string;
-	small: boolean
+	small: boolean;
+	password?: string;
+	setPassword?: any;
+	isPassword?: boolean;
 }
 
-export function InputLogin({ label, name, placeholder, small }: InputLoginProps) {
+export function InputLogin({ label, name, placeholder, small, password, setPassword, isPassword }: InputLoginProps) {
 	const [value, setValue] = useState('');
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (setPassword) {
+			setPassword(e.target.value);
+		}
 		setValue(e.target.value);
 	};
 
@@ -27,8 +33,9 @@ export function InputLogin({ label, name, placeholder, small }: InputLoginProps)
 				id={name}
 				placeholder={placeholder}
 				name={name}
-				value={value}
+				value={password ? password : value}
 				onChange={handleChange}
+				type={isPassword ? 'password' : 'text'}
 			/>
 		</div>
 	);
