@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000';
 
 export class BackApi {
 	static async getAllUsers() {
-		const rep = await axios.get(`${BASE_URL}/login/users`)
+		const rep = await axios.get(`${BASE_URL}/users/users`)
 			// .then(rep => rep)
 			// .catch(error => error)
 		return rep;
