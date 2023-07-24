@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const acceptJsonOnly = (req, res, next) => {
-    console.log('OK');
     if (req.is('json')) {
         next();
     }

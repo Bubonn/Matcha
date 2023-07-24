@@ -4,15 +4,38 @@ import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
 import logo from '../../assets/signupQuestions/photo.png'
 import s from './style.module.css'
+import { BackApi } from '../../api/back';
 
 export function MainPhoto() {
 	const navigate = useNavigate();
 	const [photo, setPhoto] = useState<any>(null);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(photo);
-		navigate('/additionalsPhoto');
+
+		if (!photo) {
+			return;
+		}
+
+		try {
+			const formData: any = new FormData();
+			formData.append('photo_profil', photo);
+			// if (e.target.files)
+			// formData.append('photo_profil', photo);
+			console.log(formData);
+			const response = await fetch('http://localhost:3000/uploads/1', {
+				method: 'POST',
+				body: formData,
+			});
+
+			if (response.ok) {
+				console.log('React ok');
+			} else {
+				console.log('React nop');
+			}
+		} catch (error) {
+			console.error('Une erreur est survenue lors de la requête au backend :', error);
+		}
 	}
 
 	const handlePhotoSelection = (file: File) => {

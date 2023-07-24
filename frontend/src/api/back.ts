@@ -27,4 +27,15 @@ export class BackApi {
 			return error.response.data.error;
 		}
 	}
+
+	static async upload(image: any) {
+		// const formData = new FormData();
+		// formData.append('file', image, 'Photo.jpg');
+		try {
+			const response = await axios.post(`${BASE_URL}/uploads/1`, image);
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
 }
