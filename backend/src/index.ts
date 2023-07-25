@@ -1,9 +1,13 @@
 import express from 'express';
 import cors from 'cors';
-import { createConnection } from './services/db';
 import login from './routes/login';
 import users from './routes/user';
 import uploads from './routes/uploads';
+import dotenv from 'dotenv';
+import { createConnection } from './services/db';
+import { authenticateToken } from './utils/token';
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
@@ -13,8 +17,11 @@ app.use(express.json());
 
 createConnection();
 
-app.use('/users', users);
 app.use('/login', login);
+
+app.use(authenticateToken);
+
+app.use('/users', users);
 app.use('/uploads', uploads);
 
 app.listen(port, () => {

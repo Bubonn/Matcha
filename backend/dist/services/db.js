@@ -9,9 +9,9 @@ let connection;
 const createConnection = () => {
     connection = mysql2_1.default.createConnection({
         host: '127.0.0.1',
-        user: 'root',
-        password: 'rootpass',
-        database: 'flirtopia',
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
     });
     connection.connect((err) => {
         if (err) {

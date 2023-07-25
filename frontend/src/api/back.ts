@@ -28,11 +28,18 @@ export class BackApi {
 		}
 	}
 
-	static async upload(image: any) {
-		// const formData = new FormData();
-		// formData.append('file', image, 'Photo.jpg');
+	static async upload(userId: number, formData: any) {
 		try {
-			const response = await axios.post(`${BASE_URL}/uploads/1`, image);
+			const response = await axios.post(`http://localhost:3000/uploads/${userId}`, formData);
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async removePhoto(userId: number, photoId: any) {
+		try {
+			const response = await axios.delete(`http://localhost:3000/uploads/${userId}?photoId=${photoId}`, { data: { photoId } });
 			return response;
 		} catch (error: any) {
 			return error.response.data.error;

@@ -16,19 +16,39 @@ export function MainPhoto() {
 		if (!photo) {
 			return;
 		}
+		navigate('/additionalsPhoto')
+		// try {
+		// 	const formData: any = new FormData();
+		// 	formData.append('photo_profil', photo);
+		// 	formData.append('photoId', 1);
+		// 	const response = await BackApi.upload(20, formData)
 
+		// 	if (response.status === 200) {
+		// 		console.log('React ok');
+		// 	} else {
+		// 		console.log('React nop');
+		// 	}
+		// } catch (error) {
+		// 	console.error('Une erreur est survenue lors de la requête au backend :', error);
+		// }
+	}
+
+	// const handlePhotoSelection = (file: File) => {
+	// 	setPhoto(file);
+	// };
+
+	async function handlePhotoSelection(file: File) {
+		setPhoto(file);
+		if (!file) {
+			return;
+		}
 		try {
 			const formData: any = new FormData();
-			formData.append('photo_profil', photo);
-			// if (e.target.files)
-			// formData.append('photo_profil', photo);
-			console.log(formData);
-			const response = await fetch('http://localhost:3000/uploads/1', {
-				method: 'POST',
-				body: formData,
-			});
+			formData.append('photo_profil', file);
+			formData.append('photoId', 1);
+			const response = await BackApi.upload(1, formData)
 
-			if (response.ok) {
+			if (response.status === 200) {
 				console.log('React ok');
 			} else {
 				console.log('React nop');
@@ -38,12 +58,19 @@ export function MainPhoto() {
 		}
 	}
 
-	const handlePhotoSelection = (file: File) => {
-		setPhoto(file);
-	};
-
-	const handleRemovePhoto = () => {
+	async function handleRemovePhoto() {
 		setPhoto(null);
+		try {
+			const response = await BackApi.removePhoto(1, 1)
+
+			if (response.status === 200) {
+				console.log('React ok');
+			} else {
+				console.log('React nop');
+			}
+		} catch (error) {
+			console.error('Une erreur est survenue lors de la requête au backend :', error);
+		}
 	};
 
 	return (

@@ -19,4 +19,5 @@ const upload = (0, multer_1.default)({
     }
 });
 router.post('/:id', upload.single('photo_profil'), uploads_1.setPhoto);
+router.delete('/:id', uploads_1.deletePhoto);
 exports.default = router;

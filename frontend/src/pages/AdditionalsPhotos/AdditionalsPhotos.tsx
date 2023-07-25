@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
 import logo from '../../assets/signupQuestions/photo.png';
 import styles from './style.module.css';
+import { BackApi } from '../../api/back';
 
 export function AdditionalsPhotos() {
 	const navigate = useNavigate();
@@ -14,16 +15,42 @@ export function AdditionalsPhotos() {
 		navigate('/signin');
 	}
 
-	const handlePhotoSelection = (index: number, file: File) => {
+	async function handlePhotoSelection(index: number, file: File) {
 		const updatedPhotos = [...photos];
 		updatedPhotos[index] = file;
 		setPhotos(updatedPhotos);
+		try {
+			const formData: any = new FormData();
+			formData.append('photo_profil', file);
+			console.log('INDEX', index + 2);
+			formData.append('photoId', index + 2);
+			const response = await BackApi.upload(1, formData)
+
+			if (response.status === 200) {
+				console.log('React ok');
+			} else {
+				console.log('React nop');
+			}
+		} catch (error) {
+			console.error('Une erreur est survenue lors de la requête au backend :', error);
+		}
 	};
 
-	const handleRemovePhoto = (index: number) => {
+	async function handleRemovePhoto(index: number) {
 		const updatedPhotos = [...photos];
 		updatedPhotos[index] = null;
 		setPhotos(updatedPhotos);
+		try {
+			const response = await BackApi.removePhoto(1, index + 2)
+
+			if (response.status === 200) {
+				console.log('React ok');
+			} else {
+				console.log('React nop');
+			}
+		} catch (error) {
+			console.error('Une erreur est survenue lors de la requête au backend :', error);
+		}
 	};
 
 	return (

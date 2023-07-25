@@ -1,5 +1,5 @@
 import express from 'express';
-import { setPhoto } from '../controllers/uploads';
+import { deletePhoto, setPhoto } from '../controllers/uploads';
 import multer from 'multer';
 
 const router = express.Router();
@@ -16,5 +16,6 @@ const upload = multer({
 });
 
 router.post('/:id', upload.single('photo_profil'), setPhoto);
+router.delete('/:id', deletePhoto);
 
 export default router;

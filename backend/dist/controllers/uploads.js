@@ -32,32 +32,110 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setPhoto = void 0;
+exports.deletePhoto = exports.setPhoto = void 0;
+const db_1 = require("../services/db");
 const fs = __importStar(require("fs"));
 const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const photoId = req.body.photoId;
     const file = req.file;
-    if (file) {
-        const extension = file.originalname.split('.').pop();
-        const newFileName = `${id}-${Date.now()}.${extension}`;
-        console.log('Test node', newFileName);
-        fs.rename(file.path, `uploads/${newFileName}`, (err) => {
-            if (err) {
-                console.error('Error while renaming the file', err);
-                res.status(500).json({ error: 'An error occurred while saving the file' });
-            }
-            else {
-                console.log('File saved successfully');
-                res.status(200).json({ message: 'File saved successfully' });
-            }
+    const propertyName = 'photo' + photoId;
+    try {
+        const connection = (0, db_1.getConnection)();
+        const getAndRemovePhoto = yield new Promise((resolve, reject) => {
+            connection.query(`SELECT photo${photoId} FROM user WHERE id = ?`, id, (changePhotoErr, changePhoto) => {
+                if (changePhotoErr) {
+                    reject(new Error('An error occurred while adding photo'));
+                }
+                else {
+                    resolve(changePhoto);
+                }
+            });
         });
+        if (getAndRemovePhoto[0][propertyName]) {
+            // console.log('Remove', getAndRemovePhoto);
+            fs.unlink(`uploads/${getAndRemovePhoto[0][propertyName]}`, (err) => {
+                if (err) {
+                    console.error('Error while remove the file', err);
+                }
+                else {
+                    console.log('File deleted');
+                }
+            });
+        }
+        if (file) {
+            const extension = file.originalname.split('.').pop();
+            const newFileName = `${id}-${Date.now()}.${extension}`;
+            fs.rename(file.path, `uploads/${newFileName}`, (err) => {
+                if (err) {
+                    console.error('Error while renaming the file', err);
+                    res.status(500).json({ error: 'An error occurred while saving the file' });
+                }
+                else {
+                    console.log('File saved successfully');
+                    // res.status(200).json({ message: 'File saved successfully' });
+                }
+            });
+            const query = `UPDATE user SET photo${photoId} = ? WHERE id = ?`;
+            const updatePhoto = yield new Promise((resolve, reject) => {
+                connection.query(query, [newFileName, id], (changePhotoErr, changePhoto) => {
+                    if (changePhotoErr) {
+                        reject(new Error('An error occurred while adding photo'));
+                    }
+                    else {
+                        resolve(changePhoto);
+                    }
+                });
+            });
+        }
+        return res.status(200).json({ message: 'File saved successfully' });
     }
-    // try {
-    // 	const connection = getConnection();
-    // 	console.log('UPLOADDDDDDDDDDDDD');
-    // 	return res.json({ message: 'Photo successfully upload' });
-    // } catch (error) {
-    // 	return res.status(500).json({ message: 'An error occurred while updating Photo``' });
-    // }
+    catch (error) {
+        return res.status(500).json({ message: 'An error occurred while updating photo' });
+    }
 });
 exports.setPhoto = setPhoto;
+const deletePhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const photoId = req.query.photoId;
+    const propertyName = 'photo' + photoId;
+    try {
+        const connection = (0, db_1.getConnection)();
+        const getAndRemovePhoto = yield new Promise((resolve, reject) => {
+            connection.query(`SELECT photo${photoId} FROM user WHERE id = ?`, id, (changePhotoErr, changePhoto) => {
+                if (changePhotoErr) {
+                    reject(new Error('An error occurred while adding photo'));
+                }
+                else {
+                    resolve(changePhoto);
+                }
+            });
+        });
+        if (getAndRemovePhoto[0][propertyName]) {
+            fs.unlink(`uploads/${getAndRemovePhoto[0][propertyName]}`, (err) => {
+                if (err) {
+                    console.error('Error while remove the file', err);
+                }
+                else {
+                    console.log('File deleted');
+                }
+            });
+            const query = `UPDATE user SET ${propertyName} = NULL WHERE id = ?`;
+            connection.query(query, [id], (err, result) => {
+                if (err) {
+                    console.error('Error while deleting the photo:', err);
+                    // Gérer l'erreur
+                    res.status(500).json({ error: 'Error while deleting the photo' });
+                }
+                else {
+                    console.log('Photo deleted successfully.');
+                }
+            });
+        }
+        return res.status(200).json({ message: 'Photo deleted successfully.' });
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'An error occurred while updating photo' });
+    }
+});
+exports.deletePhoto = deletePhoto;

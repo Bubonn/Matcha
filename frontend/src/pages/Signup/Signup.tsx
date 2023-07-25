@@ -5,9 +5,13 @@ import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
+import { createCookie, parseJwt } from '../../utils/auth';
+import { useDispatch } from 'react-redux';
+import { saveInfoUser } from '../../store/user/user-slice';
 
 export function Signup() {
 
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [password, setPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
@@ -67,7 +71,13 @@ export function Signup() {
 		if (!err) {
 			const rep = await BackApi.signup(obj);
 			if (rep.status === 200) {
-				navigate('/age');
+				console.log('rep.data', rep.data);
+				const id = parseJwt(rep.data.token).userId;
+				createCookie("token", rep.data.token);
+				dispatch(saveInfoUser(id));
+				// console.group('id', id);
+
+				// navigate('/age');
 			} else {
 				setBackErr(rep);
 			}
@@ -75,7 +85,7 @@ export function Signup() {
 	}
 
 	useEffect(() => {
-		checkPassword();
+		// checkPassword();
 		// eslint-disable-next-line
 	}, [password, confPassword])
 
