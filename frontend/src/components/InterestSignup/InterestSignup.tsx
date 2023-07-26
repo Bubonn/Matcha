@@ -14,10 +14,11 @@ export function InterestSignup({ interests, setInterests }: InterestProps) {
 
 	return (
 		<>
-			{listInterests.map((interest: string) => {
+			{listInterests.map((interest: string, idx: number) => {
 				return (
 					<div className={s.container} key={interest}>
 						<InterestListSignup
+							idx={idx}
 							name={interest}
 							interests={interests}
 							setInterests={setInterests}

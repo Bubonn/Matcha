@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import * as fs from 'fs';
 
 export const setPhoto = async (req: Request, res: Response) => {
-	const { id } = req.params;
+	const id = req.user?.userId;
 	const photoId = req.body.photoId;
 	const file = req.file;
 	const propertyName = 'photo' + photoId;
@@ -62,7 +62,7 @@ export const setPhoto = async (req: Request, res: Response) => {
 };
 
 export const deletePhoto = async (req: Request, res: Response) => {
-	const { id } = req.params;
+	const id = req.user?.userId;
 	const photoId = req.query.photoId;
 	const propertyName = 'photo' + photoId;
 

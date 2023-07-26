@@ -3,9 +3,14 @@ import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/signupQuestions/calendar.png';
 import s from './style.module.css';
+import { BackApi } from '../../api/back';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { getCookieByName } from '../../utils/auth';
 
 export function Age() {
 	const navigate = useNavigate();
+	const selector = useSelector((store: RootState) => store.user.user);
 	const [selectedDay, setSelectedDay] = useState('');
 	const [selectedMonth, setSelectedMonth] = useState('');
 	const [selectedYear, setSelectedYear] = useState('');
@@ -32,10 +37,24 @@ export function Age() {
 			}
 	}, [selectedDay, selectedMonth, selectedYear]);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(selectedDay, selectedMonth, selectedYear)
-		navigate('/gender');
+		// console.log(selectedDay, selectedMonth, selectedYear)
+		// const selectedDate = new Date(
+		// 	parseInt(selectedYear),
+		// 	parseInt(selectedMonth) - 1,
+		// 	parseInt(selectedDay)
+		// 	);
+		const selectedDate: string = selectedYear + '-' + selectedMonth + '-' +selectedDay;
+		const token = getCookieByName('token');
+		if (token) {
+			console.log(' TEST DU token', token);
+			const rep = await BackApi.updateBirth(token, selectedDate);
+			if (rep.status === 200) {
+				navigate('/gender');
+			}
+		}
+		// navigate('/gender');
 	}
 
 	return (

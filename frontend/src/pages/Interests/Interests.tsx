@@ -4,15 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { InterestSignup } from '../../components/InterestSignup/InterestSignup';
 import logo from '../../assets/signupQuestions/interest.png'
 import s from './style.module.css'
+import { getCookieByName } from '../../utils/auth';
+import { BackApi } from '../../api/back';
 
 export function Interests() {
 	const navigate = useNavigate();
-	const [interests, setInterests] = useState<string[]>([]);
+	const [interests, setInterests] = useState<number[]>([]);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(interests);
-		navigate('/mainPhoto');
+		const token = getCookieByName('token');
+		if (token && interests) {
+			const response = await BackApi.updateInterests(token, interests);
+			if (response.status === 200) {
+				navigate('/mainPhoto');
+			}
+		}
+		// console.log(interests);
+		// navigate('/mainPhoto');
 	}
 
 	return (

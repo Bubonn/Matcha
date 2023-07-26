@@ -4,16 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
 import logo from '../../assets/signupQuestions/gender.png'
 import s from './style.module.css'
+import { BackApi } from '../../api/back';
+import { getCookieByName } from '../../utils/auth';
 
 export function Gender() {
 
 	const navigate = useNavigate();
 	const [choice, setChoice] = useState<null | string>(null);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(choice);
-		navigate('/preference');
+		// console.log(choice);
+		const token = getCookieByName('token');
+		if (token && choice) {
+			const response = await BackApi.updateGender(token, choice);
+			if (response.status === 200) {
+				navigate('/preference');
+			}
+		}
 	}
 
 	return (

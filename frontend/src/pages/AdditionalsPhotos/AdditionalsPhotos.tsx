@@ -5,14 +5,22 @@ import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
 import logo from '../../assets/signupQuestions/photo.png';
 import styles from './style.module.css';
 import { BackApi } from '../../api/back';
+import { getCookieByName } from '../../utils/auth';
 
 export function AdditionalsPhotos() {
 	const navigate = useNavigate();
 	const [photos, setPhotos] = useState<Array<any>>([]);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		navigate('/signin');
+		const token = getCookieByName('token');
+		if (token) {
+			const response = await BackApi.updateAllInfosSet(token);
+			if (response.status === 200) {
+				console.log('OK C SET');
+				navigate('/search');
+			}
+		}
 	}
 
 	async function handlePhotoSelection(index: number, file: File) {
@@ -24,12 +32,17 @@ export function AdditionalsPhotos() {
 			formData.append('photo_profil', file);
 			console.log('INDEX', index + 2);
 			formData.append('photoId', index + 2);
-			const response = await BackApi.upload(1, formData)
 
-			if (response.status === 200) {
-				console.log('React ok');
-			} else {
-				console.log('React nop');
+			const token = getCookieByName('token');
+
+			if (token)  {
+				const response = await BackApi.upload(token, formData)
+				// if (response.status === 200) {
+				// 	navigate('/search');
+				// 	console.log('React ok');
+				// } else {
+				// 	console.log('React nop');
+				// }
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
@@ -41,12 +54,16 @@ export function AdditionalsPhotos() {
 		updatedPhotos[index] = null;
 		setPhotos(updatedPhotos);
 		try {
-			const response = await BackApi.removePhoto(1, index + 2)
+			const token = getCookieByName('token');
 
-			if (response.status === 200) {
-				console.log('React ok');
-			} else {
-				console.log('React nop');
+			if (token) {
+				const response = await BackApi.removePhoto(index + 2, token)
+				
+				if (response.status === 200) {
+					console.log('React ok');
+				} else {
+					console.log('React nop');
+				}
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);

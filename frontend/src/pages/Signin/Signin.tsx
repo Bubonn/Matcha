@@ -5,9 +5,13 @@ import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
+import { createCookie, parseJwt } from '../../utils/auth';
+import { useDispatch } from 'react-redux';
+import { saveInfoUser } from '../../store/user/user-slice';
 
 export function Signin() {
 
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [backErr, setBackErr] = useState<string>('');
 
@@ -15,15 +19,24 @@ export function Signin() {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const obj = Object.fromEntries(formData);
-		// console.log(obj);
 		const rep = await BackApi.signin(obj);
 		if (rep.status === 200) {
-			console.log('REACT', rep.data);
-			navigate('/age');
+			const id = parseJwt(rep.data.token).userId;
+			createCookie("token", rep.data.token);
+			dispatch(saveInfoUser(id));
+
+			// console.log('Signin id', id);
+			const response = await BackApi.getUserById(id, rep.data.token);
+			if (response.status === 200) {
+				if (response.data.all_info_set) {
+					navigate('/search');
+				} else {
+					navigate('/age');
+				}
+			}
 		} else {
 			setBackErr(rep);
 		}
-
 	}
 
 	return (

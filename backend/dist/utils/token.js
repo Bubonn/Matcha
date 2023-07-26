@@ -22,13 +22,16 @@ const authenticateToken = (req, res, next) => {
     const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
     const secretKey = process.env.SECRET_JWT;
     if (!secretKey) {
+        console.log('1authenticateToken Failed');
         throw new Error('La clé secrète JWT est manquante dans les variables d\'environnement.');
     }
     if (!token) {
+        console.log('2authenticateToken Failed');
         return res.status(401).json({ error: 'No token provided.' });
     }
     jsonwebtoken_1.default.verify(token, secretKey, (err, user) => {
         if (err) {
+            console.log('3authenticateToken Failed');
             return res.status(403).json({ error: 'Invalid token.' });
         }
         req.user = user; // Stocker les informations utilisateur décodées dans l'objet req

@@ -3,16 +3,25 @@ import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/signupQuestions/comma.png'
 import s from './style.module.css'
+import { getCookieByName } from '../../utils/auth';
+import { BackApi } from '../../api/back';
 
 export function Description() {
 	const navigate = useNavigate();
 	const [description, setDescription] = useState<string>('');
 	const maxChar = 200;
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(description);
-		navigate('/interests');
+		const token = getCookieByName('token');
+		if (token && description) {
+			const response = await BackApi.updateDescripion(token, description);
+			if (response.status === 200) {
+				navigate('/interests');
+			}
+		}
+		// console.log(description);
+		// navigate('/interests');
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

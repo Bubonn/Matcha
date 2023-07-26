@@ -7,17 +7,15 @@ const express_1 = __importDefault(require("express"));
 const uploads_1 = require("../controllers/uploads");
 const multer_1 = __importDefault(require("multer"));
 const router = express_1.default.Router();
-// const upload = multer({ dest: 'uploads/' });
 const upload = (0, multer_1.default)({
     dest: 'uploads/',
     fileFilter: (req, file, cb) => {
-        // Vérifiez le type de fichier pour vous assurer que c'est une image valide
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
             return cb(new Error('Seules les images au format JPG, JPEG, PNG et GIF sont autorisées.'));
         }
         cb(null, true);
     }
 });
-router.post('/:id', upload.single('photo_profil'), uploads_1.setPhoto);
-router.delete('/:id', uploads_1.deletePhoto);
+router.post('/', upload.single('photo_profil'), uploads_1.setPhoto);
+router.delete('/', uploads_1.deletePhoto);
 exports.default = router;

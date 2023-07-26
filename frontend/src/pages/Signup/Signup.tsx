@@ -71,7 +71,7 @@ export function Signup() {
 		if (!err) {
 			const rep = await BackApi.signup(obj);
 			if (rep.status === 200) {
-				console.log('rep.data', rep.data);
+				// console.log('rep.data', rep.data);
 				const id = parseJwt(rep.data.token).userId;
 				createCookie("token", rep.data.token);
 				dispatch(saveInfoUser(id));

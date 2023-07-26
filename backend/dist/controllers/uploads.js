@@ -36,7 +36,8 @@ exports.deletePhoto = exports.setPhoto = void 0;
 const db_1 = require("../services/db");
 const fs = __importStar(require("fs"));
 const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    var _a;
+    const id = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     const photoId = req.body.photoId;
     const file = req.file;
     const propertyName = 'photo' + photoId;
@@ -96,7 +97,8 @@ const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.setPhoto = setPhoto;
 const deletePhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    var _b;
+    const id = (_b = req.user) === null || _b === void 0 ? void 0 : _b.userId;
     const photoId = req.query.photoId;
     const propertyName = 'photo' + photoId;
     try {

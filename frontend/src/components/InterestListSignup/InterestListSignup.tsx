@@ -1,25 +1,26 @@
 import s from './style.module.css'
 
 interface InterestListProps {
+	idx: number;
 	name: string;
 	interests: any;
 	setInterests: any;
 }
 
-export function InterestListSignup({ name, interests, setInterests }: InterestListProps) {
+export function InterestListSignup({ idx, name, interests, setInterests }: InterestListProps) {
 
 	function handleClick() {
-		if (interests.includes(name)) {
-			const updatedArray = interests.filter((word: string) => word !== name);
+		if (interests.includes(idx)) {
+			const updatedArray = interests.filter((index: number) => index !== idx);
 			setInterests(updatedArray);
 		} else {
-			const updatedArray = interests.concat(name);
+			const updatedArray = interests.concat(idx);
 			setInterests(updatedArray);
 		}
 	}
 
 	function isPresent() {
-		return interests.includes(name);
+		return interests.includes(idx);
 	}
 
 	return (

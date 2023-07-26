@@ -18,6 +18,7 @@ import { Settings } from './pages/Settings/Settings';
 import { Provider } from 'react-redux';
 import store from './store';
 import ReactDOM from 'react-dom/client';
+import { UserInfo } from './components/UserInfo/UserInfo';
 
 const rootElement = document.getElementById('root');
 
@@ -35,16 +36,18 @@ if (rootElement) {
 						<Route path='/history' element={<History />} />
 						<Route path='/settings' element={<Settings />} />
 					</Route>
+					<Route path='/' element={<UserInfo />} >
+						<Route path='/age' element={<Age />} />
+						<Route path='/gender' element={<Gender />} />
+						<Route path='/preference' element={<Preference />} />
+						<Route path='/description' element={<Description />} />
+						<Route path='/interests' element={<Interests />} />
+						<Route path='/mainPhoto' element={<MainPhoto />} />
+						<Route path='/additionalsPhoto' element={<AdditionalsPhotos />} />
+					</Route>
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/signin' element={<Signin />} />
 					<Route path='/forgotPassword' element={<ForgotPassword />} />
-					<Route path='/age' element={<Age />} />
-					<Route path='/gender' element={<Gender />} />
-					<Route path='/preference' element={<Preference />} />
-					<Route path='/description' element={<Description />} />
-					<Route path='/interests' element={<Interests />} />
-					<Route path='/mainPhoto' element={<MainPhoto />} />
-					<Route path='/additionalsPhoto' element={<AdditionalsPhotos />} />
 				</Routes>
 			</BrowserRouter>
 		</Provider>

@@ -17,25 +17,10 @@ export function generateJWT(userId: number) {
 	return token;
 }
 
-// export function verifyJWT(token: string) {
-// 	const secretKey = process.env.SECRET_JWT;
-
-// 	if (!secretKey) {
-// 		throw new Error('La clé secrète JWT est manquante dans les variables d\'environnement.');
-// 	}
-
-// 	try {
-// 		const decoded = jwt.verify(token, secretKey);
-// 		return decoded;
-// 	} catch (error) {
-// 		return false;
-// 	}
-// }
-
 declare global {
 	namespace Express {
 		interface Request {
-			user?: any; // Remplacez 'any' par le type réel de l'utilisateur si vous le connaissez
+			user?: any;
 		}
 	}
 }
@@ -45,15 +30,18 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 	const secretKey = process.env.SECRET_JWT;
 
 	if (!secretKey) {
+		console.log('1authenticateToken Failed');
 		throw new Error('La clé secrète JWT est manquante dans les variables d\'environnement.');
 	}
 
 	if (!token) {
+		console.log('2authenticateToken Failed');
 		return res.status(401).json({ error: 'No token provided.' });
 	}
 
 	jwt.verify(token, secretKey, (err: any, user: any) => {
 		if (err) {
+			console.log('3authenticateToken Failed');
 			return res.status(403).json({ error: 'Invalid token.' });
 		}
 

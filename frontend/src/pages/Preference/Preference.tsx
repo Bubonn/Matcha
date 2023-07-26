@@ -4,16 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
 import logo from '../../assets/signupQuestions/preference.png'
 import s from './style.module.css'
+import { getCookieByName } from '../../utils/auth';
+import { BackApi } from '../../api/back';
 
 export function Preference() {
 
 	const navigate = useNavigate();
 	const [choice, setChoice] = useState<null | string>(null);
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(choice);
-		navigate('/description');
+		const token = getCookieByName('token');
+		if (token && choice) {
+			const response = await BackApi.updatePreference(token, choice);
+			if (response.status === 200) {
+				navigate('/description');
+			}
+		}
+		// console.log(choice);
+		// navigate('/description');
 	}
 
 	return (

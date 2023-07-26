@@ -2,12 +2,16 @@ import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
+import { BackApi } from '../../api/back';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import logo from '../../assets/signupQuestions/photo.png'
 import s from './style.module.css'
-import { BackApi } from '../../api/back';
+import { getCookieByName } from '../../utils/auth';
 
 export function MainPhoto() {
 	const navigate = useNavigate();
+	const selector = useSelector((store: RootState) => store.user.user);
 	const [photo, setPhoto] = useState<any>(null);
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -46,13 +50,20 @@ export function MainPhoto() {
 			const formData: any = new FormData();
 			formData.append('photo_profil', file);
 			formData.append('photoId', 1);
-			const response = await BackApi.upload(1, formData)
 
-			if (response.status === 200) {
-				console.log('React ok');
-			} else {
-				console.log('React nop');
+			const token = getCookieByName('token');
+			if (token) {
+				const response = await BackApi.upload(token, formData)
+				// if (response.status === 200) {
+				// 	navigate('/additionalsPhoto');
+				// }
 			}
+
+			// if (response.status === 200) {
+			// 	console.log('React ok');
+			// } else {
+			// 	console.log('React nop');
+			// }
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
 		}
@@ -61,12 +72,15 @@ export function MainPhoto() {
 	async function handleRemovePhoto() {
 		setPhoto(null);
 		try {
-			const response = await BackApi.removePhoto(1, 1)
+			const token = getCookieByName('token');
+			if (token) {
+				const response = await BackApi.removePhoto(1, token);
 
-			if (response.status === 200) {
-				console.log('React ok');
-			} else {
-				console.log('React nop');
+				if (response.status === 200) {
+					console.log('React ok');
+				} else {
+					console.log('React nop');
+				}
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
