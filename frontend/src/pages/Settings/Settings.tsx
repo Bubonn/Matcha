@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InterestFilter } from '../../components/InterestFilter/InterestFilter';
 import { SettingsPreference } from '../../components/SettingsPreference/SettingsPreference';
 import man from '../../assets/settings/man.svg'
@@ -7,6 +7,10 @@ import bi from '../../assets/settings/bi.svg'
 import s from './style.module.css'
 import { InputSettings } from '../../components/InputSettings/InputSettings';
 import { SelectPhotoSetings } from '../../components/SelectPhotoSettings/SelectPhotoSettings';
+import { useDispatch } from 'react-redux';
+import { saveSection } from '../../store/user/user-slice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
@@ -22,6 +26,8 @@ export function Settings() {
 	const [password, setPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
+	const dispatch = useDispatch();
+	const selector = useSelector((store: RootState) => store.user.user);
 	const maxChar = 200;
 
 	const days = Array.from(Array(31), (_, index) => index + 1);
@@ -50,6 +56,14 @@ export function Settings() {
 		updatedPhotos[index] = null;
 		setPhotos(updatedPhotos);
 	};
+
+	useEffect(() => {
+		dispatch(saveSection('Settings'));
+	}, [])
+
+	if (selector.id === 0) {
+		return (<></>);
+	}
 
 	return (
 		<div className={s.container}>
@@ -140,8 +154,8 @@ export function Settings() {
 							<InputSettings name='username' text={true} content={username} setContent={setUsername} placeholder='Username'/>
 						</div>
 						<div className={s.input}>
-							<InputSettings name='password' text={false} content={password} setContent={setPassword} placeholder='Password'/>
-							<InputSettings name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm password'/>
+							<InputSettings name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
+							<InputSettings name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
 						</div>
 					</div>
 				</div>

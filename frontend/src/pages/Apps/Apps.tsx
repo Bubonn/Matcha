@@ -8,17 +8,16 @@ import { getCookieByName, getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import s from './style.module.css'
 import { useDispatch } from 'react-redux';
-import { saveAvatar, saveFirstName, saveId } from '../../store/user/user-slice';
+import { saveAvatar, saveFirstName, saveId, saveSection } from '../../store/user/user-slice';
 
 export function Apps() {
 
 	const navigate = useNavigate();
 	const selector = useSelector((store: RootState) => store.user.user);
 	const dispatch = useDispatch();
-	const [section, setSection] = useState<string>('Search');
 
 	function updateSection (newSection: string){
-		setSection(newSection);
+		dispatch(saveSection(newSection));
 	};
 
 	async function checkToken() {
@@ -41,8 +40,6 @@ export function Apps() {
 		const token = getToken();
 		if (token) {
 			const response = await BackApi.getUserById(selector.id, token);
-			// setUser(response.data);
-			// setProfilePicture(response.data.mainPhoto);
 			dispatch(saveAvatar(response.data.mainPhoto));
 			dispatch(saveFirstName(response.data.firstName));
 		} else {
@@ -56,13 +53,13 @@ export function Apps() {
 			getInfoUser();
 		}
 		// eslint-disable-next-line
-	}, [section, selector.id])
+	}, [selector.section, selector.id])
 
 	return (
 		<div className={s.app}>
-			<SideMenu section={section} updateSection={updateSection}/>
+			<SideMenu section={selector.section} updateSection={updateSection}/>
 			<div className={s.content}>
-				<Header section={section} />
+				<Header section={selector.section} />
 				<Outlet />
 			</div>
 		</div>

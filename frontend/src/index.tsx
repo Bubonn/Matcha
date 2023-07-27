@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import ReactDOM from 'react-dom/client';
 import { UserInfo } from './components/UserInfo/UserInfo';
+import { Logout } from './pages/Logout/Logout';
 
 const rootElement = document.getElementById('root');
 
@@ -35,6 +36,7 @@ if (rootElement) {
 						<Route path='/search' element={<Search />} />
 						<Route path='/history' element={<History />} />
 						<Route path='/settings' element={<Settings />} />
+						<Route path='/logout' element={<Logout />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >
 						<Route path='/age' element={<Age />} />

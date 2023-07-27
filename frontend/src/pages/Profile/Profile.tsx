@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UserRelation } from '../../components/UserRelation/UserRelation';
 import { InterestProfile } from '../../components/InterestProfile/InterestProfile';
 import { UserDetails } from '../../components/UserDetails/UserDetails';
@@ -15,10 +15,16 @@ import locationFrom from '../../assets/profile/locationFrom.svg'
 import user from '../../assets/profile/user.svg'
 import like from '../../assets/profile/like.svg'
 import s from './style.module.css'
+import { saveSection } from '../../store/user/user-slice';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 export function Profile() {
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const images = [imgA, imgB, imgC];
+	const dispatch = useDispatch();
+	const selector = useSelector((store: RootState) => store.user.user);
 
 	const previousImage = () => {
 		const newIndex = (currentImageIndex + images.length - 1) % images.length;
@@ -29,6 +35,14 @@ export function Profile() {
 		const newIndex = (currentImageIndex + 1) % images.length;
 		setCurrentImageIndex(newIndex);
 	};
+
+	useEffect(() => {
+		dispatch(saveSection('Profile'));
+	}, [])
+
+	if (selector.id === 0) {
+		return (<></>);
+	}
 
 	return (
 		<div className={s.container}>

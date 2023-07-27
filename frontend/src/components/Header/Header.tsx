@@ -28,9 +28,7 @@ export function Header({ section }: HeaderProps) {
 					<img className={s.logoBell} src={logo} alt='notification'/>
 				</div>
 				<div className={s.infoUser}>
-					{/* <img className={s.logoUser} src={logoUser} alt='logoUser'/> */}
 					<img className={s.logoUser} src={`data:image/jpeg;base64,${selector.avatar}`} alt='userAvatar' />
-					{/* Jean-Baptiste */}
 					{selector.firstName}
 				</div>
 			</div>
