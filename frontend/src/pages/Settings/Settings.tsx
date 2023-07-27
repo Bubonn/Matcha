@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
 import { InterestFilter } from '../../components/InterestFilter/InterestFilter';
 import { SettingsPreference } from '../../components/SettingsPreference/SettingsPreference';
+import { InputSettings } from '../../components/InputSettings/InputSettings';
+import { SelectPhotoSetings } from '../../components/SelectPhotoSettings/SelectPhotoSettings';
+import { useDispatch } from 'react-redux';
+import { saveAvatar, saveSection } from '../../store/user/user-slice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { getToken } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
+import { BackApi } from '../../api/back';
 import man from '../../assets/settings/man.svg'
 import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import s from './style.module.css'
-import { InputSettings } from '../../components/InputSettings/InputSettings';
-import { SelectPhotoSetings } from '../../components/SelectPhotoSettings/SelectPhotoSettings';
-import { useDispatch } from 'react-redux';
-import { saveSection } from '../../store/user/user-slice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { promisify } from 'util';
+import { read } from 'fs';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
 	const [selectedMonth, setSelectedMonth] = useState('');
 	const [selectedYear, setSelectedYear] = useState('');
-	const [selectedPreference, setSelectedPreference] = useState('woman');
-	const [interests, setInterests] = useState<string[]>([]); // Initialiser avec mes hobbies
+	const [preference, setPreference] = useState('');
+	const [interests, setInterests] = useState<string[]>([]);
 	const [description, setDescription] = useState<string>('');
 	const [firstName, setFirstName] = useState<string>('');
 	const [lastName, setLastName] = useState<string>('');
@@ -26,6 +31,7 @@ export function Settings() {
 	const [password, setPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
 	const maxChar = 200;
@@ -36,7 +42,7 @@ export function Settings() {
 	const currentYear = new Date().getFullYear();
 	const years = Array.from(Array(100), (_, index) => currentYear - index);
 
-	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleChangeDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const value = event.target.value;
 		if (value.length <= maxChar) {
 			setDescription(value);
@@ -45,25 +51,103 @@ export function Settings() {
 		}
 	};
 
-	const handlePhotoSelection = (index: number, file: File) => {
-		const updatedPhotos = [...photos];
-		updatedPhotos[index] = file;
-		setPhotos(updatedPhotos);
+	async function handlePhotoSelection(index: number, file: File) {
+			const reader = new FileReader();
+			reader.onload = async () => {
+				try {
+					const formData: any = new FormData();
+					formData.append('photo_profil', file);
+					formData.append('photoId', index + 1);
+
+					const token = getToken();
+					if (token) {
+						const response = await BackApi.upload(token, formData);
+						if (response.status === 200) {
+							const base64Image = typeof reader.result === 'string' ? reader.result.split(',')[1] : '';
+							const updatedPhotos = [...photos];
+							updatedPhotos[index] = base64Image;
+							setPhotos(updatedPhotos);
+							if (index === 0) {
+								dispatch(saveAvatar(base64Image));
+							}
+						} else {
+							console.log(response.data);
+						}
+					}
+
+
+				} catch (error) {
+					console.error('Une erreur est survenue lors de la requête au backend :', error);
+				}
+			};
+			reader.readAsDataURL(file);
 	};
 
-	const handleRemovePhoto = (index: number) => {
+
+	async function handleRemovePhoto(index: number) {
+		// const updatedPhotos = [...photos];
+		// updatedPhotos[index] = null;
+		// setPhotos(updatedPhotos);
+
 		const updatedPhotos = [...photos];
 		updatedPhotos[index] = null;
 		setPhotos(updatedPhotos);
+		try {
+			const token = getToken();
+
+			if (token) {
+				await BackApi.removePhoto(index + 1, token)
+			}
+		} catch (error) {
+			console.error('Une erreur est survenue lors de la requête au backend :', error);
+		}
 	};
+
+	function extractDateParts(dateString: string) {
+		const date = new Date(dateString);
+		const year = date.getFullYear().toString();
+		const month = String(date.getMonth() + 1);
+		const day = String(date.getDate());
+		return { year, month, day };
+	}
+
+	async function getInfoUser() {
+		const token = getToken();
+		if (!token) {
+			return navigate('/signin');
+		}
+		const response = await BackApi.getUserById(selector.id, token);
+		if (response.status === 200) {
+			const user = response.data;
+			console.log('user', user);
+			setPreference(user.preference);
+			const { year, month, day } = extractDateParts(user.birth);
+			setSelectedYear(year);
+			setSelectedMonth(month);
+			setSelectedDay(day);
+			setDescription(user.description);
+			setFirstName(user.firstName);
+			setLastName(user.lastName);
+			setEmail(user.email);
+			setUsername(user.username);
+			const rep = await BackApi.getPhotoById(selector.id, token);
+			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
+			// console.log('Api photos', rep.data.photo1);
+		}
+	}
 
 	useEffect(() => {
 		dispatch(saveSection('Settings'));
-	}, [])
+		if (selector.id !== 0) {
+			getInfoUser();
+		}
+	}, [selector.id])
 
 	if (selector.id === 0) {
 		return (<></>);
 	}
+
+	console.log('photos', photos);
 
 	return (
 		<div className={s.container}>
@@ -114,9 +198,9 @@ export function Settings() {
 					<div className={s.preference}>
 						<span className={s.title}>Preference</span>
 						<div className={s.choicePreference}>
-							<SettingsPreference name='man' logo={man} isSelected={selectedPreference === 'man'} setSelectedPreference={setSelectedPreference} />
-							<SettingsPreference name='woman' logo={woman} isSelected={selectedPreference === 'woman'} setSelectedPreference={setSelectedPreference} />
-							<SettingsPreference name='bi' logo={bi} isSelected={selectedPreference === 'bi'} setSelectedPreference={setSelectedPreference} />
+							<SettingsPreference name='man' logo={man} isSelected={preference === 'man'} setSelectedPreference={setPreference} />
+							<SettingsPreference name='woman' logo={woman} isSelected={preference === 'woman'} setSelectedPreference={setPreference} />
+							<SettingsPreference name='both' logo={bi} isSelected={preference === 'both'} setSelectedPreference={setPreference} />
 						</div>
 					</div>
 					<div className={s.description}>
@@ -127,7 +211,7 @@ export function Settings() {
 								placeholder='Enter a brief description of yourself...'
 								name="description"
 								value={description}
-								onChange={handleChange}
+								onChange={handleChangeDescription}
 							/>
 						</div>
 						<p className={s.char}>{description?.length}/{maxChar}</p>

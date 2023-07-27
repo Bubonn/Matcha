@@ -34,7 +34,7 @@ export function SelectPhotoSetings({ photo, handlePhotoSelection, handleRemovePh
 				onClick={handleClick}
 			>
 				{photo ? (
-					<img className={s.image} src={URL.createObjectURL(photo)} alt="SelectedPhoto" />
+					<img className={s.image} src={`data:image/jpeg;base64,${photo}`} alt='userAvatar' />
 				) : (
 					<img className={s.logo} src={logo} alt="cross" />
 				)}

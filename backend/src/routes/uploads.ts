@@ -7,7 +7,7 @@ const router = express.Router();
 const upload = multer({
 	dest: 'uploads/',
 	fileFilter: (req, file, cb) => {
-		if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg)$/)) {
+		if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
 			return cb(new Error('Seules les images au format JPG, JPEG, PNG et GIF sont autorisées.'));
 		}
 		cb(null, true);

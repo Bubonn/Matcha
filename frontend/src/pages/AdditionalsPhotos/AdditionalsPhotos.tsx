@@ -2,10 +2,10 @@ import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
-import logo from '../../assets/signupQuestions/photo.png';
-import styles from './style.module.css';
 import { BackApi } from '../../api/back';
 import { getCookieByName } from '../../utils/auth';
+import logo from '../../assets/signupQuestions/photo.png';
+import styles from './style.module.css';
 
 export function AdditionalsPhotos() {
 	const navigate = useNavigate();

@@ -23,6 +23,19 @@ export class BackApi {
 		}
 	}
 
+	static async getPhotoById(id: number, token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/photo/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
 	static async signup(infoUser: any) {
 		try {
 			const response = await axios.post(`${BASE_URL}/login/signup`, infoUser);
@@ -50,7 +63,11 @@ export class BackApi {
 			});
 			return response;
 		} catch (error: any) {
-			return error.response.data.error;
+			if (error.response && error.response.data && error.response.data.error) {
+				return error.response.data.error;
+			} else {
+				return ({data: 'Le format de fichier n\'est pas accepte'});
+			}
 		}
 	}
 

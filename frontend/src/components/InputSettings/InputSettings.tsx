@@ -9,14 +9,19 @@ interface InputSettingsProps {
 }
 
 export function InputSettings({ name, text, content, setContent, placeholder }: InputSettingsProps) {
+
+	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setContent(e.target.value);
+	}
+
 	return (
 		<input
 			className={s.input}
 			name={name}
-			content={content}
+			value={content}
 			type={text ? 'text' : 'password'}
 			placeholder={placeholder}
-			onChange={(e) => setContent(Number(e.target.value))}
+			onChange={handleChange}
 		/>
 	);
 }

@@ -9,6 +9,7 @@ const acceptJsonOnly_1 = __importDefault(require("../middlewares/acceptJsonOnly"
 const router = express_1.default.Router();
 router.get('/', user_1.users);
 router.get('/:id', user_1.userById);
+router.get('/photo/:id', user_1.photoUserById);
 router.post('/birthDate', acceptJsonOnly_1.default, user_1.setBirth);
 router.post('/gender', acceptJsonOnly_1.default, user_1.setGender);
 router.post('/preference', acceptJsonOnly_1.default, user_1.setPreference);
