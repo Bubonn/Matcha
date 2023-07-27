@@ -11,7 +11,6 @@ export class BackApi {
 	}
 
 	static async getUserById(id: number, token: string) {
-		// console.log('TEST Call api id', id);
 		try {
 			const rep = await axios.get(`${BASE_URL}/users/${id}`, {
 				headers: {

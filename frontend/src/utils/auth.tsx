@@ -3,6 +3,7 @@ export function createCookie(name: string, value: string) {
 }
 
 export function deleteCookie(name: string) {
+	// eslint-disable-next-line
 	document.cookie = name + "=" + '; SameSite=None; secure; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
 }
 
@@ -29,4 +30,13 @@ export function parseJwt (token: string) {
 	}).join(''));
 
 	return JSON.parse(jsonPayload);
+}
+
+export function getToken() {
+	const token: string | null = getCookieByName('token');
+
+	if (!token) {
+		return null;
+	}
+	return token;
 }

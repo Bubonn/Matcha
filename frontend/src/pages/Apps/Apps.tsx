@@ -4,14 +4,17 @@ import { Header } from '../../components/Header/Header';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { getCookieByName } from '../../utils/auth';
+import { getCookieByName, getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import s from './style.module.css'
+import { useDispatch } from 'react-redux';
+import { saveAvatar, saveFirstName, saveId } from '../../store/user/user-slice';
 
 export function Apps() {
 
 	const navigate = useNavigate();
 	const selector = useSelector((store: RootState) => store.user.user);
+	const dispatch = useDispatch();
 	const [section, setSection] = useState<string>('Search');
 
 	function updateSection (newSection: string){
@@ -20,7 +23,6 @@ export function Apps() {
 
 	async function checkToken() {
 		const token: string | null = getCookieByName('token');
-		console.log('TOKEN =', token);
 		if (!token) {
 			navigate('/signin');
 		}
@@ -29,12 +31,32 @@ export function Apps() {
 			if (rep.status !== 200) {
 				navigate('/signin');
 			}
+			if (selector.id === 0) {
+				dispatch(saveId(rep.data.userId));
+			}
+		}
+	}
+
+	async function getInfoUser() {
+		const token = getToken();
+		if (token) {
+			const response = await BackApi.getUserById(selector.id, token);
+			// setUser(response.data);
+			// setProfilePicture(response.data.mainPhoto);
+			dispatch(saveAvatar(response.data.mainPhoto));
+			dispatch(saveFirstName(response.data.firstName));
+		} else {
+			navigate('/signin');
 		}
 	}
 
 	useEffect(() => {
 		checkToken();
-	}, [section])
+		if (selector.id !== 0) {
+			getInfoUser();
+		}
+		// eslint-disable-next-line
+	}, [section, selector.id])
 
 	return (
 		<div className={s.app}>

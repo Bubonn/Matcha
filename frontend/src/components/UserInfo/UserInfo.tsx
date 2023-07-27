@@ -5,7 +5,7 @@ import { getCookieByName, parseJwt } from "../../utils/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
-import { saveInfoUser } from "../../store/user/user-slice";
+import { saveId } from "../../store/user/user-slice";
 
 export function UserInfo() {
 
@@ -24,10 +24,9 @@ export function UserInfo() {
 				navigate('/signin');
 			} else {
 				let id;
-				// console.log('selector.id', selector.id);
 				if (selector.id === 0) {
 					id = parseJwt(token).userId;
-					dispatch(saveInfoUser(id));
+					dispatch(saveId(id));
 				}
 				setJwt(token);
 				let response;
@@ -37,24 +36,21 @@ export function UserInfo() {
 					response = await BackApi.getUserById(selector.id, token);
 				}
 				if (response.status === 200) {
-					console.log('response.data', response.data);
 					const user = response.data;
-					if (user.birth === null) {
-						 navigate('/age');
-					}
-					else if (!user.gender) {
-						 navigate('/gender');
-					}
-					else if (!user.preference) {
-						 navigate('/preference');
-					}
-					else if (!user.description) {
+
+					if (user.all_infos_set) {
+						navigate('/search');
+					} else if (user.birth === null) {
+						navigate('/age');
+					} else if (!user.gender) {
+						navigate('/gender');
+					} else if (!user.preference) {
+						navigate('/preference');
+					} else if (!user.description) {
 						navigate('/description');
-					}
-					else if (user.interests.length === 0) {
+					} else if (user.interests.length === 0) {
 						navigate('/interests');
-					}
-					else if (!user.photo1) {
+					} else if (!user.photo1) {
 						navigate('/mainPhoto');
 					} else {
 						navigate('/additionalsPhoto');
@@ -67,6 +63,7 @@ export function UserInfo() {
 
 	useEffect(() => {
 		checkToken();
+		// eslint-disable-next-line
 	}, [])
 
 	if (!jwt) {

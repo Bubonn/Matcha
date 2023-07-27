@@ -50,3 +50,15 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 		next(); // Appeler le middleware suivant
 	});
 };
+
+export async function verifyToken(token: string, secretKey: string) {
+	return new Promise((resolve, reject) => {
+		jwt.verify(token, secretKey, (err, user) => {
+			if (err) {
+				reject('Invalid token.');
+			} else {
+				resolve(user);
+			}
+		});
+	});
+}

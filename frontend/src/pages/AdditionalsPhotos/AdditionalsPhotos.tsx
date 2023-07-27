@@ -17,7 +17,6 @@ export function AdditionalsPhotos() {
 		if (token) {
 			const response = await BackApi.updateAllInfosSet(token);
 			if (response.status === 200) {
-				console.log('OK C SET');
 				navigate('/search');
 			}
 		}
@@ -30,19 +29,12 @@ export function AdditionalsPhotos() {
 		try {
 			const formData: any = new FormData();
 			formData.append('photo_profil', file);
-			console.log('INDEX', index + 2);
 			formData.append('photoId', index + 2);
 
 			const token = getCookieByName('token');
 
 			if (token)  {
-				const response = await BackApi.upload(token, formData)
-				// if (response.status === 200) {
-				// 	navigate('/search');
-				// 	console.log('React ok');
-				// } else {
-				// 	console.log('React nop');
-				// }
+				await BackApi.upload(token, formData)
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
@@ -57,13 +49,7 @@ export function AdditionalsPhotos() {
 			const token = getCookieByName('token');
 
 			if (token) {
-				const response = await BackApi.removePhoto(index + 2, token)
-				
-				if (response.status === 200) {
-					console.log('React ok');
-				} else {
-					console.log('React nop');
-				}
+				await BackApi.removePhoto(index + 2, token)
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);

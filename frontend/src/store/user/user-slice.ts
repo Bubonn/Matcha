@@ -3,18 +3,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
 	user: {
 		id: number;
-		// firstName: string;
+		firstName: string | null;
 		// token: string;
-		// avatar: string;
+		avatar: any;
 	};
 }
 
 const initialState: UserState = {
 	user: {
 		id: 0,
-		// firstName: '',
+		firstName: null,
 		// token: '',
-		// avatar: '',
+		avatar: null,
 	},
 };
 
@@ -42,7 +42,7 @@ const userSlice = createSlice({
 		// 	currentSlice.user.avatar = action.payload;
 		// },
 
-		saveInfoUser: (currentSlice: UserState, action: PayloadAction<number>) => {
+		saveId: (currentSlice: UserState, action: PayloadAction<number>) => {
 			return {
 				...currentSlice,
 				user: {
@@ -51,12 +51,30 @@ const userSlice = createSlice({
 				},
 			};
 		},
+		saveFirstName: (currentSlice: UserState, action: PayloadAction<string>) => {
+			return {
+				...currentSlice,
+				user: {
+					...currentSlice.user,
+					firstName: action.payload,
+				},
+			};
+		},
+		saveAvatar: (currentSlice: UserState, action: PayloadAction<any>) => {
+			return {
+				...currentSlice,
+				user: {
+					...currentSlice.user,
+					avatar: action.payload,
+				},
+			};
+		},
 	},
 });
 
-const { saveInfoUser } = userSlice.actions;
+const { saveId, saveFirstName, saveAvatar } = userSlice.actions;
 // const { saveInfoUser, setAvatar, setToken } = userSlice.actions;
 
 // export { saveInfoUser, setAvatar, setToken };
-export { saveInfoUser };
+export { saveId, saveFirstName, saveAvatar };
 export default userSlice.reducer;

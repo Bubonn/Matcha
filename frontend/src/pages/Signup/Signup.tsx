@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import { createCookie, parseJwt } from '../../utils/auth';
 import { useDispatch } from 'react-redux';
-import { saveInfoUser } from '../../store/user/user-slice';
+import { saveId } from '../../store/user/user-slice';
 
 export function Signup() {
 
@@ -40,6 +40,7 @@ export function Signup() {
 		return regex.test(str);
 	}
 
+	// eslint-disable-next-line
 	function checkPassword() {
 		setBackErr('');
 		if (!password && !confPassword) {
@@ -74,10 +75,10 @@ export function Signup() {
 				// console.log('rep.data', rep.data);
 				const id = parseJwt(rep.data.token).userId;
 				createCookie("token", rep.data.token);
-				dispatch(saveInfoUser(id));
+				dispatch(saveId(id));
 				// console.group('id', id);
 
-				// navigate('/age');
+				navigate('/age');
 			} else {
 				setBackErr(rep);
 			}
