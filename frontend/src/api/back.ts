@@ -176,9 +176,103 @@ export class BackApi {
 		}
 	}
 
+	static async addInterest(token: string, idInterest: number) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/addInterest`, {
+				"idInterest": idInterest
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async delInterest(token: string, idInterest: number) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/delInterest`, {
+				"idInterest": idInterest
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
 	static async updateAllInfosSet(token: string) {
 		try {
 			const response = await axios.patch(`http://localhost:3000/users/allInfosSet`, {}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updateUsername(token: string, username: string) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/username`, {
+				"username": username
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updateFirstName(token: string, firstName: string) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/firstName`, {
+				"firstName": firstName
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updateLastName(token: string, lastName: string) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/lastName`, {
+				"lastName": lastName
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updateEmail(token: string, email: string) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/email`, {
+				"email": email
+			},
+			{
 				headers: {
 					Authorization: `Bearer ${token}`
 				}

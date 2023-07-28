@@ -8,3 +8,19 @@
 	font-size: 16px;
 	padding-left: 15px;
 }
+
+.sendButton {
+	background-color: #FB025D;
+	display: flex;
+	position: relative;
+	top: 10px;
+	left: -45px;
+	width: 30px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.sendButton:hover {
+	opacity: 0.85;
+}

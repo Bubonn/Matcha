@@ -13,6 +13,7 @@ import { BackApi } from '../../api/back';
 import man from '../../assets/settings/man.svg'
 import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
+import send from '../../assets/send.svg'
 import s from './style.module.css'
 
 export function Settings() {
@@ -22,6 +23,7 @@ export function Settings() {
 	const [preference, setPreference] = useState('');
 	const [interests, setInterests] = useState<number[]>([]);
 	const [description, setDescription] = useState<string>('');
+	const [msgDescription, setMsgDescription] = useState<string>('');
 	const [firstName, setFirstName] = useState<string>('');
 	const [lastName, setLastName] = useState<string>('');
 	const [username, setUsername] = useState<string>('');
@@ -30,6 +32,7 @@ export function Settings() {
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
 	const [errPhotos, setErrPhotos] = useState<string | null>(null);
+	const [msgInput, setMsgInput] = useState<string | null>(null);
 	const [legalAge, setLegalAge] = useState(true);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -169,6 +172,70 @@ export function Settings() {
 		}
 	}
 
+	function removeNewlines(inputString: string): string {
+		const pattern = /[\r\n]+/g;
+		return inputString.replace(pattern, " ");
+	}
+
+	async function sendDescription() {
+		const token = getToken();
+		if (token) {
+			const newDescription = removeNewlines(description);
+			const rep = await BackApi.updateDescripion(token, newDescription);
+			if (rep.status === 200) {
+				setMsgDescription('Description updated');
+			}
+		}
+	}
+
+	async function handleClickUsername() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateUsername(token, username);
+			if (rep.status === 200) {
+				setMsgInput(rep.data.message);
+			} else {
+				setMsgInput(rep);
+			}
+		}
+	}
+
+	async function handleClickFirstName() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateFirstName(token, firstName);
+			if (rep.status === 200) {
+				setMsgInput(rep.data.message);
+			} else {
+				setMsgInput(rep);
+			}
+		}
+	}
+
+	async function handleClickLastName() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateLastName(token, lastName);
+			if (rep.status === 200) {
+				setMsgInput(rep.data.message);
+			} else {
+				setMsgInput(rep);
+			}
+		}
+	}
+
+	async function handleClickEmail() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateEmail(token, email);
+			if (rep.status === 200) {
+				setMsgInput(rep.data.message);
+			} else {
+				setMsgInput(rep);
+			}
+		}
+	}
+
 	useEffect(() => {
 		dispatch(saveSection('Settings'));
 		if (selector.id !== 0) {
@@ -246,7 +313,13 @@ export function Settings() {
 								onChange={handleChangeDescription}
 							/>
 						</div>
-						<p className={s.char}>{description?.length}/{maxChar}</p>
+						<div className={s.footerDescription}>
+							<p className={s.char}>{description?.length}/{maxChar}</p>
+							<div className={s.sendButton} onClick={sendDescription}>
+								<img src={send} alt='sendButton' />
+							</div>
+							{msgDescription && <span className={s.msgDescription}>{msgDescription}</span>}
+						</div>
 					</div>
 				</div>
 				<div className={s.rightCtn}>
@@ -263,17 +336,18 @@ export function Settings() {
 					<div className={s.information}>
 						<span className={s.title}>User information</span>
 						<div className={s.input}>
-							<InputSettings name='firstName' text={true} content={firstName} setContent={setFirstName} placeholder='First name'/>
-							<InputSettings name='lastName' text={true} content={lastName} setContent={setLastName} placeholder='Last name'/>
+							<InputSettings handleClick={handleClickFirstName} name='firstName' text={true} content={firstName} setContent={setFirstName} placeholder='First name'/>
+							<InputSettings handleClick={handleClickLastName} name='lastName' text={true} content={lastName} setContent={setLastName} placeholder='Last name'/>
 						</div>
 						<div className={s.input}>
-							<InputSettings name='email' text={true} content={email} setContent={setEmail} placeholder='Email'/>
-							<InputSettings name='username' text={true} content={username} setContent={setUsername} placeholder='Username'/>
+							<InputSettings handleClick={handleClickEmail} name='email' text={true} content={email} setContent={setEmail} placeholder='Email'/>
+							<InputSettings handleClick={handleClickUsername} name='username' text={true} content={username} setContent={setUsername} placeholder='Username'/>
 						</div>
 						<div className={s.input}>
-							<InputSettings name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
-							<InputSettings name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
+							<InputSettings handleClick={handleClickUsername} name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
+							<InputSettings handleClick={handleClickUsername} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
 						</div>
+						{msgInput && <span className={s.msgInput}>{msgInput}</span>}
 					</div>
 				</div>
 			</div>

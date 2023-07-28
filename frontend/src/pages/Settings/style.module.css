@@ -4,12 +4,10 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	/* background-color: blueviolet; */
 }
 
 .userInfo {
 	display: flex;
-	/* background-color: brown; */
 	height: 70%;
 }
 
@@ -17,7 +15,6 @@
 	display: flex;
 	flex-direction: column;
 	width: 50%;
-	/* background-color: aqua; */
 	gap: 25px;
 	margin-left: 25px;
 }
@@ -36,7 +33,6 @@
 	color: white;
 	border-radius: 20px;
 	border: none;
-	/* background: white; */
 	background-color: #282828;
 	margin-right: 10px;
 	text-align: center;
@@ -52,14 +48,11 @@
 .textBox {
 	display: flex;
 	align-items: center;
-	/* width: 50vw; */
-	/* height: 150px; */
 	max-width: 500px;
 }
 
 .textAera {
 	width: 100%;
-	/* height: 100%; */
 	height: 140px;
 	font-family: Poppins;
 	resize: none;
@@ -78,7 +71,6 @@
 	flex-direction: column;
 	width: 50%;
 	gap: 25px;
-	/* background-color: aquamarine; */
 }
 
 .hobbies {
@@ -95,13 +87,12 @@
 
 .input {
 	display: flex;
-	gap: 10px;
+	justify-content: space-around;
 }
 
 .photos {
 	display: flex;
 	flex-direction: column;
-	/* background-color: blanchedalmond; */
 	height: 30%;
 	margin-left: 25px;
 }
@@ -109,11 +100,9 @@
 .choicePhoto {
 	display: flex;
 	height: 100%;
-	/* background-color: aquamarine; */
 }
 
 .err {
-	/* line-height: 0.2; */
 	font-family: Poppins;
 	color: red;
 	font-size: 15px;
@@ -122,9 +111,40 @@
 
 .error {
 	font-family: Poppins;
-	/* line-height: 0.000001; */
-	/* position: absolute; */
-	/* color: rgb(255, 255, 255); */
 	color: red;
 	margin-top: 10px;
+}
+
+.footerDescription {
+	display: flex;
+	flex-direction: column;
+}
+
+.sendButton {
+	background-color: #FB025D;
+	display: flex;
+	position: relative;
+	top: -62px;
+	left: 5px;
+	width: 30px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.sendButton:hover {
+	opacity: 0.85;
+}
+
+.msgDescription {
+	color: white;
+	font-family: Poppins;
+	line-height: 0;
+	position: relative;
+	top: -20px;
+}
+
+.msgInput {
+	color: white;
+	font-family: Poppins;
 }

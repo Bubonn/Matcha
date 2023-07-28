@@ -1,3 +1,5 @@
+import { BackApi } from '../../api/back';
+import { getToken } from '../../utils/auth';
 import s from './style.module.css'
 
 interface InterestFilterListProps {
@@ -10,16 +12,28 @@ interface InterestFilterListProps {
 
 export function InterestFilterList({ idx, name, interests, setInterests, search }: InterestFilterListProps) {
 
-	function handleClick() {
+	async function handleClick() {
 		if (interests.includes(idx)) {
 			if (interests.length === 1 && !search) {
-				return ;
+				return;
 			}
-				const updatedArray = interests.filter((idx_array: number) => idx_array !== idx);
-				setInterests(updatedArray);
+			const updatedArray = interests.filter((idx_array: number) => idx_array !== idx);
+			setInterests(updatedArray);
+			if (!search) {
+				const token = getToken();
+				if (token) {
+					await BackApi.delInterest(token, idx);
+				}
+			}
 		} else {
-				const updatedArray = interests.concat(idx);
-				setInterests(updatedArray);
+			const updatedArray = interests.concat(idx);
+			setInterests(updatedArray);
+			if (!search) {
+				const token = getToken();
+				if (token) {
+					await BackApi.addInterest(token, idx);
+				}
+			}
 		}
 	}
 
