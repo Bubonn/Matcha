@@ -14,15 +14,13 @@ import man from '../../assets/settings/man.svg'
 import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import s from './style.module.css'
-import { promisify } from 'util';
-import { read } from 'fs';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
 	const [selectedMonth, setSelectedMonth] = useState('');
 	const [selectedYear, setSelectedYear] = useState('');
 	const [preference, setPreference] = useState('');
-	const [interests, setInterests] = useState<string[]>([]);
+	const [interests, setInterests] = useState<number[]>([]);
 	const [description, setDescription] = useState<string>('');
 	const [firstName, setFirstName] = useState<string>('');
 	const [lastName, setLastName] = useState<string>('');
@@ -31,6 +29,8 @@ export function Settings() {
 	const [password, setPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
+	const [errPhotos, setErrPhotos] = useState<string | null>(null);
+	const [legalAge, setLegalAge] = useState(true);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
@@ -52,43 +52,38 @@ export function Settings() {
 	};
 
 	async function handlePhotoSelection(index: number, file: File) {
-			const reader = new FileReader();
-			reader.onload = async () => {
-				try {
-					const formData: any = new FormData();
-					formData.append('photo_profil', file);
-					formData.append('photoId', index + 1);
+		const reader = new FileReader();
+		reader.onload = async () => {
+			try {
+				const formData: any = new FormData();
+				formData.append('photo_profil', file);
+				formData.append('photoId', index + 1);
 
-					const token = getToken();
-					if (token) {
-						const response = await BackApi.upload(token, formData);
-						if (response.status === 200) {
-							const base64Image = typeof reader.result === 'string' ? reader.result.split(',')[1] : '';
-							const updatedPhotos = [...photos];
-							updatedPhotos[index] = base64Image;
-							setPhotos(updatedPhotos);
-							if (index === 0) {
-								dispatch(saveAvatar(base64Image));
-							}
-						} else {
-							console.log(response.data);
+				const token = getToken();
+				if (token) {
+					const response = await BackApi.upload(token, formData);
+					if (response.status === 200) {
+						const base64Image = typeof reader.result === 'string' ? reader.result.split(',')[1] : '';
+						const updatedPhotos = [...photos];
+						updatedPhotos[index] = base64Image;
+						setPhotos(updatedPhotos);
+						if (index === 0) {
+							dispatch(saveAvatar(base64Image));
 						}
+						setErrPhotos(null);
+					} else {
+						setErrPhotos(response.data);
 					}
-
-
-				} catch (error) {
-					console.error('Une erreur est survenue lors de la requête au backend :', error);
 				}
-			};
-			reader.readAsDataURL(file);
+			} catch (error) {
+				setErrPhotos('Une erreur est survenue');
+			}
+		};
+		reader.readAsDataURL(file);
 	};
 
 
 	async function handleRemovePhoto(index: number) {
-		// const updatedPhotos = [...photos];
-		// updatedPhotos[index] = null;
-		// setPhotos(updatedPhotos);
-
 		const updatedPhotos = [...photos];
 		updatedPhotos[index] = null;
 		setPhotos(updatedPhotos);
@@ -99,7 +94,7 @@ export function Settings() {
 				await BackApi.removePhoto(index + 1, token)
 			}
 		} catch (error) {
-			console.error('Une erreur est survenue lors de la requête au backend :', error);
+			setErrPhotos('Une erreur est survenue');
 		}
 	};
 
@@ -130,9 +125,47 @@ export function Settings() {
 			setLastName(user.lastName);
 			setEmail(user.email);
 			setUsername(user.username);
+			setInterests(user.interests);
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
-			// console.log('Api photos', rep.data.photo1);
+		}
+	}
+
+	async function handleChangeDate(e: React.ChangeEvent<HTMLSelectElement>) {
+		let day = selectedDay, month = selectedMonth, year = selectedYear;
+		if (e.target.name === 'day') {
+			day = e.target.value;
+			setSelectedDay(e.target.value)
+		} else if (e.target.name === 'month') {
+			month = e.target.value;
+			setSelectedMonth(e.target.value)
+		} else {
+			year = e.target.value;
+			setSelectedYear(e.target.value)
+		}
+
+
+		if (day !== '' && month !== '' && year !== '') {
+			const selectedDate = new Date(
+				parseInt(year),
+				parseInt(month) - 1,
+				parseInt(day)
+				);
+			const eighteenYearsAgo = new Date();
+			eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+			setLegalAge(selectedDate <= eighteenYearsAgo);
+			if (selectedDate <= eighteenYearsAgo) {
+				const selectedDate: string = year + '-' + month + '-' +day;
+				const token = getToken();
+				if (token) {
+					const rep = await BackApi.updateBirth(token, selectedDate);
+					if (rep.status === 200) {
+						setLegalAge(true);
+					}
+				}
+			}
+		} else {
+			setLegalAge(true);
 		}
 	}
 
@@ -147,8 +180,6 @@ export function Settings() {
 		return (<></>);
 	}
 
-	console.log('photos', photos);
-
 	return (
 		<div className={s.container}>
 			<div className={s.userInfo}>
@@ -159,7 +190,7 @@ export function Settings() {
 							className={s.select}
 							name="day"
 							value={selectedDay}
-							onChange={(e) => setSelectedDay(e.target.value)}
+							onChange={handleChangeDate}
 						>
 							<option value="">Day</option>
 							{days.map((day) => (
@@ -172,7 +203,7 @@ export function Settings() {
 							className={s.select}
 							name="month"
 							value={selectedMonth}
-							onChange={(e) => setSelectedMonth(e.target.value)}
+							onChange={handleChangeDate}
 						>
 							<option value="">Month</option>
 							{months.map((month, index) => (
@@ -185,7 +216,7 @@ export function Settings() {
 							className={s.select}
 							name="year"
 							value={selectedYear}
-							onChange={(e) => setSelectedYear(e.target.value)}
+							onChange={handleChangeDate}
 						>
 							<option value="">Year</option>
 							{years.map((year) => (
@@ -195,6 +226,7 @@ export function Settings() {
 							))}
 						</select>
 					</div>
+					{!legalAge && <span className={s.error}>You must be of legal age to create an account</span>}
 					<div className={s.preference}>
 						<span className={s.title}>Preference</span>
 						<div className={s.choicePreference}>
@@ -224,6 +256,7 @@ export function Settings() {
 							<InterestFilter
 								interests={interests}
 								setInterests={setInterests}
+								search={false}
 							/>
 						</div>
 					</div>
@@ -246,6 +279,7 @@ export function Settings() {
 			</div>
 			<div className={s.photos}>
 				<span className={s.title}>Photos</span>
+				{errPhotos && <span className={s.err}>{errPhotos}</span>}
 				<div className={s.choicePhoto}>
 					{Array.from({ length: 5 }, (_, index) => (
 						<SelectPhotoSetings

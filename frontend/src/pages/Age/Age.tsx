@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/signupQuestions/calendar.png';
-import s from './style.module.css';
 import { BackApi } from '../../api/back';
 import { getCookieByName } from '../../utils/auth';
+import logo from '../../assets/signupQuestions/calendar.png';
+import s from './style.module.css';
 
 export function Age() {
 	const navigate = useNavigate();
@@ -20,7 +20,6 @@ export function Age() {
 	const years = Array.from(Array(100), (_, index) => currentYear - index);
 
 	useEffect(() => {
-			console.log('Use Effect Age');
 			if (selectedYear !== '' && selectedMonth !== '' && selectedDay !== '') {
 				const selectedDate = new Date(
 					parseInt(selectedYear),

@@ -111,3 +111,20 @@
 	height: 100%;
 	/* background-color: aquamarine; */
 }
+
+.err {
+	/* line-height: 0.2; */
+	font-family: Poppins;
+	color: red;
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.error {
+	font-family: Poppins;
+	/* line-height: 0.000001; */
+	/* position: absolute; */
+	/* color: rgb(255, 255, 255); */
+	color: red;
+	margin-top: 10px;
+}
