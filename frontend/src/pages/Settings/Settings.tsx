@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { saveAvatar, saveSection } from '../../store/user/user-slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { getToken } from '../../utils/auth';
+import { checkPassword, getToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import man from '../../assets/settings/man.svg'
@@ -236,12 +236,28 @@ export function Settings() {
 		}
 	}
 
+	async function handleClickPassword() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updatePassword(token, password);
+			if (rep.status === 200) {
+				setMsgInput(rep.data.message);
+			} else {
+				setMsgInput(rep);
+			}
+		}
+	}
+
 	useEffect(() => {
 		dispatch(saveSection('Settings'));
 		if (selector.id !== 0) {
 			getInfoUser();
 		}
 	}, [selector.id])
+
+	// useEffect(() => {
+	// 	checkPassword(password, confPassword, setMsgInput);
+	// }, [password, confPassword])
 
 	if (selector.id === 0) {
 		return (<></>);
@@ -344,8 +360,8 @@ export function Settings() {
 							<InputSettings handleClick={handleClickUsername} name='username' text={true} content={username} setContent={setUsername} placeholder='Username'/>
 						</div>
 						<div className={s.input}>
-							<InputSettings handleClick={handleClickUsername} name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
-							<InputSettings handleClick={handleClickUsername} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
+							<InputSettings handleClick={handleClickPassword} name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
+							<InputSettings handleClick={handleClickPassword} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
 						</div>
 						{msgInput && <span className={s.msgInput}>{msgInput}</span>}
 					</div>

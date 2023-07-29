@@ -1,5 +1,5 @@
 import express from 'express';
-import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail } from '../controllers/user';
+import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword } from '../controllers/user';
 import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
@@ -19,5 +19,6 @@ router.patch('/username', acceptJsonOnly, updateUsername);
 router.patch('/firstName', acceptJsonOnly, updateFirstName);
 router.patch('/lastName', acceptJsonOnly, updateLastName);
 router.patch('/email', acceptJsonOnly, updateEmail);
+router.patch('/password', acceptJsonOnly, updatePassword);
 
 export default router;

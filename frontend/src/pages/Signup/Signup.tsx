@@ -5,7 +5,7 @@ import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
-import { createCookie, parseJwt } from '../../utils/auth';
+import { checkPassword, createCookie, parseJwt } from '../../utils/auth';
 import { useDispatch } from 'react-redux';
 import { saveId } from '../../store/user/user-slice';
 
@@ -25,45 +25,6 @@ export function Signup() {
 		}
 	}
 
-	function containsUpperCase(str: string) {
-		const regex = /[A-Z]/;
-		return regex.test(str);
-	}
-
-	function containsSpecialCharacter(str: string) {
-		const regex = /[!@#$%^&*()_+{}[\]:;<>,.?~\\|]/;
-		return regex.test(str);
-	}
-
-	function containsDigit(str: string) {
-		const regex = /\d/;
-		return regex.test(str);
-	}
-
-	// eslint-disable-next-line
-	function checkPassword() {
-		setBackErr('');
-		if (!password && !confPassword) {
-			return setErr('');
-		}
-		if (password.length < 8) {
-			return setErr('Password must contain at least eight characters');
-		}
-		if (!containsUpperCase(password)) {
-			return setErr('Password must contain at least one uppercase character');
-		}
-		if (!containsSpecialCharacter(password)) {
-			return setErr('Password must contain at least one special character');
-		}
-		if (!containsDigit(password)) {
-			return setErr('Password must contain at least one digit');
-		}
-		if (password !== confPassword) {
-			return setErr('The two passwords must be the same');
-		}
-		setErr('');
-	}
-
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -72,12 +33,9 @@ export function Signup() {
 		if (!err) {
 			const rep = await BackApi.signup(obj);
 			if (rep.status === 200) {
-				// console.log('rep.data', rep.data);
 				const id = parseJwt(rep.data.token).userId;
 				createCookie("token", rep.data.token);
 				dispatch(saveId(id));
-				// console.group('id', id);
-
 				navigate('/age');
 			} else {
 				setBackErr(rep);
@@ -86,7 +44,8 @@ export function Signup() {
 	}
 
 	useEffect(() => {
-		// checkPassword();
+		setBackErr('');
+		checkPassword(password, confPassword, setErr);
 		// eslint-disable-next-line
 	}, [password, confPassword])
 

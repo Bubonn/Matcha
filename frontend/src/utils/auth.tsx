@@ -40,3 +40,42 @@ export function getToken() {
 	}
 	return token;
 }
+
+function containsUpperCase(str: string) {
+	const regex = /[A-Z]/;
+	return regex.test(str);
+}
+
+function containsSpecialCharacter(str: string) {
+	const regex = /[!@#$%^&*()_+{}[\]:;<>,.?~\\|]/;
+	return regex.test(str);
+}
+
+function containsDigit(str: string) {
+	const regex = /\d/;
+	return regex.test(str);
+}
+
+// eslint-disable-next-line
+export function checkPassword(password: string, confPassword: string, setErr: any) {
+	// setBackErr('');
+	if (!password && !confPassword) {
+		return setErr('');
+	}
+	if (password.length < 8) {
+		return setErr('Password must contain at least eight characters');
+	}
+	if (!containsUpperCase(password)) {
+		return setErr('Password must contain at least one uppercase character');
+	}
+	if (!containsSpecialCharacter(password)) {
+		return setErr('Password must contain at least one special character');
+	}
+	if (!containsDigit(password)) {
+		return setErr('Password must contain at least one digit');
+	}
+	if (password !== confPassword) {
+		return setErr('The two passwords must be the same');
+	}
+	setErr('');
+}

@@ -19,6 +19,7 @@ export class BackApi {
 			});
 			return rep;
 		} catch (error: any) {
+			console.log('error', error);
 			return error.response.data.error;
 		}
 	}
@@ -51,6 +52,7 @@ export class BackApi {
 			return response;
 		} catch (error: any) {
 			return error.response.data.error;
+			// return 'Erreur signin';
 		}
 	}
 
@@ -271,6 +273,22 @@ export class BackApi {
 		try {
 			const response = await axios.patch(`http://localhost:3000/users/email`, {
 				"email": email
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updatePassword(token: string, password: string) {
+		try {
+			const response = await axios.patch(`http://localhost:3000/users/password`, {
+				"password": password
 			},
 			{
 				headers: {
