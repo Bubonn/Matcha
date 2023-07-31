@@ -47,6 +47,46 @@ export function Apps() {
 		}
 	}
 
+	function geoLocation() {
+		return new Promise((resolve, reject) => {
+			if ("geolocation" in navigator) {
+				navigator.geolocation.getCurrentPosition(
+					(position) => {
+						const latitude = position.coords.latitude;
+						const longitude = position.coords.longitude;
+						resolve({ latitude, longitude });
+					},
+					(error) => {
+						reject(new Error("Error obtaining location: " + error.message));
+					}
+				);
+			} else {
+				reject(new Error("Geolocation is not available in this browser."));
+			}
+		});
+	}
+
+	async function getUserLocation() {
+		let location;
+		try {
+			const response: any = await geoLocation();
+			location = response.latitude + ',' + response.longitude;
+		} catch (error) {
+			try {
+				const rep = await BackApi.getIpInfo();
+				location = rep.data.loc;
+			} catch (ipError: any) {
+				console.error('Error retrieving IP-based information:', ipError.message);
+			}
+		}
+		const token = getToken();
+		if (token) {
+		const response = await BackApi.updateLocation(token, location);
+		} else {
+			navigate('/signin');
+		}
+	}
+
 	useEffect(() => {
 		checkToken();
 		if (selector.id !== 0) {
@@ -54,6 +94,12 @@ export function Apps() {
 		}
 		// eslint-disable-next-line
 	}, [selector.section, selector.id])
+
+	// useEffect(() => {
+	// 	if (selector.id !== 0) {
+	// 		getUserLocation();
+	// 	}
+	// }, [selector.id])
 
 	return (
 		<div className={s.app}>

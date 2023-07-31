@@ -41,3 +41,8 @@ app.listen(port, () => {
 // mysql> INSERT INTO user_tag (user_id, tag_id) VALUES (1, 3);
 
 // mysql> SELECT * FROM user JOIN user_tag ON user.id = user_tag.user_id JOIN tag ON tag.tag_id = user_tag.tag_id;
+
+// Les trucs mis en com :
+// Apps getUserLocation(); useEffect
+// Settings checkPassword(); useEffect
+// Signup checkPassword();

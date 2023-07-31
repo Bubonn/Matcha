@@ -40,9 +40,26 @@
 	box-shadow: 1px 2px 6px 0px rgba(0, 0, 0, 0.25);
 }
 
+.prefAndLoc {
+	display: flex;
+	/* background-color: #FB025D; */
+
+}
+
+.preference {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+}
+
 .choicePreference {
 	display: flex;
 	gap: 15px;
+}
+
+.location {
+	/* background-color: aqua; */
+	width: 50%;
 }
 
 .textBox {

@@ -45,7 +45,7 @@ export function Signup() {
 
 	useEffect(() => {
 		setBackErr('');
-		checkPassword(password, confPassword, setErr);
+		// checkPassword(password, confPassword, setErr);
 		// eslint-disable-next-line
 	}, [password, confPassword])
 

@@ -24,14 +24,18 @@ export function Signin() {
 			const id = parseJwt(rep.data.token).userId;
 			createCookie("token", rep.data.token);
 			dispatch(saveId(id));
-
-			// console.log('Signin id', id);
 			const response = await BackApi.getUserById(id, rep.data.token);
+			console.log('USER', response.data);
 			if (response.status === 200) {
-				if (response.data.all_info_set) {
-					navigate('/search');
+				if (!response.data.all_infos_set) {
+					console.log('1');
+					return navigate('/age');
+				} else if (!response.data.verified) {
+					console.log('2');
+					return navigate('/verifyAccount');
 				} else {
-					navigate('/age');
+					console.log('3');
+					return navigate('/search');
 				}
 			}
 		} else {

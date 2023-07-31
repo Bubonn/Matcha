@@ -21,7 +21,6 @@ export const setPhoto = async (req: Request, res: Response) => {
 			});
 		});
 		if (getAndRemovePhoto[0][propertyName]) {
-			// console.log('Remove', getAndRemovePhoto);
 			fs.unlink(`uploads/${getAndRemovePhoto[0][propertyName]}`, (err: any) => {
 				if (err) {
 					console.error('Error while remove the file', err);

@@ -14,7 +14,6 @@ export function Gender() {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// console.log(choice);
 		const token = getCookieByName('token');
 		if (token && choice) {
 			const response = await BackApi.updateGender(token, choice);

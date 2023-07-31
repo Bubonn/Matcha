@@ -20,8 +20,6 @@ export function Description() {
 				navigate('/interests');
 			}
 		}
-		// console.log(description);
-		// navigate('/interests');
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

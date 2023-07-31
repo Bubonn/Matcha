@@ -1,10 +1,11 @@
 import express from 'express';
-import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword } from '../controllers/user';
+import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail } from '../controllers/user';
 import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
 
 router.get('/', users);
+router.get('/email', sendVerificationEmail);
 router.get('/:id', userById);
 router.get('/photo/:id', photoUserById);
 router.post('/birthDate', acceptJsonOnly, setBirth);
@@ -20,5 +21,6 @@ router.patch('/firstName', acceptJsonOnly, updateFirstName);
 router.patch('/lastName', acceptJsonOnly, updateLastName);
 router.patch('/email', acceptJsonOnly, updateEmail);
 router.patch('/password', acceptJsonOnly, updatePassword);
+router.post('/location', acceptJsonOnly, updateLocation);
 
 export default router;

@@ -10,4 +10,5 @@ const router = express_1.default.Router();
 router.post('/signin', acceptJsonOnly_1.default, login_1.signin);
 router.post('/signup', acceptJsonOnly_1.default, login_1.signup);
 router.get('/token', login_1.checkToken);
+router.get('/verifyToken', login_1.verifyTokenEmail);
 exports.default = router;

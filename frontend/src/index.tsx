@@ -20,6 +20,8 @@ import store from './store';
 import ReactDOM from 'react-dom/client';
 import { UserInfo } from './components/UserInfo/UserInfo';
 import { Logout } from './pages/Logout/Logout';
+import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
+import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
 
 const rootElement = document.getElementById('root');
 
@@ -39,6 +41,7 @@ if (rootElement) {
 						<Route path='/logout' element={<Logout />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >
+						<Route path='/verifyAccount' element={<VerifyAccount />} />
 						<Route path='/age' element={<Age />} />
 						<Route path='/gender' element={<Gender />} />
 						<Route path='/preference' element={<Preference />} />
@@ -50,6 +53,7 @@ if (rootElement) {
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/signin' element={<Signin />} />
 					<Route path='/forgotPassword' element={<ForgotPassword />} />
+					<Route path='/verifyTokenAccount/:token' element={<VerifyTokenAccount />} />
 				</Routes>
 			</BrowserRouter>
 		</Provider>

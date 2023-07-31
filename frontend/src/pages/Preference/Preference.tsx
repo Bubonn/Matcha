@@ -21,8 +21,6 @@ export function Preference() {
 				navigate('/description');
 			}
 		}
-		// console.log(choice);
-		// navigate('/description');
 	}
 
 	return (

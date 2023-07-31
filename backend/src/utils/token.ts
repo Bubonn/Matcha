@@ -28,25 +28,25 @@ declare global {
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
 	const token = req.header('Authorization')?.replace('Bearer ', '');
 	const secretKey = process.env.SECRET_JWT;
-
+	
+	
 	if (!secretKey) {
-		console.log('1authenticateToken Failed');
 		throw new Error('La clé secrète JWT est manquante dans les variables d\'environnement.');
 	}
-
+	
 	if (!token) {
-		console.log('2authenticateToken Failed');
 		return res.status(401).json({ error: 'No token provided.' });
 	}
-
+	
 	jwt.verify(token, secretKey, (err: any, user: any) => {
 		if (err) {
-			console.log('3authenticateToken Failed');
 			return res.status(403).json({ error: 'Invalid token.' });
 		}
-
+		
 		req.user = user; // Stocker les informations utilisateur décodées dans l'objet req
-
+		// console.log('TOKEN OK', req.user);
+		
+		// console.log('AAA');
 		next(); // Appeler le middleware suivant
 	});
 };

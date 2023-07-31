@@ -54,7 +54,6 @@ const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
         });
         if (getAndRemovePhoto[0][propertyName]) {
-            // console.log('Remove', getAndRemovePhoto);
             fs.unlink(`uploads/${getAndRemovePhoto[0][propertyName]}`, (err) => {
                 if (err) {
                     console.error('Error while remove the file', err);

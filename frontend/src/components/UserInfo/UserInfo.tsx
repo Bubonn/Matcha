@@ -38,7 +38,9 @@ export function UserInfo() {
 				if (response.status === 200) {
 					const user = response.data;
 
-					if (user.all_infos_set) {
+					if (user.all_infos_set && !user.verify) {
+						navigate('/verifyAccount');
+					} else if (user.all_infos_set) {
 						navigate('/search');
 					} else if (user.birth === null) {
 						navigate('/age');

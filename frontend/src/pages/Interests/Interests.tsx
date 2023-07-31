@@ -20,8 +20,6 @@ export function Interests() {
 				navigate('/mainPhoto');
 			}
 		}
-		// console.log(interests);
-		// navigate('/mainPhoto');
 	}
 
 	return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = 'http://localhost:3000';
+const TOKEN_IPINFO = '8e7deabe707a09';
 
 export class BackApi {
 	static async getAllUsers() {
@@ -19,7 +20,6 @@ export class BackApi {
 			});
 			return rep;
 		} catch (error: any) {
-			console.log('error', error);
 			return error.response.data.error;
 		}
 	}
@@ -296,6 +296,58 @@ export class BackApi {
 				}
 			});
 			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async updateLocation(token: string, location: string) {
+		try {
+			const response = await axios.post(`http://localhost:3000/users/location`, {
+				"location": location
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async getIpInfo() {
+		try {
+			const rep = await axios.get(`https://ipinfo.io/json?token=${TOKEN_IPINFO}`);
+			return rep;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async sendEmail(token: string) {
+		try {
+			const rep = await axios.get(`http://localhost:3000/users/email`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async verifyEmail(token: string) {
+		console.log('Front Call Back', token);
+		try {
+			const rep = await axios.get(`http://localhost:3000/login/verifyToken`, {
+				params: {
+					token,
+				},
+			});
+			return rep;
 		} catch (error: any) {
 			return error.response.data.error;
 		}

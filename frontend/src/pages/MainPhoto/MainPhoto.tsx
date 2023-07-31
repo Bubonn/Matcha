@@ -21,25 +21,7 @@ export function MainPhoto() {
 			return;
 		}
 		navigate('/additionalsPhoto')
-		// try {
-		// 	const formData: any = new FormData();
-		// 	formData.append('photo_profil', photo);
-		// 	formData.append('photoId', 1);
-		// 	const response = await BackApi.upload(20, formData)
-
-		// 	if (response.status === 200) {
-		// 		console.log('React ok');
-		// 	} else {
-		// 		console.log('React nop');
-		// 	}
-		// } catch (error) {
-		// 	console.error('Une erreur est survenue lors de la requête au backend :', error);
-		// }
 	}
-
-	// const handlePhotoSelection = (file: File) => {
-	// 	setPhoto(file);
-	// };
 
 	async function handlePhotoSelection(file: File) {
 		setPhoto(file);
@@ -54,16 +36,7 @@ export function MainPhoto() {
 			const token = getCookieByName('token');
 			if (token) {
 				const response = await BackApi.upload(token, formData)
-				// if (response.status === 200) {
-				// 	navigate('/additionalsPhoto');
-				// }
 			}
-
-			// if (response.status === 200) {
-			// 	console.log('React ok');
-			// } else {
-			// 	console.log('React nop');
-			// }
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
 		}
@@ -75,12 +48,6 @@ export function MainPhoto() {
 			const token = getCookieByName('token');
 			if (token) {
 				const response = await BackApi.removePhoto(1, token);
-
-				if (response.status === 200) {
-					console.log('React ok');
-				} else {
-					console.log('React nop');
-				}
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);

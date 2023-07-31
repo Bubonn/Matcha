@@ -4,7 +4,7 @@ import { SettingsPreference } from '../../components/SettingsPreference/Settings
 import { InputSettings } from '../../components/InputSettings/InputSettings';
 import { SelectPhotoSetings } from '../../components/SelectPhotoSettings/SelectPhotoSettings';
 import { useDispatch } from 'react-redux';
-import { saveAvatar, saveSection } from '../../store/user/user-slice';
+import { saveAvatar, saveFirstName, saveSection } from '../../store/user/user-slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { checkPassword, getToken } from '../../utils/auth';
@@ -117,7 +117,6 @@ export function Settings() {
 		const response = await BackApi.getUserById(selector.id, token);
 		if (response.status === 200) {
 			const user = response.data;
-			console.log('user', user);
 			setPreference(user.preference);
 			const { year, month, day } = extractDateParts(user.birth);
 			setSelectedYear(year);
@@ -205,6 +204,7 @@ export function Settings() {
 		if (token) {
 			const rep = await BackApi.updateFirstName(token, firstName);
 			if (rep.status === 200) {
+				dispatch(saveFirstName(firstName));
 				setMsgInput(rep.data.message);
 			} else {
 				setMsgInput(rep);
@@ -310,12 +310,17 @@ export function Settings() {
 						</select>
 					</div>
 					{!legalAge && <span className={s.error}>You must be of legal age to create an account</span>}
-					<div className={s.preference}>
-						<span className={s.title}>Preference</span>
-						<div className={s.choicePreference}>
-							<SettingsPreference name='man' logo={man} isSelected={preference === 'man'} setSelectedPreference={setPreference} />
-							<SettingsPreference name='woman' logo={woman} isSelected={preference === 'woman'} setSelectedPreference={setPreference} />
-							<SettingsPreference name='both' logo={bi} isSelected={preference === 'both'} setSelectedPreference={setPreference} />
+					<div className={s.prefAndLoc}>
+						<div className={s.preference}>
+							<span className={s.title}>Preference</span>
+							<div className={s.choicePreference}>
+								<SettingsPreference name='man' logo={man} isSelected={preference === 'man'} setSelectedPreference={setPreference} />
+								<SettingsPreference name='woman' logo={woman} isSelected={preference === 'woman'} setSelectedPreference={setPreference} />
+								<SettingsPreference name='both' logo={bi} isSelected={preference === 'both'} setSelectedPreference={setPreference} />
+							</div>
+						</div>
+						<div className={s.location}>
+							<span className={s.title}>Location</span>
 						</div>
 					</div>
 					<div className={s.description}>
