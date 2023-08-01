@@ -22,6 +22,12 @@ import { UserInfo } from './components/UserInfo/UserInfo';
 import { Logout } from './pages/Logout/Logout';
 import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
+import { Chat } from './pages/Chat/Chat';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// console.log('TEST', process.env.TOKEN_IPINFO);
 
 const rootElement = document.getElementById('root');
 
@@ -35,13 +41,13 @@ if (rootElement) {
 					<Route path='/' element={<Apps />} >
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/likes' element={<Likes />} />
+						<Route path='/chat' element={<Chat />} />
 						<Route path='/search' element={<Search />} />
 						<Route path='/history' element={<History />} />
 						<Route path='/settings' element={<Settings />} />
 						<Route path='/logout' element={<Logout />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >
-						<Route path='/verifyAccount' element={<VerifyAccount />} />
 						<Route path='/age' element={<Age />} />
 						<Route path='/gender' element={<Gender />} />
 						<Route path='/preference' element={<Preference />} />
@@ -49,6 +55,7 @@ if (rootElement) {
 						<Route path='/interests' element={<Interests />} />
 						<Route path='/mainPhoto' element={<MainPhoto />} />
 						<Route path='/additionalsPhoto' element={<AdditionalsPhotos />} />
+						<Route path='/verifyAccount' element={<VerifyAccount />} />
 					</Route>
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/signin' element={<Signin />} />

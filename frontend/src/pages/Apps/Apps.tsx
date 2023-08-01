@@ -9,12 +9,14 @@ import { BackApi } from '../../api/back';
 import s from './style.module.css'
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveSection } from '../../store/user/user-slice';
+import { Api } from '../../api/api';
 
 export function Apps() {
 
 	const navigate = useNavigate();
 	const selector = useSelector((store: RootState) => store.user.user);
 	const dispatch = useDispatch();
+	const [verified, setVerified] = useState(false);
 
 	function updateSection (newSection: string){
 		dispatch(saveSection(newSection));
@@ -42,6 +44,12 @@ export function Apps() {
 			const response = await BackApi.getUserById(selector.id, token);
 			dispatch(saveAvatar(response.data.mainPhoto));
 			dispatch(saveFirstName(response.data.firstName));
+			// console.log('response.data', response.data);
+			if (!response.data.verified) {
+				navigate('/verifyAccount');
+			} else {
+				setVerified(true);
+			}
 		} else {
 			navigate('/signin');
 		}
@@ -73,7 +81,7 @@ export function Apps() {
 			location = response.latitude + ',' + response.longitude;
 		} catch (error) {
 			try {
-				const rep = await BackApi.getIpInfo();
+				const rep = await Api.getIpInfo();
 				location = rep.data.loc;
 			} catch (ipError: any) {
 				console.error('Error retrieving IP-based information:', ipError.message);
@@ -100,6 +108,12 @@ export function Apps() {
 	// 		getUserLocation();
 	// 	}
 	// }, [selector.id])
+
+	if (!verified) {
+		return (
+			<></>
+		);
+	}
 
 	return (
 		<div className={s.app}>

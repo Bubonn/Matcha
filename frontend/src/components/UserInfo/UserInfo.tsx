@@ -36,9 +36,10 @@ export function UserInfo() {
 					response = await BackApi.getUserById(selector.id, token);
 				}
 				if (response.status === 200) {
+					console.log('id', id);
 					const user = response.data;
 
-					if (user.all_infos_set && !user.verify) {
+					if (user.all_infos_set && !user.verified) {
 						navigate('/verifyAccount');
 					} else if (user.all_infos_set) {
 						navigate('/search');

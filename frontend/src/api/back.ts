@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const BASE_URL = 'http://localhost:3000';
-const TOKEN_IPINFO = '8e7deabe707a09';
 
 export class BackApi {
 	static async getAllUsers() {
@@ -58,7 +57,7 @@ export class BackApi {
 
 	static async upload(token: string, formData: any) {
 		try {
-			const response = await axios.post(`http://localhost:3000/uploads`, formData, {
+			const response = await axios.post(`${BASE_URL}/uploads`, formData, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -75,7 +74,7 @@ export class BackApi {
 
 	static async removePhoto(photoId: any, token: string) {
 		try {
-			const response = await axios.delete(`http://localhost:3000/uploads?photoId=${photoId}`, {
+			const response = await axios.delete(`${BASE_URL}/uploads?photoId=${photoId}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -92,7 +91,7 @@ export class BackApi {
 
 	static async checkToken(token : string) {
 		try {
-			const response = await axios.get(`http://localhost:3000/login/token`, {
+			const response = await axios.get(`${BASE_URL}/login/token`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -105,7 +104,7 @@ export class BackApi {
 
 	static async updateBirth(token: string, date: any) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/birthDate`, {
+			const response = await axios.post(`${BASE_URL}/users/birthDate`, {
 				"birthDate": date
 			}, {
 				headers: {
@@ -120,7 +119,7 @@ export class BackApi {
 
 	static async updateGender(token: string, gender: string) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/gender`, {
+			const response = await axios.post(`${BASE_URL}/users/gender`, {
 				"gender": gender
 			}, {
 				headers: {
@@ -135,7 +134,7 @@ export class BackApi {
 
 	static async updatePreference(token: string, preference: string) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/preference`, {
+			const response = await axios.post(`${BASE_URL}/users/preference`, {
 				"preference": preference
 			}, {
 				headers: {
@@ -150,7 +149,7 @@ export class BackApi {
 
 	static async updateDescripion(token: string, description: string) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/description`, {
+			const response = await axios.post(`${BASE_URL}/users/description`, {
 				"description": description
 			}, {
 				headers: {
@@ -165,7 +164,7 @@ export class BackApi {
 
 	static async updateInterests(token: string, interests: number[]) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/interest`, {
+			const response = await axios.post(`${BASE_URL}/users/interest`, {
 				"interests": interests
 			}, {
 				headers: {
@@ -180,7 +179,7 @@ export class BackApi {
 
 	static async addInterest(token: string, idInterest: number) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/addInterest`, {
+			const response = await axios.patch(`${BASE_URL}/users/addInterest`, {
 				"idInterest": idInterest
 			}, {
 				headers: {
@@ -195,7 +194,7 @@ export class BackApi {
 
 	static async delInterest(token: string, idInterest: number) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/delInterest`, {
+			const response = await axios.patch(`${BASE_URL}/users/delInterest`, {
 				"idInterest": idInterest
 			}, {
 				headers: {
@@ -210,7 +209,7 @@ export class BackApi {
 
 	static async updateAllInfosSet(token: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/allInfosSet`, {}, {
+			const response = await axios.patch(`${BASE_URL}/users/allInfosSet`, {}, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -223,7 +222,7 @@ export class BackApi {
 
 	static async updateUsername(token: string, username: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/username`, {
+			const response = await axios.patch(`${BASE_URL}/users/username`, {
 				"username": username
 			},
 			{
@@ -239,7 +238,7 @@ export class BackApi {
 
 	static async updateFirstName(token: string, firstName: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/firstName`, {
+			const response = await axios.patch(`${BASE_URL}/users/firstName`, {
 				"firstName": firstName
 			},
 			{
@@ -255,7 +254,7 @@ export class BackApi {
 
 	static async updateLastName(token: string, lastName: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/lastName`, {
+			const response = await axios.patch(`${BASE_URL}/users/lastName`, {
 				"lastName": lastName
 			},
 			{
@@ -271,7 +270,7 @@ export class BackApi {
 
 	static async updateEmail(token: string, email: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/email`, {
+			const response = await axios.patch(`${BASE_URL}/users/email`, {
 				"email": email
 			},
 			{
@@ -287,7 +286,7 @@ export class BackApi {
 
 	static async updatePassword(token: string, password: string) {
 		try {
-			const response = await axios.patch(`http://localhost:3000/users/password`, {
+			const response = await axios.patch(`${BASE_URL}/users/password`, {
 				"password": password
 			},
 			{
@@ -303,7 +302,7 @@ export class BackApi {
 
 	static async updateLocation(token: string, location: string) {
 		try {
-			const response = await axios.post(`http://localhost:3000/users/location`, {
+			const response = await axios.post(`${BASE_URL}/users/location`, {
 				"location": location
 			},
 			{
@@ -317,18 +316,9 @@ export class BackApi {
 		}
 	}
 
-	static async getIpInfo() {
-		try {
-			const rep = await axios.get(`https://ipinfo.io/json?token=${TOKEN_IPINFO}`);
-			return rep;
-		} catch (error: any) {
-			return error.response.data.error;
-		}
-	}
-
 	static async sendEmail(token: string) {
 		try {
-			const rep = await axios.get(`http://localhost:3000/users/email`, {
+			const rep = await axios.get(`${BASE_URL}/users/email`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -342,7 +332,7 @@ export class BackApi {
 	static async verifyEmail(token: string) {
 		console.log('Front Call Back', token);
 		try {
-			const rep = await axios.get(`http://localhost:3000/login/verifyToken`, {
+			const rep = await axios.get(`${BASE_URL}/login/verifyToken`, {
 				params: {
 					token,
 				},

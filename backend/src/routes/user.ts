@@ -4,8 +4,8 @@ import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
 
-router.get('/', users);
 router.get('/email', sendVerificationEmail);
+router.get('/', users);
 router.get('/:id', userById);
 router.get('/photo/:id', photoUserById);
 router.post('/birthDate', acceptJsonOnly, setBirth);

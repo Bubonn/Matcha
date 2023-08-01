@@ -17,7 +17,7 @@ export function AdditionalsPhotos() {
 		if (token) {
 			const response = await BackApi.updateAllInfosSet(token);
 			if (response.status === 200) {
-				navigate('/search');
+				navigate('/verifyAccount');
 			}
 		}
 	}

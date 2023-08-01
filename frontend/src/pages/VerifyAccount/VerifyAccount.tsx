@@ -5,17 +5,21 @@ import { RootState } from '../../store';
 import { useEffect } from 'react';
 import { BackApi } from '../../api/back';
 import { getToken } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 export function VerifyAccount() {
 	const selector = useSelector((store: RootState) => store.user.user);
+	const navigate = useNavigate();
 	
 	async function sendEmail() {
 		// console.log('id', selector.id);
 		const token = getToken();
 		if (token) {
-			// console.log('HMMM');
-			await BackApi.sendEmail(token);
-			// console.log('rep', rep.data);
+			const response = await BackApi.getUserById(selector.id, token);
+			if (response.status === 200 && response.data.verified) {
+				return navigate('/search');
+			}
+			// await BackApi.sendEmail(token);
 		}
 	}
 
@@ -39,3 +43,4 @@ export function VerifyAccount() {
 		</div>
 	);
 }
+
