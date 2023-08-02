@@ -13,7 +13,13 @@
     "@types/react-dom": "^18.2.6",
     "@types/react-redux": "^7.1.25",
     "axios": "^1.4.0",
+    "crypto-browserify": "^3.12.0",
     "dotenv": "^16.3.1",
+    "dotenv-expand": "^10.0.0",
+    "lodash.debounce": "^4.0.8",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
@@ -46,5 +52,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/lodash.debounce": "^4.0.7"
   }
 }

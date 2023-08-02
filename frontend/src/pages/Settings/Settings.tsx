@@ -15,6 +15,8 @@ import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import send from '../../assets/send.svg'
 import s from './style.module.css'
+import { SuggestionCity } from '../../components/SuggestionCity/SuggestionCity';
+import { Api } from '../../api/api';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
@@ -30,6 +32,7 @@ export function Settings() {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
+	const [city, setCity] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
 	const [errPhotos, setErrPhotos] = useState<string | null>(null);
 	const [msgInput, setMsgInput] = useState<string | null>(null);
@@ -130,6 +133,14 @@ export function Settings() {
 			setInterests(user.interests);
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
+			const city = await Api.getCityByPositionGps(user.location);
+			const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr
+			setCity(cityCountry);
+			// console.log('test ok', city.data.features[0].place_name);
+			// console.log('test ok', city.data.features[0]);
+			// console.log('test ok', city.data.features[0].text_fr);
+			// console.log('test ok', city.data.features[0].language_fr);
+
 		}
 	}
 
@@ -321,6 +332,7 @@ export function Settings() {
 						</div>
 						<div className={s.location}>
 							<span className={s.title}>Location</span>
+							<SuggestionCity placeHolder={city} />
 						</div>
 					</div>
 					<div className={s.description}>

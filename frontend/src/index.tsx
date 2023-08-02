@@ -23,11 +23,8 @@ import { Logout } from './pages/Logout/Logout';
 import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
 import { Chat } from './pages/Chat/Chat';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-// console.log('TEST', process.env.TOKEN_IPINFO);
+console.log('TEST ENV', process.env.REACT_APP_MAP_TOKEN);
 
 const rootElement = document.getElementById('root');
 

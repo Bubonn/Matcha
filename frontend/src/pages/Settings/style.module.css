@@ -25,6 +25,7 @@
 	font-size: 32px;
 	font-weight: 700;
 	display: block;
+	/* background-color: #FB025D; */
 }
 
 .select {
@@ -60,6 +61,11 @@
 .location {
 	/* background-color: aqua; */
 	width: 50%;
+	display: flex;
+	flex-direction: column;
+	/* text-align: left; */
+	justify-content: start;
+	/* align-items: start; */
 }
 
 .textBox {
