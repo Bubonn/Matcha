@@ -24,8 +24,6 @@ import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
 import { Chat } from './pages/Chat/Chat';
 
-console.log('TEST ENV', process.env.REACT_APP_MAP_TOKEN);
-
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
@@ -36,7 +34,7 @@ if (rootElement) {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<Apps />} >
-						<Route path='/profile' element={<Profile />} />
+						<Route path='/profile/:id' element={<Profile />} />
 						<Route path='/likes' element={<Likes />} />
 						<Route path='/chat' element={<Chat />} />
 						<Route path='/search' element={<Search />} />

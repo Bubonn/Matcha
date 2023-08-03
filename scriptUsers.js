@@ -1,0 +1,90 @@
+const faker = require('faker');
+const mysql = require('mysql2/promise');
+const cityFr = require('./coordsCity.json');
+const maleFirstName = require('./manFirstName.json');
+const femaleFirstName = require('./womanFirstName.json');
+const path = require('path');
+const fs = require('fs');
+
+const photosManFolder = './man';
+const photosWomanFolder = './woman';
+
+const connectionConfig = {
+	host: '127.0.0.1',
+	user: 'root',
+	password: 'rootpass',
+	database: 'flirtopia',
+};
+
+const getFilesInFolder = (folderPath) => {
+	return fs.readdirSync(folderPath);
+};
+
+const getRandomPhotos = (photosList, selectedPhotos) => {
+	const availablePhotos = photosList.filter(photo => !selectedPhotos.includes(photo));
+	const shuffledPhotos = availablePhotos.sort(() => 0.5 - Math.random());
+	return shuffledPhotos.slice(0, 5);
+};
+
+function generateRandomNumbersArray() {
+	const numbersArray = [];
+
+	while (numbersArray.length < 5) {
+		const randomNumber = Math.floor(Math.random() * 19) + 1;
+		if (!numbersArray.includes(randomNumber)) {
+			numbersArray.push(randomNumber);
+		}
+	}
+	return numbersArray;
+}
+
+const insertFakeData = async () => {
+	const conn = await mysql.createConnection(connectionConfig);
+
+	try {
+		const numberOfData = 200;
+
+		for (let i = 0; i < numberOfData; i++) {
+			let selectedPhotos = [];
+			const gender = faker.random.arrayElement(['man', 'woman']);
+			const email = faker.internet.email();
+			const username = faker.internet.userName();
+			const firstName = gender === 'man' ? faker.random.arrayElement(maleFirstName) : faker.random.arrayElement(femaleFirstName);
+			const lastName = faker.name.lastName();
+			const birth = faker.date.between('1970-01-01', '2004-12-31');
+			const preference = faker.random.arrayElement(['man', 'woman', 'both']);
+			const description = faker.lorem.paragraphs(1).slice(0, 190);
+			const all_infos_set = 1;
+			const verified = 1;
+			const location = faker.random.arrayElement(cityFr);
+			const password = faker.internet.password(12, false);
+			const photosList = gender === 'man' ? getFilesInFolder(photosManFolder) : getFilesInFolder(photosWomanFolder);
+			const photos = getRandomPhotos(photosList, selectedPhotos).map((photo) => path.join(gender === 'man' ? photosManFolder : photosWomanFolder, photo));
+			selectedPhotos = selectedPhotos.concat(photos.map(photo => path.basename(photo)));
+			const photo1 = photos[0];
+			const photo2 = photos[1];
+			const photo3 = photos[2];
+			const photo4 = photos[3];
+			const photo5 = photos[4];
+
+			const sql = 'INSERT INTO user (email, username, firstName, lastName, birth, gender, preference, description, password, photo1, photo2, photo3, photo4, photo5, all_infos_set, location, verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+			const values = [email, username, firstName, lastName, birth, gender, preference, description, password, photo1, photo2, photo3, photo4, photo5, all_infos_set, location, verified];
+			const newId = await conn.query(sql, values);
+
+			const interests = generateRandomNumbersArray();
+			for (const interest of interests) {
+				const sqlInterests = 'INSERT INTO user_tag (user_id, tag_id) VALUES (?, ?)';
+				const valuesInterests = [newId[0].insertId, interest];
+				await conn.query(sqlInterests, valuesInterests);
+			}
+		}
+
+		console.log(`${numberOfData} fausses données ont été insérées dans la base de données.`);
+	} catch (error) {
+		console.error('Erreur lors de l\'insertion des données :', error);
+	} finally {
+		conn.end();
+	}
+};
+
+insertFakeData();

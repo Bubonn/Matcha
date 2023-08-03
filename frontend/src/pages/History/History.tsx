@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { PageButton } from '../../components/PageButton/PageButton';
-import s from './style.module.css'
 import { LargeCardUser } from '../../components/LargeCardUser/LargeCardUser';
 import { useDispatch } from 'react-redux';
 import { saveSection } from '../../store/user/user-slice';
+import s from './style.module.css'
 
 export function History() {
 	const [choice, setChoice] = useState<string>('Visitors');
@@ -24,6 +24,7 @@ export function History() {
 				<PageButton name={"Visited profiles"} selected={choice === "Visited profiles"} changeChoice={changeChoice}/>
 			</div>
 			<div className={s.users}>
+				{/* <LargeCardUser />
 				<LargeCardUser />
 				<LargeCardUser />
 				<LargeCardUser />
@@ -36,8 +37,7 @@ export function History() {
 				<LargeCardUser />
 				<LargeCardUser />
 				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
+				<LargeCardUser /> */}
 			</div>
 		</div>
 	);

@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.css'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface ButtonSideMenuProps {
 	section: any;
@@ -10,11 +12,16 @@ interface ButtonSideMenuProps {
 
 export function ButtonSideMenu({ section, updateSection, name, logo }: ButtonSideMenuProps) {
 
+	const selector = useSelector((store: RootState) => store.user.user);
 	const navigate = useNavigate();
 
 	function handleClick() {
 		updateSection(name)
-		navigate(name.toLocaleLowerCase());
+		if (name === 'Profile') {
+			navigate(name.toLocaleLowerCase() + '/' + selector.id);
+		} else {
+			navigate(name.toLocaleLowerCase());
+		}
 	}
 
 	return (

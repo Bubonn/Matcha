@@ -6,10 +6,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { getCookieByName, getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
-import s from './style.module.css'
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
+import s from './style.module.css'
 
 export function Apps() {
 

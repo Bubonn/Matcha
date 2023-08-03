@@ -28,7 +28,7 @@ export class Api {
 			const rep = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${coordsUser[1]},${coordsUser[0]}.json?types=place&language=fr&access_token=${MAP_TOKEN}`);
 			return rep;
 		} catch (error: any) {
-			return error.response.data.error;
+			return error;
 		}
 	}
 }

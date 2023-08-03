@@ -1,11 +1,11 @@
+import { createConnection } from './services/db';
+import { authenticateToken } from './utils/token';
 import express from 'express';
 import cors from 'cors';
 import login from './routes/login';
 import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
-import { createConnection } from './services/db';
-import { authenticateToken } from './utils/token';
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ createConnection();
 
 app.use('/login', login);
 
-app.use(authenticateToken);
+// app.use(authenticateToken);
 
 app.use('/users', users);
 app.use('/uploads', uploads);
@@ -46,3 +46,7 @@ app.listen(port, () => {
 // Apps getUserLocation(); useEffect
 // Settings checkPassword(); useEffect
 // Signup checkPassword();
+
+
+
+// SELECT id, email, username, firstName, lastName, birth, gender, preference AS pref, SUBSTRING(description, 1, 11) AS description, photo1, photo2, photo3, photo4, photo5, all_infos_set AS allocation, verified, verified_token AS token from user WHERE id = 1;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Api } from '../../api/api';
 import debounce from 'lodash.debounce';
 import s from './style.module.css'
@@ -30,21 +30,16 @@ export function SuggestionCity({ placeHolder }: { placeHolder: string }) {
 
 	async function handleSuggestionClick(city: any) {
 		setInputText(city.place_name);
-		// console.log('city', city);
 		setSuggestions([]);
 		const positionGps: string = city.center[1] + ',' + city.center[0];
 		const token = getToken();
 		if (token) {
-			const response = await BackApi.updateLocation(token, positionGps);
-			// console.log('rep', response.data.features[0].place_name);
-			// const rep = await Api.getCityByPositionGps(positionGps);
-			// console.log('rep', rep.data.features[0].place_name);
+			await BackApi.updateLocation(token, positionGps);
 		}
 	};
 
 	return (
 		<div className={s.container}>
-			{/* <label htmlFor="ville">Entrez le nom de votre ville :</label> */}
 			<input
 				className={s.input}
 				type="text"

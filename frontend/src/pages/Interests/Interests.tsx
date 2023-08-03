@@ -2,10 +2,10 @@ import { FormEvent, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { InterestSignup } from '../../components/InterestSignup/InterestSignup';
-import logo from '../../assets/signupQuestions/interest.png'
-import s from './style.module.css'
 import { getCookieByName } from '../../utils/auth';
 import { BackApi } from '../../api/back';
+import logo from '../../assets/signupQuestions/interest.png'
+import s from './style.module.css'
 
 export function Interests() {
 	const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveSection } from '../../store/user/user-slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { checkPassword, getToken } from '../../utils/auth';
+import { getToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import man from '../../assets/settings/man.svg'
@@ -64,7 +64,6 @@ export function Settings() {
 				const formData: any = new FormData();
 				formData.append('photo_profil', file);
 				formData.append('photoId', index + 1);
-
 				const token = getToken();
 				if (token) {
 					const response = await BackApi.upload(token, formData);
@@ -134,8 +133,14 @@ export function Settings() {
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
 			const city = await Api.getCityByPositionGps(user.location);
-			const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr
-			setCity(cityCountry);
+			if (city.status === 200) {
+				console.log('city', city);
+				const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr;
+				setCity(cityCountry);
+			} else {
+				setCity('Enter your city');
+			}
+			
 			// console.log('test ok', city.data.features[0].place_name);
 			// console.log('test ok', city.data.features[0]);
 			// console.log('test ok', city.data.features[0].text_fr);
@@ -264,6 +269,7 @@ export function Settings() {
 		if (selector.id !== 0) {
 			getInfoUser();
 		}
+		// eslint-disable-next-line
 	}, [selector.id])
 
 	// useEffect(() => {

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "axios": "^1.4.0",
+    "mysql2": "^3.5.2"
+  },
+  "devDependencies": {
+    "faker": "^5.5.3"
+  }
+}

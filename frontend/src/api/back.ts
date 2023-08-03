@@ -3,11 +3,17 @@ import axios from "axios";
 const BASE_URL = 'http://localhost:3000';
 
 export class BackApi {
-	static async getAllUsers() {
-		const rep = await axios.get(`${BASE_URL}/users/users`)
-			// .then(rep => rep)
-			// .catch(error => error)
+	static async getAllUsers(token : string) {
+		try {
+		const rep = await axios.get(`${BASE_URL}/users/`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 		return rep;
+	} catch (error: any) {
+		return error.response.data.error;
+	}
 	}
 
 	static async getUserById(id: number, token: string) {
