@@ -11,6 +11,8 @@ router.get('/', user_1.users);
 router.get('/suggestions', user_1.getSuggestions);
 router.get('/email', user_1.sendVerificationEmail);
 router.get('/photo/:id', user_1.photoUserById);
+router.get('/manyUsers', user_1.manyUsers);
+router.get('/tags', user_1.getTags);
 router.get('/:id', user_1.userById);
 router.post('/birthDate', acceptJsonOnly_1.default, user_1.setBirth);
 router.post('/gender', acceptJsonOnly_1.default, user_1.setGender);

@@ -1,5 +1,5 @@
 import express from 'express';
-import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions } from '../controllers/user';
+import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions, manyUsers, getTags } from '../controllers/user';
 import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
@@ -8,6 +8,8 @@ router.get('/', users);
 router.get('/suggestions', getSuggestions);
 router.get('/email', sendVerificationEmail);
 router.get('/photo/:id', photoUserById);
+router.get('/manyUsers', manyUsers);
+router.get('/tags', getTags);
 router.get('/:id', userById);
 router.post('/birthDate', acceptJsonOnly, setBirth);
 router.post('/gender', acceptJsonOnly, setGender);

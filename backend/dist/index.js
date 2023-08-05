@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("./services/db");
+const token_1 = require("./utils/token");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const login_1 = __importDefault(require("./routes/login"));
@@ -17,7 +18,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 (0, db_1.createConnection)();
 app.use('/login', login_1.default);
-// app.use(authenticateToken);
+app.use(token_1.authenticateToken);
 app.use('/users', user_1.default);
 app.use('/uploads', uploads_1.default);
 app.listen(port, () => {

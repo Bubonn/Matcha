@@ -19,7 +19,7 @@ createConnection();
 
 app.use('/login', login);
 
-// app.use(authenticateToken);
+app.use(authenticateToken);
 
 app.use('/users', users);
 app.use('/uploads', uploads);

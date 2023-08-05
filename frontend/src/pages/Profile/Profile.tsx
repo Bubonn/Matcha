@@ -25,6 +25,7 @@ export function Profile() {
 	const { id } = useParams();
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const [user, setUser] = useState<any>(null);
+	const [activeUser, setActiveUser] = useState<any>(null);
 	const [city, setCity] = useState<any>(null);
 	const [images, setImages] = useState<any>(null);
 	const dispatch = useDispatch();
@@ -47,6 +48,9 @@ export function Profile() {
 			console.log(response.data);
 			setUser(response.data);
 
+			const user = await BackApi.getUserById(selector.id, token);
+			setActiveUser(user.data);
+
 			const rep = await BackApi.getPhotoById(Number(id), token);
 			const photos = [rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5];
 			const nonNullPhotos = photos.filter((photo) => photo !== null);
@@ -56,14 +60,6 @@ export function Profile() {
 			const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr
 			setCity(cityCountry);
 		}
-	}
-
-	function getAge() {
-		const birth: any = new Date(user.birth);
-		const currentDate: any = new Date();
-		const differenceInMillisec = currentDate - birth;
-		const age = differenceInMillisec / (1000 * 60 * 60 * 24 * 365.25);
-		return Math.floor(age);
 	}
 
 	const handleKeyDown = (event: KeyboardEvent) => {
@@ -99,7 +95,7 @@ export function Profile() {
 		// eslint-disable-next-line
 	}, [selector.id])
 
-	if (selector.id === 0 || !user || !images) {
+	if (selector.id === 0 || !user || !images || !activeUser) {
 		return (<></>);
 	}
 
@@ -123,7 +119,7 @@ export function Profile() {
 				</div>
 				<div className={s.userInfo}>
 					<div className={s.name}>
-						{user.firstName}, {getAge()}
+						{user.firstName}, {user.age}
 						<img className={s.imgFlag} src={flag} alt='flag'/>
 					</div>
 					<div className={s.state}>
@@ -135,7 +131,10 @@ export function Profile() {
 					<UserRelation text={'This user has liked you'}/>
 				</div>
 				<div className={s.hobbies}>
-					<InterestProfile />
+					<InterestProfile
+						user={user}
+						activeUser={activeUser}
+					/>
 				</div>
 				<div className={s.interests}>
 					<UserDetails img={fire} info={'130'}/>

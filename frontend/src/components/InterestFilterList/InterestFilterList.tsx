@@ -26,12 +26,14 @@ export function InterestFilterList({ idx, name, interests, setInterests, search 
 				}
 			}
 		} else {
-			const updatedArray = interests.concat(idx);
-			setInterests(updatedArray);
-			if (!search) {
-				const token = getToken();
-				if (token) {
-					await BackApi.addInterest(token, idx);
+			if (interests.length !== 5) {
+				const updatedArray = interests.concat(idx);
+				setInterests(updatedArray);
+				if (!search) {
+					const token = getToken();
+					if (token) {
+						await BackApi.addInterest(token, idx);
+					}
 				}
 			}
 		}

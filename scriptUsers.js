@@ -42,7 +42,7 @@ const insertFakeData = async () => {
 	const conn = await mysql.createConnection(connectionConfig);
 
 	try {
-		const numberOfData = 200;
+		const numberOfData = 500;
 
 		for (let i = 0; i < numberOfData; i++) {
 			let selectedPhotos = [];
@@ -78,6 +78,7 @@ const insertFakeData = async () => {
 				await conn.query(sqlInterests, valuesInterests);
 			}
 		}
+
 
 		console.log(`${numberOfData} fausses données ont été insérées dans la base de données.`);
 	} catch (error) {

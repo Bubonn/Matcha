@@ -336,7 +336,6 @@ export class BackApi {
 	}
 
 	static async verifyEmail(token: string) {
-		console.log('Front Call Back', token);
 		try {
 			const rep = await axios.get(`${BASE_URL}/login/verifyToken`, {
 				params: {
@@ -346,6 +345,51 @@ export class BackApi {
 			return rep;
 		} catch (error: any) {
 			return error.response.data.error;
+		}
+	}
+
+	static async getSuggestions(token: string, maxDistance: number) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/suggestions`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				},
+				params: {
+					maxDistance: maxDistance
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async manyUsers(token: string, ids: any) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/manyUsers`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				},
+				params: {
+					ids: ids
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error;
+		}
+	}
+
+	static async getTags(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/tags`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error;
 		}
 	}
 }

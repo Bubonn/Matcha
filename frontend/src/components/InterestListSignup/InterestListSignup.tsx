@@ -14,8 +14,10 @@ export function InterestListSignup({ idx, name, interests, setInterests }: Inter
 			const updatedArray = interests.filter((index: number) => index !== idx);
 			setInterests(updatedArray);
 		} else {
-			const updatedArray = interests.concat(idx);
-			setInterests(updatedArray);
+			if (interests.length !== 5) {
+				const updatedArray = interests.concat(idx);
+				setInterests(updatedArray);
+			}
 		}
 	}
 
