@@ -17,8 +17,8 @@ export function LargeCardUser({ user }: { user: any }) {
 				<div className={s.user}>
 					<div className={s.otherInfo}>
 						<LargeCardInfo img={logoUser} alt={'user'} content={user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}/>
-						<LargeCardInfo img={fire} alt={'fire'} content='140'/>
-						<LargeCardInfo img={location} alt={'location'} content='Paris, Ile de france'/>
+						<LargeCardInfo img={fire} alt={'fire'} content={user.popularity}/>
+						{/* <LargeCardInfo img={location} alt={'location'} content='Paris, Ile de france'/> */}
 						<LargeCardInfo img={distance} alt={'distance'} content={`${user.distance} Km from you`}/>
 					</div>
 					<div className={s.name}>

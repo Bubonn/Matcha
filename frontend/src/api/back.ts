@@ -348,19 +348,23 @@ export class BackApi {
 		}
 	}
 
-	static async getSuggestions(token: string, maxDistance: number) {
+	static async getSuggestions(token: string, maxDistance: number, differencePopularity: number, ageFrom: number, ageTo: number, interests: any) {
 		try {
 			const rep = await axios.get(`${BASE_URL}/users/suggestions`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				},
 				params: {
-					maxDistance: maxDistance
+					maxDistance: maxDistance,
+					differencePopularity: differencePopularity,
+					ageFrom: ageFrom,
+					ageTo: ageTo,
+					interests: interests
 				}
 			});
 			return rep;
 		} catch (error: any) {
-			return error.response.data.error;
+			return error;
 		}
 	}
 
