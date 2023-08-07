@@ -1,0 +1,32 @@
+.ctnImg {
+	display: flex;
+	align-items: center;
+	margin-left: 20px;
+}
+
+.image {
+	width: 55px;
+	height: 55px;
+	border-radius: 50%;
+}
+
+.infoUser {
+	display: flex;
+	flex-direction: column;
+	margin-left: 20px;
+}
+
+.chatWith {
+	color: #C3C8D3;
+	font-family: Poppins;
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.firstName {
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 1;
+}

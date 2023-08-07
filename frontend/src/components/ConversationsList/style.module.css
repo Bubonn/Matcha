@@ -1,0 +1,81 @@
+.container {
+	display: flex;
+	min-height: 70px;
+	cursor: pointer;
+	
+
+
+
+	/* background: orange; */
+}
+
+.container:hover {
+	background: rgba(102, 111, 128, 0.20);
+}
+
+.ctnPhoto {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 70px;
+
+	/* background-color: aqua; */
+}
+
+.image {
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+
+.ctnInfosUser {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 5px;
+	width: 190px;
+	white-space: nowrap;
+	overflow: hidden;
+
+	/* background-color: blueviolet; */
+}
+
+.innerContent {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: white;
+}
+
+.firstName {
+	color: #FFF;
+	font-family: Poppins;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.lastMessage {
+	color: #FFF;
+	font-family: Poppins;
+	font-size: 13px;
+	font-weight: 300;
+}
+
+.ctnTime {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.hour {
+	color: #C3C8D3;
+	font-family: Poppins;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.notif {
+	height: 15px;
+	width: 15px;
+}

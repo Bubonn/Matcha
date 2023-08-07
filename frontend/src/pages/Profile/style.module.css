@@ -164,3 +164,7 @@
 	background-color: #666F80;
 	cursor: pointer;
 }
+
+.button:hover {
+	background-color: #666f807f;
+}

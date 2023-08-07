@@ -3,15 +3,12 @@ import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
 import { BackApi } from '../../api/back';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { getCookieByName } from '../../utils/auth';
 import logo from '../../assets/signupQuestions/photo.png'
 import s from './style.module.css'
-import { getCookieByName } from '../../utils/auth';
 
 export function MainPhoto() {
 	const navigate = useNavigate();
-	const selector = useSelector((store: RootState) => store.user.user);
 	const [photo, setPhoto] = useState<any>(null);
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {

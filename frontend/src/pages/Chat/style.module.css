@@ -1,3 +1,51 @@
 .container {
-	color: white;
+	margin-left: 255px;
+	margin-top: 88px;
+	height: calc(100vh - 88px);
+	display: flex;
+}
+
+.conversations {
+	width: 30vw;
+	display: flex;
+	justify-content: center;
+}
+
+
+
+.chatbox {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	display: flex;
+	height: 80px;
+	background: #282828;
+	border-radius: 20px;
+	margin-right: 5px;
+	box-shadow: rgb(0, 0, 0) 0px 20px 30px -10px;
+	z-index: 2;
+}
+
+.messages {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	/* margin-top: 10px; */
+	overflow-y: scroll;
+	z-index: 1;
+
+
+	/* background-color: rgb(67, 89, 21); */
+}
+
+.input {
+	display: flex;
+	height: 80px;
+	align-items: center;
+
+
+	/* background-color: orange; */
 }

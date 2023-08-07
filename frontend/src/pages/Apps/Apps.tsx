@@ -49,6 +49,9 @@ export function Apps() {
 				navigate('/verifyAccount');
 			} else {
 				setVerified(true);
+				if (!response.data.location) {
+					await getUserLocation();
+				}
 			}
 		} else {
 			navigate('/signin');

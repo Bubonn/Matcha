@@ -19,6 +19,7 @@ import location from '../../assets/profile/location.svg'
 import locationFrom from '../../assets/profile/locationFrom.svg'
 import logoUser from '../../assets/profile/user.svg'
 import like from '../../assets/profile/like.svg'
+import dislike from '../../assets/profile/dislike.svg'
 import s from './style.module.css'
 
 export function Profile() {
@@ -28,6 +29,7 @@ export function Profile() {
 	const [activeUser, setActiveUser] = useState<any>(null);
 	const [city, setCity] = useState<any>(null);
 	const [images, setImages] = useState<any>(null);
+	const [relation, setRelation] = useState<null | string>(null);
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
 
@@ -45,7 +47,6 @@ export function Profile() {
 		const token = getToken();
 		if (token) {
 			const response = await BackApi.getUserById(Number(id), token);
-			console.log(response.data);
 			setUser(response.data);
 
 			const user = await BackApi.getUserById(selector.id, token);
@@ -69,7 +70,25 @@ export function Profile() {
 			nextImage();
 		}
 	};
-	
+
+	async function handleClickLike() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.likeUser(token, id);
+			console.log(rep.data);
+		}
+		setRelation('')
+	}
+
+	async function handleClickDislike() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.dislikeUser(token, id);
+			console.log(rep.data);
+		}
+		setRelation('')
+	}
+
 	useEffect(() => {
 		if (images) {
 			const addKeyDownListener = () => {
@@ -99,14 +118,10 @@ export function Profile() {
 		return (<></>);
 	}
 
-	// console.log(user);
-	// console.log('images', images);
-
 	return (
 		<div className={s.container}>
 			<div className={s.images}>
 				<div className={s.imageContainer}>
-					{/* <img className={s.image} src={images[currentImageIndex]} alt="ProfileImage" /> */}
 					<img className={s.image} src={`data:image/jpeg;base64,${images[currentImageIndex]}`} alt='ProfileImage' />
 					<img className={s.chevronL} src={chevronL} onClick={previousImage} alt='chevronL'/>
 					<img className={s.chevronR} src={chevronR} onClick={nextImage} alt='chevronR'/>
@@ -128,7 +143,7 @@ export function Profile() {
 					</div>
 				</div>
 				<div className={s.relation}>
-					<UserRelation text={'This user has liked you'}/>
+					<UserRelation id={id} relation={relation} setRelation={setRelation}/>
 				</div>
 				<div className={s.hobbies}>
 					<InterestProfile
@@ -147,11 +162,24 @@ export function Profile() {
 					<p className={s.content}>{user.description}</p>
 				</div>
 				<div className={s.actionButton}>
-					<div className={s.button}>
-						<img src={like} alt='like'/>
-					</div>
+					{relation === 'You have matched with this user' || relation === 'You like this user' ?
+						(<div className={s.button} onClick={handleClickDislike}>
+							<img src={dislike} alt='dislike' />
+						</div>)
+						:
+						(<div className={s.button} onClick={handleClickLike}>
+							<img src={like} alt='like' />
+						</div>)
+					}
 				</div>
 			</div>
 		</div>
 	);
 }
+
+
+// SELECT COUNT(*) AS mutual_likes_count
+// FROM likes AS l1
+// JOIN likes AS l2 ON l1.id_utilisateur_source = l2.id_utilisateur_cible
+//                   AND l1.id_utilisateur_cible = l2.id_utilisateur_source
+// WHERE l1.id_utilisateur_source = 1 AND l1.id_utilisateur_cible = 2;

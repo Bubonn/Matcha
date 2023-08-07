@@ -396,4 +396,47 @@ export class BackApi {
 			return error;
 		}
 	}
+
+	static async likeUser(token: string, idLiked: any) {
+		try {
+			const rep = await axios.post(`${BASE_URL}/users/likeUser`, {
+				"idLiked": idLiked
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async dislikeUser(token: string, idDisliked: any) {
+		try {
+			const rep = await axios.post(`${BASE_URL}/users/dislikeUser`, {
+				"idDisliked": idDisliked
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getRelation(token: string, userId: any) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/relation/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
 }
