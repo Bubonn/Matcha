@@ -2,11 +2,6 @@
 	display: flex;
 	min-height: 70px;
 	cursor: pointer;
-	
-
-
-
-	/* background: orange; */
 }
 
 .container:hover {
@@ -18,8 +13,6 @@
 	justify-content: center;
 	align-items: center;
 	width: 70px;
-
-	/* background-color: aqua; */
 }
 
 .image {
@@ -36,8 +29,6 @@
 	width: 190px;
 	white-space: nowrap;
 	overflow: hidden;
-
-	/* background-color: blueviolet; */
 }
 
 .innerContent {
@@ -57,8 +48,6 @@
 .lastMessage {
 	color: #FFF;
 	font-family: Poppins;
-	font-size: 13px;
-	font-weight: 300;
 }
 
 .ctnTime {

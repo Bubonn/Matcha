@@ -1,4 +1,4 @@
-import { createConnection } from './services/db';
+import { createConnection } from './services/connectionDb';
 import { authenticateToken } from './utils/token';
 import { Server, Socket } from 'socket.io'
 import express from 'express';
@@ -8,6 +8,7 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
+import { insertMessage } from './services/db';
 
 dotenv.config();
 
@@ -52,13 +53,12 @@ io.on('connection', (socket) => {
 		const recipient_id = data.recipient_id;
 		const sender_id = data.sender_id;
 		const timestamp = data.timestamp;
-		// console.log(message);
-		// console.log('userid', userId);
 		socket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
 		const userSocket = connectedSockets[recipient_id];
 		if (userSocket) {
 			userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
 		}
+		insertMessage(conversation_id, message_content, recipient_id, sender_id)
 	})
 
 	socket.on('userDisconnect', (data) => {

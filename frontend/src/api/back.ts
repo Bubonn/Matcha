@@ -478,4 +478,17 @@ export class BackApi {
 			return error.response.data.message;
 		}
 	}
+
+	static async getLastMessageById(token: string, convId: number) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/lastMessage/${convId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
 }

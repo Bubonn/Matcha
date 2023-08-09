@@ -14,7 +14,7 @@ interface MessagesChatProps {
 export function Messages({ idConv }: MessagesChatProps) {
 	const selector = useSelector((store: RootState) => store.user.user);
 	const [messages, setMessages] = useState<any>([]);
-	const [socket, setSocket] = useState<any>(null);
+	// const [socket, setSocket] = useState<any>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	async function getMessages() {
@@ -31,14 +31,11 @@ export function Messages({ idConv }: MessagesChatProps) {
 
 	useEffect(() => {
 		const sock: any = getSocket();
-		setSocket(sock)
-	}, [])
-
-	useEffect(() => {
-		if (socket) {
-			socket.on('messageFromServer', messageListener)
+		// setSocket(sock)
+		if (sock) {
+			sock.on('messageFromServer', messageListener)
 		}
-	}, [socket])
+	}, [])
 
 	useEffect(() => {
 		getMessages();
@@ -46,25 +43,14 @@ export function Messages({ idConv }: MessagesChatProps) {
 
 	useEffect(() => {
 		if (messagesEndRef.current) {
-		  messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }); // Faites défiler vers le bas
+			messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
 		}
-	  }, [messages]); // Faites défiler chaque fois que les messages sont mis à jour
+	}, [messages]);
 
 	if (!messages) {
 		return (<></>);
 	}
 
-	// return (
-	// 	<>
-	// 		{messages.map((message: any, index: number) => {
-	// 			return (
-	// 				<React.Fragment key={index}>
-	// 					<MessagesList id={selector.id} message={message} />
-	// 				</React.Fragment>
-	// 			);
-	// 		})}
-	// 	</>
-	// );
 	return (
 		<div className={s.messagesContainer}>
 			{messages.map((message: any, index: number) => (
@@ -72,7 +58,7 @@ export function Messages({ idConv }: MessagesChatProps) {
 					<MessagesList id={selector.id} message={message} />
 				</React.Fragment>
 			))}
-			<div ref={messagesEndRef} /> {/* Élément de référence pour le défilement vers le bas */}
+			<div ref={messagesEndRef} />
 		</div>
 	);
 }

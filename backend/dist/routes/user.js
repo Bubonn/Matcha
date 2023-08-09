@@ -14,6 +14,7 @@ router.get('/photo/:id', user_1.photoUserById);
 router.get('/manyUsers', user_1.manyUsers);
 router.get('/tags', user_1.getTags);
 router.get('/conversations', user_1.getConversationsByUserId);
+router.get('/lastMessage/:convId', user_1.getLastMessageById);
 router.get('/conversation/:convId', user_1.getConversationById);
 router.get('/messages/:convId', user_1.getMessagesById);
 router.get('/:id', user_1.userById);

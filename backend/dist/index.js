@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSocketByUserId = exports.getSocketIoInstance = void 0;
-const db_1 = require("./services/db");
+const connectionDb_1 = require("./services/connectionDb");
 const token_1 = require("./utils/token");
 const socket_io_1 = require("socket.io");
 const express_1 = __importDefault(require("express"));
@@ -14,13 +14,14 @@ const user_1 = __importDefault(require("./routes/user"));
 const uploads_1 = __importDefault(require("./routes/uploads"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_1 = __importDefault(require("http"));
+const db_1 = require("./services/db");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
 const server = http_1.default.createServer(app);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-(0, db_1.createConnection)();
+(0, connectionDb_1.createConnection)();
 app.use('/login', login_1.default);
 app.use(token_1.authenticateToken);
 app.use('/users', user_1.default);
@@ -46,13 +47,12 @@ io.on('connection', (socket) => {
         const recipient_id = data.recipient_id;
         const sender_id = data.sender_id;
         const timestamp = data.timestamp;
-        // console.log(message);
-        // console.log('userid', userId);
         socket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
         const userSocket = connectedSockets[recipient_id];
         if (userSocket) {
             userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
         }
+        (0, db_1.insertMessage)(conversation_id, message_content, recipient_id, sender_id);
     });
     socket.on('userDisconnect', (data) => {
         const userId = data.userId;

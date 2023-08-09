@@ -1,4 +1,4 @@
-import { getConnection } from '../services/db';
+import { getConnection } from '../services/connectionDb';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 

@@ -14,6 +14,7 @@ export function InterestListProfile({ name, common }: InterestListProps) {
 			className={s.container}
 			style={{
 				backgroundColor: common ? '#FB025D' : 'white',
+				color: common ? 'white' : 'black'
 			}}
 		>
 			#{name}

@@ -9,8 +9,6 @@ interface InterestProfileProps {
 }
 
 export function InterestProfile({ user, activeUser }: InterestProfileProps) {
-	// const myInterest = ['42', 'Gaming'];
-	// const userInterest = ['42', 'Dancing', 'Cars', 'Nature'];
 	const [tags, setTags] = useState<any>(null);
 
 	async function getTagsName() {
@@ -18,7 +16,6 @@ export function InterestProfile({ user, activeUser }: InterestProfileProps) {
 		if (token) {
 			const tags = await BackApi.getTags(token);
 			if (tags.status === 200) {
-				// console.log('tags', tags.data);
 				setTags(tags.data);
 			}
 		}
@@ -36,7 +33,6 @@ export function InterestProfile({ user, activeUser }: InterestProfileProps) {
 		<>
 			{user.interests.map((interest: number, index: number) => {
 				const foundTag = tags.find((obj: any) => obj.tag_id === interest);
-				// console.log('tagName', tagName);
 				return (
 					<React.Fragment key={index}>
 						<InterestListProfile

@@ -1,27 +1,22 @@
-import mysql from 'mysql2';
+import { getConnection } from "./connectionDb";
 
-let connection: mysql.Connection;
+export const insertMessage = async (conversation_id: number, message_content: string, recipient_id: number, sender_id: number) => {
+	try {
 
-export const createConnection = () => {
-	connection = mysql.createConnection({
-		host: '127.0.0.1',
-		user: process.env.DB_USER,
-		password: process.env.DB_PASSWORD,
-		database: process.env.DB_NAME,
-	});
-
-	connection.connect((err: any) => {
-		if (err) {
-			console.error('Erreur de connexion à la base de données :', err);
-		} else {
-			console.log('Connecté à la base de données MySQL !');
-		}
-	});
-};
-
-export const getConnection = () => {
-	if (!connection) {
-		throw new Error('La connexion à la base de données n\'a pas encore été établie.');
+		const connection = getConnection();
+		
+		const query = 'INSERT INTO privateMessages (conversation_id, sender_id, recipient_id, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())';
+		
+		const relation: any = await new Promise((resolve, reject) => {
+			connection.query(query, [conversation_id, sender_id, recipient_id, message_content], (err: any, results: any) => {
+				if (err) {
+					reject(new Error('Erreur lors de l\'exécution de la requête'));
+				} else {
+					resolve(results);
+				}
+			});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête');
 	}
-	return connection;
-};
+}

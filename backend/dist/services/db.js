@@ -1,32 +1,33 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConnection = exports.createConnection = void 0;
-const mysql2_1 = __importDefault(require("mysql2"));
-let connection;
-const createConnection = () => {
-    connection = mysql2_1.default.createConnection({
-        host: '127.0.0.1',
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-    });
-    connection.connect((err) => {
-        if (err) {
-            console.error('Erreur de connexion à la base de données :', err);
-        }
-        else {
-            console.log('Connecté à la base de données MySQL !');
-        }
-    });
-};
-exports.createConnection = createConnection;
-const getConnection = () => {
-    if (!connection) {
-        throw new Error('La connexion à la base de données n\'a pas encore été établie.');
+exports.insertMessage = void 0;
+const connectionDb_1 = require("./connectionDb");
+const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const query = 'INSERT INTO privateMessages (conversation_id, sender_id, recipient_id, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())';
+        const relation = yield new Promise((resolve, reject) => {
+            connection.query(query, [conversation_id, sender_id, recipient_id, message_content], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
     }
-    return connection;
-};
-exports.getConnection = getConnection;
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.insertMessage = insertMessage;

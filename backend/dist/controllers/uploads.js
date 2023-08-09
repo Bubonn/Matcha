@@ -33,7 +33,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePhoto = exports.setPhoto = void 0;
-const db_1 = require("../services/db");
+const connectionDb_1 = require("../services/connectionDb");
 const fs = __importStar(require("fs"));
 const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -42,7 +42,7 @@ const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const file = req.file;
     const propertyName = 'photo' + photoId;
     try {
-        const connection = (0, db_1.getConnection)();
+        const connection = (0, connectionDb_1.getConnection)();
         const getAndRemovePhoto = yield new Promise((resolve, reject) => {
             connection.query(`SELECT photo${photoId} FROM user WHERE id = ?`, id, (changePhotoErr, changePhoto) => {
                 if (changePhotoErr) {
@@ -101,7 +101,7 @@ const deletePhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const photoId = req.query.photoId;
     const propertyName = 'photo' + photoId;
     try {
-        const connection = (0, db_1.getConnection)();
+        const connection = (0, connectionDb_1.getConnection)();
         const getAndRemovePhoto = yield new Promise((resolve, reject) => {
             connection.query(`SELECT photo${photoId} FROM user WHERE id = ?`, id, (changePhotoErr, changePhoto) => {
                 if (changePhotoErr) {

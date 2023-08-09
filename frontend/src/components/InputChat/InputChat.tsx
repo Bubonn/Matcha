@@ -6,14 +6,19 @@ import { getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import { useDispatch } from 'react-redux';
+import { saveNotifMessages } from '../../store/user/user-slice';
 
 interface InputChatProps {
 	idConv: any;
+	newMsg: any;
+	setNewMsg: any;
 }
 
-export function InputChat({ idConv }: InputChatProps) {
+export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 
 	const selector = useSelector((store: RootState) => store.user.user);
+	const dispatch = useDispatch();
 	const [message, setMessage] = useState<string>('');
 	const [socket, setSocket] = useState<any>(null);
 	const [idUserMatch, setIdUserMatch] = useState<null | number>(null);
@@ -22,6 +27,10 @@ export function InputChat({ idConv }: InputChatProps) {
 	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		// console.log('message', message);
+		const existingMessages = selector.notifMessages;
+		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== idConv);
+		dispatch(saveNotifMessages(updatedMessages))
+		setNewMsg(!newMsg);
 		socket.emit('message', {conversation_id: idConv, message_content: message, recipient_id: idUserMatch, sender_id: selector.id, timestamp: new Date().toISOString()});
 		setMessage('');
 	}

@@ -8,6 +8,8 @@ import history from '../../assets/sideMenu/history.svg'
 import settings from '../../assets/sideMenu/settings.svg'
 import logout from '../../assets/sideMenu/logout.svg'
 import s from './style.module.css'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface SideMenuProps {
 	section: any;
@@ -15,6 +17,8 @@ interface SideMenuProps {
 }
 
 export function SideMenu({ section, updateSection }: SideMenuProps) {
+
+	const selector = useSelector((store: RootState) => store.user.user);
 
 	return (
 		<aside className={s.sideMenu}>
@@ -24,7 +28,7 @@ export function SideMenu({ section, updateSection }: SideMenuProps) {
 			</div>
 			<div className={s.navButtons}>
 				<ButtonSideMenu section={section} updateSection={updateSection} name='Search' logo={search}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Chat' logo={chat}/>
+				<ButtonSideMenu section={section} updateSection={updateSection} name='Chat' logo={chat} notification={selector.notifMessages.length}/>
 				<ButtonSideMenu section={section} updateSection={updateSection} name='Profile' logo={profile}/>
 				<ButtonSideMenu section={section} updateSection={updateSection} name='Likes' logo={like}/>
 				<ButtonSideMenu section={section} updateSection={updateSection} name='History' logo={history}/>
