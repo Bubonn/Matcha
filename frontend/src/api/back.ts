@@ -439,4 +439,43 @@ export class BackApi {
 			return error.response.data.message;
 		}
 	}
+
+	static async getConversationsByUserId(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/conversations`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getConversationById(token: string, convId: number) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/conversation/${convId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getMessagesById(token: string, convId: number) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/messages/${convId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
 }

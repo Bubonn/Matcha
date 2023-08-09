@@ -1,5 +1,5 @@
 import express from 'express';
-import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions, manyUsers, getTags, like, getRelation, dislike } from '../controllers/user';
+import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions, manyUsers, getTags, like, getRelation, dislike, getConversationsByUserId, getConversationById, getMessagesById } from '../controllers/user';
 import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
@@ -10,6 +10,9 @@ router.get('/email', sendVerificationEmail);
 router.get('/photo/:id', photoUserById);
 router.get('/manyUsers', manyUsers);
 router.get('/tags', getTags);
+router.get('/conversations', getConversationsByUserId);
+router.get('/conversation/:convId', getConversationById);
+router.get('/messages/:convId', getMessagesById);
 router.get('/:id', userById);
 router.get('/relation/:userId', getRelation);
 router.post('/birthDate', acceptJsonOnly, setBirth);

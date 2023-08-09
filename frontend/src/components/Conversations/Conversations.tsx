@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ConversationsList } from '../ConversationsList/ConversationsList';
 import s from './style.module.css'
+import { getToken } from '../../utils/auth';
+import { BackApi } from '../../api/back';
 
 const tmp = [
 	{
@@ -67,12 +69,16 @@ interface ConversationsProps {
 export function Conversations({ setIdConv }: ConversationsProps) {
 	const [conversations, setConversations] = useState<any>(null);
 
-	async function getInfos() {
-		setConversations(tmp);
+	async function getInfosConversations() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.getConversationsByUserId(token);
+			setConversations(rep.data);
+		}
 	}
 
 	useEffect(() => {
-		getInfos();
+		getInfosConversations();
 	}, [])
 
 

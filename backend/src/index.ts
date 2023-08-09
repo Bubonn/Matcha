@@ -1,16 +1,19 @@
 import { createConnection } from './services/db';
 import { authenticateToken } from './utils/token';
+import { Server, Socket } from 'socket.io'
 import express from 'express';
 import cors from 'cors';
 import login from './routes/login';
 import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
+import http from 'http';
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
+const server = http.createServer(app);
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +27,75 @@ app.use(authenticateToken);
 app.use('/users', users);
 app.use('/uploads', uploads);
 
-app.listen(port, () => {
+
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:3001",
+		methods: ["GET", "POST"],
+	},
+});
+
+const connectedSockets: any = {};
+
+io.on('connection', (socket) => {
+	console.log('User connected via Socket.io');
+	socket.on('userConnect', (data) => {
+		const userId = data.userId;
+		connectedSockets[userId] = socket;
+		console.log(`User ${userId} connected via Socket.io`);
+		// Traitez la connexion de l'utilisateur ici
+	});
+
+	socket.on('message', (data) => {
+		const conversation_id = data.conversation_id;
+		const message_content = data.message_content;
+		const recipient_id = data.recipient_id;
+		const sender_id = data.sender_id;
+		const timestamp = data.timestamp;
+		// console.log(message);
+		// console.log('userid', userId);
+		socket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+		const userSocket = connectedSockets[recipient_id];
+		if (userSocket) {
+			userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+		}
+	})
+
+	socket.on('userDisconnect', (data) => {
+		const userId = data.userId;
+		delete connectedSockets[userId];
+		console.log(`User ${userId} disconnected via Socket.io`);
+		// Traitez la déconnexion de l'utilisateur ici
+	});
+	socket.on('disconnect', () => {
+		console.log('A user disconnected');
+	});
+
+	// Exemple : Écoute d'un événement et émission
+	// socket.on('message', (data) => {
+	// 	console.log('Received message:', data);
+	// 	// Émettre le message à tous les clients connectés
+	// 	io.emit('message', data);
+	// });
+
+	// D'autres événements et logique associée peuvent être ajoutés ici
+});
+
+io.on('connection', (socket) => {
+	socket.on('test', (data) => {
+		console.log('TEST socket');
+	})
+})
+
+export function getSocketIoInstance(): Server | null {
+	return io;
+}
+
+export function getSocketByUserId(userId: number): Socket | undefined {
+	return connectedSockets[userId];
+}
+
+server.listen(port, () => {
 	console.log(`Serveur Express en cours d'exécution sur le port ${port}`);
 });
 

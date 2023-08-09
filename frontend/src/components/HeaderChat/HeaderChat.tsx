@@ -26,13 +26,14 @@ interface HeaderChatProps {
 export function HeaderChat({ idConv }: HeaderChatProps) {
 
 	const [user, setUser] = useState<any>(null);
-	const [infoConv, setInfoConv] = useState(null);
 	const selector = useSelector((store: RootState) => store.user.user);
 
 	async function getInfosUser() {
 		const token = getToken();
 		if (token) {
-			const id = tmp[0].user1_id === selector.id ? tmp[0].user2_id : tmp[0].user1_id;
+			const response = await BackApi.getConversationById(token, idConv);
+			const conv = response.data
+			const id = conv.user1_id === selector.id ? conv.user2_id : conv.user1_id;
 			const rep = await BackApi.getUserById(id, token);
 			if (rep.status === 200) {
 				setUser(rep.data);
@@ -42,9 +43,9 @@ export function HeaderChat({ idConv }: HeaderChatProps) {
 
 	useEffect(() => {
 		getInfosUser();
-	}, [])
+	}, [idConv])
 
-	if (!user) {
+	if (!user || !idConv) {
 		return (<></>);
 	}
 

@@ -9,7 +9,9 @@ import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
+import io from 'socket.io-client';
 import s from './style.module.css'
+import { initSocket } from '../../utils/socket';
 
 export function Apps() {
 
@@ -17,6 +19,7 @@ export function Apps() {
 	const selector = useSelector((store: RootState) => store.user.user);
 	const dispatch = useDispatch();
 	const [verified, setVerified] = useState(false);
+	// const [socket, setSocket] = useState<any>(null);
 
 	function updateSection (newSection: string){
 		dispatch(saveSection(newSection));
@@ -44,7 +47,6 @@ export function Apps() {
 			const response = await BackApi.getUserById(selector.id, token);
 			dispatch(saveAvatar(response.data.mainPhoto));
 			dispatch(saveFirstName(response.data.firstName));
-			// console.log('response.data', response.data);
 			if (!response.data.verified) {
 				navigate('/verifyAccount');
 			} else {
@@ -106,11 +108,22 @@ export function Apps() {
 		// eslint-disable-next-line
 	}, [selector.section, selector.id])
 
-	// useEffect(() => {
-	// 	if (selector.id !== 0) {
-	// 		getUserLocation();
-	// 	}
-	// }, [selector.id])
+	useEffect(() => {
+		if (selector.id) {
+			// Initialisation du socket dès que le composant est monté
+			const getSocket = initSocket();
+			// setSocket(getSocket);
+			getSocket.emit('userConnect', { userId: selector.id });
+			
+			// Éventuellement, vous pouvez gérer des écouteurs globaux ici
+
+			// Nettoyage du socket lorsque le composant est démonté
+			return () => {
+				getSocket.emit('userDisconnect', { userId: selector.id });
+				getSocket.disconnect();
+			};
+		}
+	}, [selector.id]);
 
 	if (!verified) {
 		return (

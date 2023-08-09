@@ -8,7 +8,8 @@
 .conversations {
 	width: 30vw;
 	display: flex;
-	justify-content: center;
+	justify-content: start;
+	margin-left: 15px;
 }
 
 
@@ -31,20 +32,20 @@
 
 .messages {
 	display: flex;
+	justify-content: start;
 	flex-direction: column;
 	height: 100%;
-	/* margin-top: 10px; */
 	overflow-y: scroll;
 	z-index: 1;
-
-
-	/* background-color: rgb(67, 89, 21); */
 }
 
 .input {
 	display: flex;
 	height: 80px;
 	align-items: center;
+	z-index: 2;
+	box-shadow: #121212 0px -20px 30px -10px;
+
 
 
 	/* background-color: orange; */

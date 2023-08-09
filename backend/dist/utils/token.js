@@ -41,8 +41,6 @@ const authenticateToken = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid token.' });
         }
         req.user = user; // Stocker les informations utilisateur décodées dans l'objet req
-        // console.log('TOKEN OK', req.user);
-        // console.log('AAA');
         next(); // Appeler le middleware suivant
     });
 };

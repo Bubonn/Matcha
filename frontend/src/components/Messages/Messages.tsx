@@ -1,74 +1,78 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { MessagesList } from '../MessagesList/MessagesList';
-import React from 'react';
+import { getToken } from '../../utils/auth';
+import { BackApi } from '../../api/back';
+import { getSocket } from '../../utils/socket';
+import React, { useEffect, useRef, useState } from 'react';
 import s from './style.module.css'
 
-const tmp = [
-	{
-		message_id: 2,
-		sender_id: 498,
-		recipient_id: 999,
-		message_content: 'Contenu du message sisi',
-		timestamp: '2023-08-07 14:38:18'
-	},
-	{
-		message_id: 3,
-		sender_id: 999,
-		recipient_id: 498,
-		message_content: 'Contenu du second message',
-		timestamp: '2023-08-07 14:38:44'
-	},
-	{
-		message_id: 4,
-		sender_id: 999,
-		recipient_id: 498,
-		message_content: 'Consequuntur modi quae aut veritatis dicta et vel et. Quia sed et aut quibusdam deleniti aut. Doloremque quae necessitatibus maiores inventore maxime magni enim. Deleniti porro et et et magn',
-		timestamp: '2023-08-07 14:38:44'
-	},
-	{
-		message_id: 5,
-		sender_id: 498,
-		recipient_id: 999,
-		message_content: 'Consequuntur modi quae aut veritatis dicta et vel et. Quia sed et aut quibusdam deleniti aut. Doloremque quae necessitatibus maiores inventore maxime magni enim. Deleniti porro et et et magn',
-		timestamp: '2023-08-07 14:38:44'
-	},
-	{
-		message_id: 6,
-		sender_id: 498,
-		recipient_id: 999,
-		message_content: 'Consequuntur modi quae aut veritatis dicta et vel et. Quia sed et aut quibusdam deleniti aut. Doloremque quae necessitatibus maiores inventore maxime magni enim. Deleniti porro et et et magn',
-		timestamp: '2023-08-07 14:38:44'
-	},
-	{
-		message_id: 7,
-		sender_id: 498,
-		recipient_id: 999,
-		message_content: 'Consequuntur modi quae aut veritatis dicta et vel et. Quia sed et aut quibusdam deleniti aut. Doloremque quae necessitatibus maiores inventore maxime magni enim. Deleniti porro et et et magn',
-		timestamp: '2023-08-07 14:38:44'
-	},
-	{
-		message_id: 8,
-		sender_id: 498,
-		recipient_id: 999,
-		message_content: 'Consequuntur modi quae aut veritatis dicta et vel et. Quia sed et aut quibusdam deleniti aut. Doloremque quae necessitatibus maiores inventore maxime magni enim. Deleniti porro et et et magn',
-		timestamp: '2023-08-07 14:38:44'
-	},
-]
+interface MessagesChatProps {
+	idConv: any;
+}
 
-
-export function Messages() {
+export function Messages({ idConv }: MessagesChatProps) {
 	const selector = useSelector((store: RootState) => store.user.user);
+	const [messages, setMessages] = useState<any>([]);
+	const [socket, setSocket] = useState<any>(null);
+	const messagesEndRef = useRef<HTMLDivElement>(null);
 
+	async function getMessages() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.getMessagesById(token, idConv);
+			setMessages(rep.data)
+		}
+	}
+
+	const messageListener = (message: any) => {
+		setMessages((prevMessages: any[]) => [...prevMessages, message]);
+	}
+
+	useEffect(() => {
+		const sock: any = getSocket();
+		setSocket(sock)
+	}, [])
+
+	useEffect(() => {
+		if (socket) {
+			socket.on('messageFromServer', messageListener)
+		}
+	}, [socket])
+
+	useEffect(() => {
+		getMessages();
+	}, [idConv])
+
+	useEffect(() => {
+		if (messagesEndRef.current) {
+		  messagesEndRef.current.scrollIntoView({ behavior: 'smooth' }); // Faites défiler vers le bas
+		}
+	  }, [messages]); // Faites défiler chaque fois que les messages sont mis à jour
+
+	if (!messages) {
+		return (<></>);
+	}
+
+	// return (
+	// 	<>
+	// 		{messages.map((message: any, index: number) => {
+	// 			return (
+	// 				<React.Fragment key={index}>
+	// 					<MessagesList id={selector.id} message={message} />
+	// 				</React.Fragment>
+	// 			);
+	// 		})}
+	// 	</>
+	// );
 	return (
-		<>
-			{tmp.map((message: any) => {
-				return (
-					<React.Fragment key={message.message_id}>
-						<MessagesList id={selector.id} message={message} />
-					</React.Fragment>
-				);
-			})}
-		</>
+		<div className={s.messagesContainer}>
+			{messages.map((message: any, index: number) => (
+				<React.Fragment key={index}>
+					<MessagesList id={selector.id} message={message} />
+				</React.Fragment>
+			))}
+			<div ref={messagesEndRef} /> {/* Élément de référence pour le défilement vers le bas */}
+		</div>
 	);
 }

@@ -44,9 +44,6 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 		}
 		
 		req.user = user; // Stocker les informations utilisateur décodées dans l'objet req
-		// console.log('TOKEN OK', req.user);
-		
-		// console.log('AAA');
 		next(); // Appeler le middleware suivant
 	});
 };
