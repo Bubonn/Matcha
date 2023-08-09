@@ -8,7 +8,7 @@
 .conversations {
 	width: 30vw;
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	margin-left: 15px;
 }
 
@@ -32,7 +32,7 @@
 
 .messages {
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	flex-direction: column;
 	height: 100%;
 	margin-top: 5px;
@@ -46,8 +46,4 @@
 	align-items: center;
 	z-index: 2;
 	box-shadow: #121212 0px -20px 30px -10px;
-
-
-
-	/* background-color: orange; */
 }

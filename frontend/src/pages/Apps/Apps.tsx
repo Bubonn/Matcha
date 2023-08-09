@@ -9,10 +9,8 @@ import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
-import io from 'socket.io-client';
+import { initSocket } from '../../utils/socket';
 import s from './style.module.css'
-import { getSocket, initSocket } from '../../utils/socket';
-import { Socket } from 'dgram';
 
 export function Apps() {
 
@@ -95,7 +93,7 @@ export function Apps() {
 		}
 		const token = getToken();
 		if (token) {
-		const response = await BackApi.updateLocation(token, location);
+			await BackApi.updateLocation(token, location);
 		} else {
 			navigate('/signin');
 		}
@@ -103,16 +101,11 @@ export function Apps() {
 
 	function messageReceived(message: any) {
 		if (message.sender_id === selector.id) {
-			return ;
+			return;
 		}
-		// if (selector.section === 'Chat') {
-			// console.log('Msg recu dans chat');
-		// } else {
-			const existingMessages = selector.notifMessages;
-			const updatedMessages = [...existingMessages, message];
-			dispatch(saveNotifMessages(updatedMessages))
-			// console.log('Msg PAS recu dans chat');
-		// }/
+		const existingMessages = selector.notifMessages;
+		const updatedMessages = [...existingMessages, message];
+		dispatch(saveNotifMessages(updatedMessages))
 	}
 	
 	useEffect(() => {
@@ -139,11 +132,8 @@ export function Apps() {
 	useEffect(() => {
 		if (selector.id && socket) {
 			socket.on('messageFromServer', messageReceived)
-
-			// return () => {
-			// 	socket?.off('messageFromServer')
-			// }
 		}
+		// eslint-disable-next-line
 	}, [socket, selector.section, selector.id, selector.notifMessages]);
 
 	if (!verified) {
@@ -151,11 +141,10 @@ export function Apps() {
 			<></>
 		);
 	}
-	// console.log('selector.section', selector.section);
-		
-		return (
-			<div className={s.app}>
-			<SideMenu section={selector.section} updateSection={updateSection}/>
+
+	return (
+		<div className={s.app}>
+			<SideMenu section={selector.section} updateSection={updateSection} />
 			<div className={s.content}>
 				<Header section={selector.section} />
 				<Outlet />

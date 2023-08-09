@@ -39,6 +39,7 @@ export function Messages({ idConv }: MessagesChatProps) {
 
 	useEffect(() => {
 		getMessages();
+		// eslint-disable-next-line
 	}, [idConv])
 
 	useEffect(() => {

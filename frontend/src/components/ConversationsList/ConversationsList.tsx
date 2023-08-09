@@ -66,6 +66,7 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 
 	useEffect(() => {
 		getInfosUser();
+		// eslint-disable-next-line
 	}, [])
 
 	if (!user) {

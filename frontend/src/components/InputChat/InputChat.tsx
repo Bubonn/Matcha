@@ -26,7 +26,6 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 	
 	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// console.log('message', message);
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== idConv);
 		dispatch(saveNotifMessages(updatedMessages))
@@ -42,39 +41,15 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 			const conv = response.data;
 			const idUser = conv.user1_id === selector.id ? conv.user2_id : conv.user1_id;
 			setIdUserMatch(idUser);
-			// const rep = await BackApi.getUserById(id, token);
-			// if (rep.status === 200) {
-				// setUser(rep.data);
-			// }
 		}
 	}
-
-	// const messageListener = (message: any) => {
-	// 	// if (message.channelId === idChannelSelected) {
-	// 	// 	if (message.length) {
-	// 	// 		setMessages(message);
-	// 	// 	} else {
-	// 	// 		setMessages([...messages, message]);
-	// 	// 	}
-	// 	// 	if (message.type === 'NOTIF') {
-	// 	// 		setRerender(!rerender);
-	// 	// 	}
-	// 	// }
-	// 	console.log('MSG RECU');
-	// 	console.log(message);
-	// }
 
 	useEffect(() => {
 		const sock: any = getSocket();
 		setSocket(sock)
 		getInfosConv();
-	}, [])
-
-	// useEffect(() => {
-	// 	if (socket) {
-	// 		socket.on('messageFromServer', messageListener)
-	// 	}
-	// }, [socket])
+		// eslint-disable-next-line
+	}, [idConv])
 	
 	if (!socket || !idUserMatch) {
 		return (<></>);

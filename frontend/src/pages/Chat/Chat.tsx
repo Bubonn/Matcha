@@ -15,6 +15,7 @@ export function Chat() {
 
 	useEffect(() => {
 		dispatch(saveSection('Chat'));
+		// eslint-disable-next-line
 	}, [])
 
 	return (

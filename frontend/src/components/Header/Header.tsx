@@ -1,8 +1,5 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { useEffect } from 'react'
-import { getSocket } from '../../utils/socket'
-import { Socket } from 'socket.io-client'
 import logo from '../../assets/notification.svg'
 import s from './style.module.css'
 
