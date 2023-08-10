@@ -30,6 +30,7 @@
 }
 
 .notification {
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,6 +49,24 @@
 .logoBell {
 	width: 30px;
 	height: 30px;
+}
+
+.numberNotif {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 25px;
+	width: 25px;
+	background-color:#FB025D;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	border-radius: 50000px;
 }
 
 .infoUser {

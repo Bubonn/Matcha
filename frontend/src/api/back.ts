@@ -397,36 +397,6 @@ export class BackApi {
 		}
 	}
 
-	static async likeUser(token: string, idLiked: any) {
-		try {
-			const rep = await axios.post(`${BASE_URL}/users/likeUser`, {
-				"idLiked": idLiked
-			}, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
-			return rep;
-		} catch (error: any) {
-			return error.response.data.message;
-		}
-	}
-
-	static async dislikeUser(token: string, idDisliked: any) {
-		try {
-			const rep = await axios.post(`${BASE_URL}/users/dislikeUser`, {
-				"idDisliked": idDisliked
-			}, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
-			return rep;
-		} catch (error: any) {
-			return error.response.data.message;
-		}
-	}
-
 	static async getRelation(token: string, userId: any) {
 		try {
 			const rep = await axios.get(`${BASE_URL}/users/relation/${userId}`, {
@@ -482,6 +452,45 @@ export class BackApi {
 	static async getLastMessageById(token: string, convId: number) {
 		try {
 			const rep = await axios.get(`${BASE_URL}/users/lastMessage/${convId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async updateNotificationsMessages(token: string, notifications: any) {
+		try {
+			const rep = await axios.post(`${BASE_URL}/users/notificationsMessages`, {notifications}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getNotificationsMessages(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/notificationsMessages`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getNotifications(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/notifications`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}

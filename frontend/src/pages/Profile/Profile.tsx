@@ -21,6 +21,7 @@ import logoUser from '../../assets/profile/user.svg'
 import like from '../../assets/profile/like.svg'
 import dislike from '../../assets/profile/dislike.svg'
 import s from './style.module.css'
+import { getSocket } from '../../utils/socket';
 
 export function Profile() {
 	const { id } = useParams();
@@ -30,6 +31,7 @@ export function Profile() {
 	const [city, setCity] = useState<any>(null);
 	const [images, setImages] = useState<any>(null);
 	const [relation, setRelation] = useState<null | string>(null);
+	const [socket, setSocket] = useState<any>(null);
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
 
@@ -72,21 +74,23 @@ export function Profile() {
 	};
 
 	async function handleClickLike() {
-		const token = getToken();
-		if (token) {
-			const rep = await BackApi.likeUser(token, id);
-			console.log(rep.data);
-		}
-		setRelation('')
+		// const token = getToken();
+		// if (token) {
+			// const rep = await BackApi.likeUser(token, id);
+			// console.log(rep.data);
+		// }
+		socket.emit('like', { sender_id: selector.id, recipient_id: Number(id) })
+		setRelation('refresh like')
 	}
 
 	async function handleClickDislike() {
-		const token = getToken();
-		if (token) {
-			const rep = await BackApi.dislikeUser(token, id);
-			console.log(rep.data);
-		}
-		setRelation('')
+		// const token = getToken();
+		// if (token) {
+			// const rep = await BackApi.dislikeUser(token, id);
+			// console.log(rep.data);
+		// }
+		socket.emit('dislike', { sender_id: selector.id, recipient_id: Number(id) })
+		setRelation('refresh dislike')
 	}
 
 	useEffect(() => {
@@ -110,9 +114,11 @@ export function Profile() {
 		if (selector.id !== 0) {
 			dispatch(saveSection('Profile'));
 			getUserInfos();
+			const sock: any = getSocket();
+			setSocket(sock)
 		}
 		// eslint-disable-next-line
-	}, [selector.id])
+	}, [selector.id, Number(id)])
 
 	if (selector.id === 0 || !user || !images || !activeUser) {
 		return (<></>);
@@ -135,7 +141,7 @@ export function Profile() {
 				<div className={s.userInfo}>
 					<div className={s.name}>
 						{user.firstName}, {user.age}
-						<img className={s.imgFlag} src={flag} alt='flag'/>
+						{selector.id !== Number(id) && <img className={s.imgFlag} src={flag} alt='flag'/>}
 					</div>
 					<div className={s.state}>
 						<div className={s.dot}></div>
@@ -155,23 +161,24 @@ export function Profile() {
 					<UserDetails img={fire} info={'130'}/>
 					<UserDetails img={logoUser} info={user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}/>
 					<UserDetails img={heart} info={user.preference.charAt(0).toUpperCase() + user.preference.slice(1)}/>
-					<UserDetails img={locationFrom} info={`${user.distance} Km from you`}/>
+					{selector.id !== Number(id) && <UserDetails img={locationFrom} info={`${user.distance} Km from you`}/>}
 				</div>
 				<div className={s.description}>
 					<p className={s.title}>About me</p>
 					<p className={s.content}>{user.description}</p>
 				</div>
-				<div className={s.actionButton}>
-					{relation === 'You have matched with this user' || relation === 'You like this user' ?
-						(<div className={s.button} onClick={handleClickDislike}>
-							<img src={dislike} alt='dislike' />
-						</div>)
-						:
-						(<div className={s.button} onClick={handleClickLike}>
-							<img src={like} alt='like' />
-						</div>)
-					}
-				</div>
+				{selector.id !== Number(id) &&
+					<div className={s.actionButton}>
+						{relation === 'You have matched with this user' || relation === 'You like this user' ?
+							(<div className={s.button} onClick={handleClickDislike}>
+								<img src={dislike} alt='dislike' />
+							</div>)
+							:
+							(<div className={s.button} onClick={handleClickLike}>
+								<img src={like} alt='like' />
+							</div>)
+						}
+					</div>}
 			</div>
 		</div>
 	);

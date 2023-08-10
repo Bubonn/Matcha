@@ -60,8 +60,12 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 		}
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== infoConv.conversation_id);
+		// console.log('updatedMessages', updatedMessages);
 		dispatch(saveNotifMessages(updatedMessages))
 		setIdConv(infoConv.conversation_id);
+		if (token) {
+			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+		}
 	}
 
 	useEffect(() => {

@@ -4,6 +4,7 @@ import s from './style.module.css'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { BackApi } from '../../api/back';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderChatProps {
 	idConv: any;
@@ -13,6 +14,7 @@ export function HeaderChat({ idConv }: HeaderChatProps) {
 
 	const [user, setUser] = useState<any>(null);
 	const selector = useSelector((store: RootState) => store.user.user);
+	const navigate = useNavigate();
 
 	async function getInfosUser() {
 		const token = getToken();
@@ -37,7 +39,7 @@ export function HeaderChat({ idConv }: HeaderChatProps) {
 	}
 
 	return (
-		<>
+		<div className={s.container} onClick={() => navigate(`/profile/${user.id}`)}>
 			<div className={s.ctnImg}>
 				<img className={s.image} src={`data:image/jpeg;base64,${user.mainPhoto}`} alt='userAvatar' />
 			</div>
@@ -45,6 +47,6 @@ export function HeaderChat({ idConv }: HeaderChatProps) {
 				<span className={s.chatWith}>Chat with</span>
 				<span className={s.firstName}>{user.firstName}</span>
 			</div>
-		</>
+		</div>
 	);
 }

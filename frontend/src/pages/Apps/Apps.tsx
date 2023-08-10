@@ -7,7 +7,7 @@ import { RootState } from '../../store';
 import { getCookieByName, getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
-import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveSection } from '../../store/user/user-slice';
+import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveNotifications, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
 import { initSocket } from '../../utils/socket';
 import s from './style.module.css'
@@ -99,13 +99,28 @@ export function Apps() {
 		}
 	}
 
-	function messageReceived(message: any) {
+	async function messageReceived(message: any) {
 		if (message.sender_id === selector.id) {
 			return;
 		}
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = [...existingMessages, message];
+		console.log('updatedMessages', updatedMessages);
 		dispatch(saveNotifMessages(updatedMessages))
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+		}
+	}
+
+	async function getNotifications() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.getNotificationsMessages(token);
+			dispatch(saveNotifMessages(rep.data))
+			const response = await BackApi.getNotifications(token);
+			dispatch(saveNotifications(response.data))
+		}
 	}
 	
 	useEffect(() => {
@@ -115,6 +130,13 @@ export function Apps() {
 		}
 		// eslint-disable-next-line
 	}, [selector.section, selector.id])
+
+	useEffect(() => {
+		if (selector.id !== 0) {
+			getNotifications();
+		}
+		// eslint-disable-next-line
+	}, [selector.id])
 	
 	useEffect(() => {
 		if (selector.id) {
@@ -134,7 +156,8 @@ export function Apps() {
 			socket.on('messageFromServer', messageReceived)
 		}
 		// eslint-disable-next-line
-	}, [socket, selector.section, selector.id, selector.notifMessages]);
+	}, [socket, selector.id]);
+// }, [socket, selector.section, selector.id, selector.notifMessages]);
 
 	if (!verified) {
 		return (

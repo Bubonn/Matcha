@@ -20,3 +20,70 @@ export const insertMessage = async (conversation_id: number, message_content: st
 		console.log('Erreur lors de l\'exécution de la requête');
 	}
 }
+
+export const insertLike = async (id_user_source: number, id_user_target: number) => {
+
+	try {
+		const connection = getConnection();
+
+		await new Promise<void>((resolve, reject) => {
+				const insertQuery = 'INSERT INTO likes (id_user_source, id_user_target) VALUES (?, ?)';
+				const values = [id_user_source, id_user_target];
+
+				connection.query(insertQuery, values, (error) => {
+					if (error) {
+						reject(new Error('Error occurred while liked user'));
+					} else {
+						resolve();
+					}
+				});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête');
+	}
+}
+
+export const deleteLike = async (id_user_source: number, id_user_target: number) => {
+
+	try {
+		const connection = getConnection();
+
+		await new Promise<void>((resolve, reject) => {
+				const insertQuery = 'DELETE FROM likes WHERE id_user_source = ? AND id_user_target = ?';
+				const values = [id_user_source, id_user_target];
+
+				connection.query(insertQuery, values, (error) => {
+					if (error) {
+						reject(new Error('Error occurred while dislike user'));
+					} else {
+						resolve();
+					}
+				});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête');
+	}
+}
+
+export const insertNotif = async (id_user_source: number, id_user_target: number, notification: string) => {
+
+	try {
+		const connection = getConnection();
+
+		await new Promise<void>((resolve, reject) => {
+				const insertQuery = 'INSERT INTO notifications (user_source_id, user_target_id, notification_type, timestamp)\
+				VALUES (?, ?, ?, NOW());';
+				const values = [id_user_source, id_user_target, notification];
+
+				connection.query(insertQuery, values, (error) => {
+					if (error) {
+						reject(new Error('Error occurred while dislike user'));
+					} else {
+						resolve();
+					}
+				});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête');
+	}
+}

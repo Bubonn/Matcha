@@ -1,3 +1,14 @@
+.container {
+	display: flex;
+	border-radius: 20px;
+	padding-right: 10px;
+	cursor: pointer;
+}
+
+.container:hover {
+	background: #4b4b4b;
+}
+
 .ctnImg {
 	display: flex;
 	align-items: center;

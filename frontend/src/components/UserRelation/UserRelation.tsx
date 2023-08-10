@@ -29,7 +29,7 @@ export function UserRelation({ id, relation, setRelation }: { id: any, relation:
 		getRelation();
 	}, [relation])
 
-	if (!relation) {
+	if (!relation || relation === 'refresh like' || relation === 'refresh dislike') {
 		return (<></>);
 	}
 

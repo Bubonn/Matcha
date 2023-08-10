@@ -8,7 +8,7 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
-import { insertMessage } from './services/db';
+import { deleteLike, insertLike, insertMessage, insertNotif } from './services/db';
 
 dotenv.config();
 
@@ -43,8 +43,6 @@ io.on('connection', (socket) => {
 	socket.on('userConnect', (data) => {
 		const userId = data.userId;
 		connectedSockets[userId] = socket;
-		console.log(`User ${userId} connected via Socket.io`);
-		// Traitez la connexion de l'utilisateur ici
 	});
 
 	socket.on('message', (data) => {
@@ -58,14 +56,26 @@ io.on('connection', (socket) => {
 		if (userSocket) {
 			userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
 		}
-		insertMessage(conversation_id, message_content, recipient_id, sender_id)
+		insertMessage(conversation_id, message_content, recipient_id, sender_id);
+	})
+
+	socket.on('like', (data) => {
+		const sender_id = data.sender_id;
+		const recipient_id = data.recipient_id;
+		insertLike(sender_id, recipient_id);
+		insertNotif(sender_id, recipient_id, 'like')
+	})
+
+	socket.on('dislike', (data) => {
+		const sender_id = data.sender_id;
+		const recipient_id = data.recipient_id;
+		deleteLike(sender_id, recipient_id);
+		insertNotif(sender_id, recipient_id, 'dislike')
 	})
 
 	socket.on('userDisconnect', (data) => {
 		const userId = data.userId;
 		delete connectedSockets[userId];
-		console.log(`User ${userId} disconnected via Socket.io`);
-		// Traitez la déconnexion de l'utilisateur ici
 	});
 	socket.on('disconnect', () => {
 		console.log('A user disconnected');
@@ -81,19 +91,13 @@ io.on('connection', (socket) => {
 	// D'autres événements et logique associée peuvent être ajoutés ici
 });
 
-io.on('connection', (socket) => {
-	socket.on('test', (data) => {
-		console.log('TEST socket');
-	})
-})
+// export function getSocketIoInstance(): Server | null {
+// 	return io;
+// }
 
-export function getSocketIoInstance(): Server | null {
-	return io;
-}
-
-export function getSocketByUserId(userId: number): Socket | undefined {
-	return connectedSockets[userId];
-}
+// export function getSocketByUserId(userId: number): Socket | undefined {
+// 	return connectedSockets[userId];
+// }
 
 server.listen(port, () => {
 	console.log(`Serveur Express en cours d'exécution sur le port ${port}`);
@@ -198,3 +202,46 @@ server.listen(port, () => {
 
 // Recuperer les messages d'une conversation
 // SELECT privateMessages.message_id, privateMessages.sender_id, privateMessages.recipient_id, privateMessages.message_content, privateMessages.timestamp FROM privateMessages WHERE privateMessages.conversation_id = 5 ORDER BY PrivateMessages.timestamp;
+
+
+
+// Création de la table "notificationsMessages" :
+// CREATE TABLE notificationsMessages (
+//     notification_id INT PRIMARY KEY AUTO_INCREMENT,
+//     user_id INT,
+//     conversation_id INT,
+//     message_content TEXT,
+//     FOREIGN KEY (user_id) REFERENCES user(id)
+// );
+
+// Insertion des notificationsMessages :
+// INSERT INTO notificationsMessages (user_id, conversation_id, message_content)
+// VALUES (1, 101, 'Nouveau message reçu');
+
+// Récupération des notificationsMessages :
+// SELECT * FROM notificationsMessages WHERE user_id = 1;
+
+// Suppression des notificationsMessages pour un user:
+// DELETE FROM notificationsMessages WHERE user_id = 1;
+
+
+// Cree la table des notifications
+// CREATE TABLE notifications (
+//     id INT PRIMARY KEY AUTO_INCREMENT,
+//     user_source_id INT,
+//     user_target_id INT,
+//     notification_type VARCHAR(20),
+//     is_read BOOLEAN DEFAULT FALSE,
+//     timestamp TIMESTAMP,
+//     FOREIGN KEY (user_source_id) REFERENCES user(id),
+//     FOREIGN KEY (user_target_id) REFERENCES user(id)
+// );
+
+// Inserer une notif
+// INSERT INTO notifications (user_source_id, user_target_id, notification_type, timestamp)
+// VALUES (1, 2, 'like', NOW());
+
+// Recuperer les notifs d'un user
+// SELECT * 
+// FROM notifications
+// WHERE user_target_id = 1;

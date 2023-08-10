@@ -7,6 +7,7 @@ interface UserState {
 		avatar: any;
 		section: string;
 		notifMessages: any;
+		notifications: any;
 	};
 }
 
@@ -16,7 +17,8 @@ const initialState: UserState = {
 		firstName: null,
 		avatar: null,
 		section: 'Search',
-		notifMessages: []
+		notifMessages: [],
+		notifications: []
 	},
 };
 
@@ -69,10 +71,19 @@ const userSlice = createSlice({
 				},
 			};
 		},
+		saveNotifications: (currentSlice: UserState, action: PayloadAction<any>) => {
+			return {
+				...currentSlice,
+				user: {
+					...currentSlice.user,
+					notifications: action.payload,
+				},
+			};
+		}
 	},
 });
 
-const { saveId, saveFirstName, saveAvatar, saveSection, saveNotifMessages } = userSlice.actions;
+const { saveId, saveFirstName, saveAvatar, saveSection, saveNotifMessages, saveNotifications } = userSlice.actions;
 
-export { saveId, saveFirstName, saveAvatar, saveSection, saveNotifMessages };
+export { saveId, saveFirstName, saveAvatar, saveSection, saveNotifMessages, saveNotifications };
 export default userSlice.reducer;

@@ -24,14 +24,19 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 	const [idUserMatch, setIdUserMatch] = useState<null | number>(null);
 
 	
-	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== idConv);
+		// console.log('updatedMessages', updatedMessages);
 		dispatch(saveNotifMessages(updatedMessages))
 		setNewMsg(!newMsg);
 		socket.emit('message', {conversation_id: idConv, message_content: message, recipient_id: idUserMatch, sender_id: selector.id, timestamp: new Date().toISOString()});
 		setMessage('');
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+		}
 	}
 
 	async function getInfosConv() {

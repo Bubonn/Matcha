@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertMessage = void 0;
+exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,3 +31,67 @@ const insertMessage = (conversation_id, message_content, recipient_id, sender_id
     }
 });
 exports.insertMessage = insertMessage;
+const insertLike = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'INSERT INTO likes (id_user_source, id_user_target) VALUES (?, ?)';
+            const values = [id_user_source, id_user_target];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error occurred while liked user'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.insertLike = insertLike;
+const deleteLike = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'DELETE FROM likes WHERE id_user_source = ? AND id_user_target = ?';
+            const values = [id_user_source, id_user_target];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error occurred while dislike user'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.deleteLike = deleteLike;
+const insertNotif = (id_user_source, id_user_target, notification) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'INSERT INTO notifications (user_source_id, user_target_id, notification_type, timestamp)\
+				VALUES (?, ?, ?, NOW());';
+            const values = [id_user_source, id_user_target, notification];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error occurred while dislike user'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.insertNotif = insertNotif;
