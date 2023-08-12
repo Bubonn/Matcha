@@ -500,4 +500,43 @@ export class BackApi {
 			return error.response.data.message;
 		}
 	}
+
+	static async getLikes(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/likes`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getHistory(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/history`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async setReadNotifications(token: string) {
+		try {
+			const rep = await axios.patch(`${BASE_URL}/users/readNotif`, {}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
 }

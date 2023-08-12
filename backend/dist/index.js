@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -54,14 +63,61 @@ io.on('connection', (socket) => {
     socket.on('like', (data) => {
         const sender_id = data.sender_id;
         const recipient_id = data.recipient_id;
-        (0, db_1.insertLike)(sender_id, recipient_id);
-        (0, db_1.insertNotif)(sender_id, recipient_id, 'like');
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield (0, db_1.insertLike)(sender_id, recipient_id);
+                yield (0, db_1.insertNotif)(sender_id, recipient_id, 'like');
+                const userSocket = connectedSockets[recipient_id];
+                const senderUserSocket = connectedSockets[sender_id];
+                const relation = yield (0, db_1.getRelaion)(sender_id, recipient_id);
+                if (userSocket) {
+                    const notificationType = relation.length === 2 ? 'match' : 'like';
+                    if (notificationType === 'match') {
+                        yield (0, db_1.createChannel)(sender_id, recipient_id);
+                        senderUserSocket.emit('notifFromServer', { recipient_id: sender_id, sender_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+                    }
+                    userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: notificationType, timestamp: new Date() });
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }))();
     });
     socket.on('dislike', (data) => {
         const sender_id = data.sender_id;
         const recipient_id = data.recipient_id;
-        (0, db_1.deleteLike)(sender_id, recipient_id);
-        (0, db_1.insertNotif)(sender_id, recipient_id, 'dislike');
+        const userSocket = connectedSockets[recipient_id];
+        if (userSocket) {
+            userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
+        }
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield (0, db_1.deleteChannel)(sender_id, recipient_id);
+                yield (0, db_1.deleteLike)(sender_id, recipient_id);
+                yield (0, db_1.insertNotif)(sender_id, recipient_id, 'dislike');
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }))();
+    });
+    socket.on('visited', (data) => {
+        const sender_id = data.sender_id;
+        const recipient_id = data.recipient_id;
+        const userSocket = connectedSockets[recipient_id];
+        if (userSocket) {
+            userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'visited', timestamp: new Date() });
+        }
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield (0, db_1.insertNotif)(sender_id, recipient_id, 'visited');
+                yield (0, db_1.insertHistory)(sender_id, recipient_id);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }))();
     });
     socket.on('userDisconnect', (data) => {
         const userId = data.userId;
@@ -194,3 +250,13 @@ server.listen(port, () => {
 // SELECT * 
 // FROM notifications
 // WHERE user_target_id = 1;
+// Cree la table pour l'historique
+// CREATE TABLE history(
+// 	id_user_source INT,
+// 	id_user_target INT,
+// 	PRIMARY KEY(id_user_source, id_user_target),
+// 	FOREIGN KEY(id_user_source) REFERENCES user(id),
+// 	FOREIGN KEY(id_user_target) REFERENCES user(id)
+// );
+// INSERT INTO history (id_user_source, id_user_target)
+// VALUES (1, 2);

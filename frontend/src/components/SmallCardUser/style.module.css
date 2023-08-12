@@ -6,7 +6,10 @@
 }
 
 .img {
+	height: 270px;
+	width: 250px;
 	cursor: pointer;
+	border-radius: 30px;
 }
 
 .infoUser {

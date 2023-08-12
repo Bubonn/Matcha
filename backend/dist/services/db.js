@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
+exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -82,7 +82,7 @@ const insertNotif = (id_user_source, id_user_target, notification) => __awaiter(
             const values = [id_user_source, id_user_target, notification];
             connection.query(insertQuery, values, (error) => {
                 if (error) {
-                    reject(new Error('Error occurred while dislike user'));
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
                 }
                 else {
                     resolve();
@@ -95,3 +95,126 @@ const insertNotif = (id_user_source, id_user_target, notification) => __awaiter(
     }
 });
 exports.insertNotif = insertNotif;
+const getRelaion = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const relation = yield new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM likes WHERE (id_user_source = ? AND id_user_target = ?) \
+			OR (id_user_source = ? AND id_user_target = ?)';
+            connection.query(query, [id_user_source, id_user_target, id_user_target, id_user_source], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        return relation;
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.getRelaion = getRelaion;
+const createChannel = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const channel = yield new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM conversations WHERE user1_id = ? AND user2_id = ? OR user1_id = ? and user2_id = ?';
+            connection.query(query, [id_user_source, id_user_target, id_user_target, id_user_source], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        if (channel.length === 1) {
+            return;
+        }
+        yield new Promise((resolve, reject) => {
+            const query = 'INSERT INTO Conversations (user1_id, user2_id, creation_date) VALUES (?, ?, NOW())';
+            connection.query(query, [id_user_source, id_user_target], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.createChannel = createChannel;
+const deleteChannel = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const channel = yield new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM conversations WHERE user1_id = ? AND user2_id = ? OR user1_id = ? and user2_id = ?';
+            connection.query(query, [id_user_source, id_user_target, id_user_target, id_user_source], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        if (channel.length !== 1) {
+            return;
+        }
+        const channelId = channel[0].conversation_id;
+        yield new Promise((resolve, reject) => {
+            const query = 'DELETE from privateMessages WHERE conversation_id = ?';
+            connection.query(query, [channelId], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        yield new Promise((resolve, reject) => {
+            const query = 'DELETE from conversations WHERE conversation_id = ?';
+            connection.query(query, [channelId], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.deleteChannel = deleteChannel;
+const insertHistory = (id_user_source, id_user_target) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'INSERT INTO history (id_user_source, id_user_target) VALUES (?, ?)';
+            const values = [id_user_source, id_user_target];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error occurred while insert visit'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête');
+    }
+});
+exports.insertHistory = insertHistory;

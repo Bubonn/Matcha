@@ -1,0 +1,29 @@
+.container {
+	display: flex;
+	align-items: center;
+	height: 70px;
+	cursor: pointer;
+}
+
+.container:hover {
+	background-color: #4b4b4b;
+}
+
+.imageCtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 60px;
+}
+
+.image {
+	height: 45px;
+	width: 45px;
+	border-radius: 50%;
+}
+
+.message {
+	font-family: Poppins;
+	font-weight: 700;
+	font-size: 16px;
+}

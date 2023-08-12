@@ -8,7 +8,7 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
-import { deleteLike, insertLike, insertMessage, insertNotif } from './services/db';
+import { createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif } from './services/db';
 
 dotenv.config();
 
@@ -62,16 +62,65 @@ io.on('connection', (socket) => {
 	socket.on('like', (data) => {
 		const sender_id = data.sender_id;
 		const recipient_id = data.recipient_id;
-		insertLike(sender_id, recipient_id);
-		insertNotif(sender_id, recipient_id, 'like')
+
+		(async () => {
+			try {
+				await insertLike(sender_id, recipient_id);
+				await insertNotif(sender_id, recipient_id, 'like')
+				const userSocket = connectedSockets[recipient_id];
+				const senderUserSocket = connectedSockets[sender_id];
+				const relation: any = await getRelaion(sender_id, recipient_id);
+
+				if (userSocket) {
+					const notificationType = relation.length === 2 ? 'match' : 'like';
+					if (notificationType === 'match') {
+						await createChannel(sender_id, recipient_id);
+						senderUserSocket.emit('notifFromServer', { recipient_id: sender_id, sender_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+					}
+					userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: notificationType, timestamp: new Date() });
+				}
+			
+			} catch (error) {
+				console.log(error);
+			}
+		})();
 	})
 
 	socket.on('dislike', (data) => {
 		const sender_id = data.sender_id;
 		const recipient_id = data.recipient_id;
-		deleteLike(sender_id, recipient_id);
-		insertNotif(sender_id, recipient_id, 'dislike')
+		const userSocket = connectedSockets[recipient_id];
+		if (userSocket) {
+			userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
+		}
+		(async () => {
+			try {
+				await deleteChannel(sender_id, recipient_id);
+				await deleteLike(sender_id, recipient_id);
+				await insertNotif(sender_id, recipient_id, 'dislike');
+			} catch (error) {
+				console.log(error);
+			}
+		})();
 	})
+
+	socket.on('visited', (data) => {
+		const sender_id = data.sender_id;
+		const recipient_id = data.recipient_id;
+		const userSocket = connectedSockets[recipient_id];
+		if (userSocket) {
+			userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'visited', timestamp: new Date() });
+		}
+		(async () => {
+			try {
+				await insertNotif(sender_id, recipient_id, 'visited');
+				await insertHistory(sender_id, recipient_id);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	})
+
 
 	socket.on('userDisconnect', (data) => {
 		const userId = data.userId;
@@ -245,3 +294,15 @@ server.listen(port, () => {
 // SELECT * 
 // FROM notifications
 // WHERE user_target_id = 1;
+
+// Cree la table pour l'historique
+// CREATE TABLE history(
+// 	id_user_source INT,
+// 	id_user_target INT,
+// 	PRIMARY KEY(id_user_source, id_user_target),
+// 	FOREIGN KEY(id_user_source) REFERENCES user(id),
+// 	FOREIGN KEY(id_user_target) REFERENCES user(id)
+// );
+
+// INSERT INTO history (id_user_source, id_user_target)
+// VALUES (1, 2);

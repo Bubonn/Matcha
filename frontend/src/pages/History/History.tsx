@@ -1,43 +1,45 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageButton } from '../../components/PageButton/PageButton';
 import { LargeCardUser } from '../../components/LargeCardUser/LargeCardUser';
 import { useDispatch } from 'react-redux';
 import { saveSection } from '../../store/user/user-slice';
 import s from './style.module.css'
+import { getToken } from '../../utils/auth';
+import { BackApi } from '../../api/back';
+import { SmallCardUser } from '../../components/SmallCardUser/SmallCardUser';
 
 export function History() {
-	const [choice, setChoice] = useState<string>('Visitors');
 	const dispatch = useDispatch();
+	const [history, setHistory] = useState<any>(null);
 
-	const changeChoice = (newChoice: string) => {
-		setChoice(newChoice);
+	async function getHistory() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.getHistory(token);
+			setHistory(rep.data);
+		}
 	}
 
 	useEffect(() => {
 		dispatch(saveSection('History'));
+		getHistory()
 	}, [])
+
+	if (!history) {
+		return (<></>);
+	}
 
 	return (
 		<div className={s.container}>
-			<div className={s.choice}>
-				<PageButton name={"Visitors"} selected={choice === 'Visitors'} changeChoice={changeChoice}/>
-				<PageButton name={"Visited profiles"} selected={choice === "Visited profiles"} changeChoice={changeChoice}/>
-			</div>
 			<div className={s.users}>
-				{/* <LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser />
-				<LargeCardUser /> */}
+			{history.map((userHistory: any) => {
+					return (
+					<React.Fragment key={userHistory.id_user_source}>
+						<SmallCardUser likeInfo={userHistory}/>
+					</React.Fragment>
+
+					);
+				})}
 			</div>
 		</div>
 	);

@@ -105,8 +105,7 @@ export function Apps() {
 		}
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = [...existingMessages, message];
-		console.log('updatedMessages', updatedMessages);
-		dispatch(saveNotifMessages(updatedMessages))
+		dispatch(saveNotifMessages(updatedMessages));
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
@@ -122,7 +121,7 @@ export function Apps() {
 			dispatch(saveNotifications(response.data))
 		}
 	}
-	
+
 	useEffect(() => {
 		checkToken();
 		if (selector.id !== 0) {

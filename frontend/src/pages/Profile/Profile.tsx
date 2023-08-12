@@ -10,6 +10,7 @@ import { useParams } from 'react-router';
 import { BackApi } from '../../api/back';
 import { getToken } from '../../utils/auth';
 import { Api } from '../../api/api';
+import { getSocket } from '../../utils/socket';
 import chevronL from '../../assets/chevronLeft.svg'
 import chevronR from '../../assets/chevronRight.svg'
 import fire from '../../assets/profile/fire.svg'
@@ -21,7 +22,6 @@ import logoUser from '../../assets/profile/user.svg'
 import like from '../../assets/profile/like.svg'
 import dislike from '../../assets/profile/dislike.svg'
 import s from './style.module.css'
-import { getSocket } from '../../utils/socket';
 
 export function Profile() {
 	const { id } = useParams();
@@ -49,10 +49,14 @@ export function Profile() {
 		const token = getToken();
 		if (token) {
 			const response = await BackApi.getUserById(Number(id), token);
-			setUser(response.data);
+			if (response.status === 200) {
+				setUser(response.data);
+			}
 
 			const user = await BackApi.getUserById(selector.id, token);
-			setActiveUser(user.data);
+			if (user.status === 200) {
+				setActiveUser(user.data);
+			}
 
 			const rep = await BackApi.getPhotoById(Number(id), token);
 			const photos = [rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5];
@@ -74,21 +78,11 @@ export function Profile() {
 	};
 
 	async function handleClickLike() {
-		// const token = getToken();
-		// if (token) {
-			// const rep = await BackApi.likeUser(token, id);
-			// console.log(rep.data);
-		// }
 		socket.emit('like', { sender_id: selector.id, recipient_id: Number(id) })
 		setRelation('refresh like')
 	}
 
 	async function handleClickDislike() {
-		// const token = getToken();
-		// if (token) {
-			// const rep = await BackApi.dislikeUser(token, id);
-			// console.log(rep.data);
-		// }
 		socket.emit('dislike', { sender_id: selector.id, recipient_id: Number(id) })
 		setRelation('refresh dislike')
 	}
@@ -116,6 +110,9 @@ export function Profile() {
 			getUserInfos();
 			const sock: any = getSocket();
 			setSocket(sock)
+			if (selector.id !== Number(id)) {
+				sock.emit('visited', { sender_id: selector.id, recipient_id: Number(id) })
+			}
 		}
 		// eslint-disable-next-line
 	}, [selector.id, Number(id)])
