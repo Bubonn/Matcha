@@ -8,7 +8,7 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
-import { createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif } from './services/db';
+import { createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif, userConnected, userDisonnected } from './services/db';
 
 dotenv.config();
 
@@ -39,10 +39,52 @@ const io = new Server(server, {
 const connectedSockets: any = {};
 
 io.on('connection', (socket) => {
-	console.log('User connected via Socket.io');
 	socket.on('userConnect', (data) => {
 		const userId = data.userId;
+		console.log(`User ${userId} connected via Socket.io`);
 		connectedSockets[userId] = socket;
+		(async () => {
+			try {
+				await userConnected(userId);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	});
+
+	socket.on('userDisconnect', (data) => {
+		console.log('A')
+		const userId = data.userId;
+		console.log(`User ${userId} DISconnected via Socket.io`);
+		delete connectedSockets[userId];
+		(async () => {
+			try {
+				await userDisonnected(userId);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	});
+
+	socket.on('disconnect', () => {
+		console.log('B')
+		const disconnectedUserId = Object.keys(connectedSockets).find(
+			(userId) => connectedSockets[userId] === socket
+		);
+
+		if (disconnectedUserId) {
+			console.log(`User ${disconnectedUserId} disconnected`);
+			delete connectedSockets[disconnectedUserId];
+			(async () => {
+				try {
+					await userDisonnected(Number(disconnectedUserId));
+				} catch (error) {
+					console.log(error);
+				}
+			})();
+		} else {
+			console.log('A user disconnected');
+		}
 	});
 
 	socket.on('message', (data) => {
@@ -70,13 +112,13 @@ io.on('connection', (socket) => {
 				const userSocket = connectedSockets[recipient_id];
 				const senderUserSocket = connectedSockets[sender_id];
 				const relation: any = await getRelaion(sender_id, recipient_id);
+				const notificationType = relation.length === 2 ? 'match' : 'like';
 
+				if (notificationType === 'match') {
+					await createChannel(sender_id, recipient_id);
+					senderUserSocket.emit('notifFromServer', { recipient_id: sender_id, sender_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+				}
 				if (userSocket) {
-					const notificationType = relation.length === 2 ? 'match' : 'like';
-					if (notificationType === 'match') {
-						await createChannel(sender_id, recipient_id);
-						senderUserSocket.emit('notifFromServer', { recipient_id: sender_id, sender_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
-					}
 					userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: notificationType, timestamp: new Date() });
 				}
 			
@@ -122,13 +164,7 @@ io.on('connection', (socket) => {
 	})
 
 
-	socket.on('userDisconnect', (data) => {
-		const userId = data.userId;
-		delete connectedSockets[userId];
-	});
-	socket.on('disconnect', () => {
-		console.log('A user disconnected');
-	});
+
 
 	// Exemple : Écoute d'un événement et émission
 	// socket.on('message', (data) => {
@@ -296,7 +332,18 @@ server.listen(port, () => {
 // WHERE user_target_id = 1;
 
 // Cree la table pour l'historique
-// CREATE TABLE history(
+// CREATE TABLE history (
+//     id_user_source INT,
+//     id_user_target INT,
+//     FOREIGN KEY(id_user_source) REFERENCES user(id),
+//     FOREIGN KEY(id_user_target) REFERENCES user(id)
+// );
+
+
+// INSERT INTO history (id_user_source, id_user_target)
+// VALUES (1, 2);
+
+// CREATE TABLE blockUser(
 // 	id_user_source INT,
 // 	id_user_target INT,
 // 	PRIMARY KEY(id_user_source, id_user_target),
@@ -304,5 +351,7 @@ server.listen(port, () => {
 // 	FOREIGN KEY(id_user_target) REFERENCES user(id)
 // );
 
-// INSERT INTO history (id_user_source, id_user_target)
-// VALUES (1, 2);
+
+
+
+

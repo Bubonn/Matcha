@@ -221,3 +221,51 @@ export const insertHistory = async (id_user_source: number, id_user_target: numb
 		console.log('Erreur lors de l\'exécution de la requête');
 	}
 }
+
+export const userConnected = async (idUser: number) => {
+
+	try {
+		const connection = getConnection();
+		const currentDateTime: any = new Date();
+		const localDateTime = currentDateTime.toISOString().replace('T', ' ').slice(0, 19);
+
+		await new Promise<void>((resolve, reject) => {
+				const insertQuery = 'UPDATE user SET online = ?, lastConnection = ? WHERE id = ?';
+				const values = [true, localDateTime, idUser];
+
+				connection.query(insertQuery, values, (error) => {
+					if (error) {
+						reject(new Error('Error'));
+					} else {
+						resolve();
+					}
+				});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête:', error);
+	}
+}
+
+export const userDisonnected = async (idUser: number) => {
+
+	try {
+		const connection = getConnection();
+		const currentDateTime: any = new Date();
+		const localDateTime = currentDateTime.toISOString().replace('T', ' ').slice(0, 19);
+
+		await new Promise<void>((resolve, reject) => {
+				const insertQuery = 'UPDATE user SET online = ?, lastConnection = ? WHERE id = ?';
+				const values = [false, localDateTime, idUser];
+
+				connection.query(insertQuery, values, (error) => {
+					if (error) {
+						reject(new Error('Error'));
+					} else {
+						resolve();
+					}
+				});
+		});
+	} catch (error) {
+		console.log('Erreur lors de l\'exécution de la requête:', error);
+	}
+}

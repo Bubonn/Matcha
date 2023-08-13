@@ -12,7 +12,6 @@ export function VerifyAccount() {
 	const navigate = useNavigate();
 	
 	async function sendEmail() {
-		// console.log('id', selector.id);
 		const token = getToken();
 		if (token) {
 			const response = await BackApi.getUserById(selector.id, token);

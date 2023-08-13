@@ -14,7 +14,6 @@ export function Notifications() {
 	return (
 		<>
 			{selector.notifications.map((notif: any, index: number) => {
-				console.log('test', notif.user_source_id, notif.id);
 				if (!notif.user_source_id || !notif.id) {
 					return (<React.Fragment key={index}></React.Fragment>);
 				}

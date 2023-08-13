@@ -9,7 +9,7 @@ import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveNotifications, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
-import { initSocket } from '../../utils/socket';
+import { getSocket, initSocket } from '../../utils/socket';
 import s from './style.module.css'
 
 export function Apps() {
@@ -139,13 +139,14 @@ export function Apps() {
 	
 	useEffect(() => {
 		if (selector.id) {
-			const getSocket = initSocket();
-			setSocket(getSocket);
-			getSocket.emit('userConnect', { userId: selector.id });
+			const sock: any = getSocket();
+			setSocket(sock);
+			console.log(sock);
+			sock.emit('userConnect', { userId: selector.id });
 			
 			return () => {
-				getSocket.emit('userDisconnect', { userId: selector.id });
-				getSocket.disconnect();
+				sock.emit('userDisconnect', { userId: selector.id });
+				// sock.disconnect();
 			};
 		}
 	}, [selector.id]);
@@ -156,7 +157,6 @@ export function Apps() {
 		}
 		// eslint-disable-next-line
 	}, [socket, selector.id]);
-// }, [socket, selector.section, selector.id, selector.notifMessages]);
 
 	if (!verified) {
 		return (

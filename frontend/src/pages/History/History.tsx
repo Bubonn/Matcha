@@ -3,10 +3,10 @@ import { PageButton } from '../../components/PageButton/PageButton';
 import { LargeCardUser } from '../../components/LargeCardUser/LargeCardUser';
 import { useDispatch } from 'react-redux';
 import { saveSection } from '../../store/user/user-slice';
-import s from './style.module.css'
 import { getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { SmallCardUser } from '../../components/SmallCardUser/SmallCardUser';
+import s from './style.module.css'
 
 export function History() {
 	const dispatch = useDispatch();
@@ -32,9 +32,9 @@ export function History() {
 	return (
 		<div className={s.container}>
 			<div className={s.users}>
-			{history.map((userHistory: any) => {
+			{history.map((userHistory: any, index: number) => {
 					return (
-					<React.Fragment key={userHistory.id_user_source}>
+					<React.Fragment key={index}>
 						<SmallCardUser likeInfo={userHistory}/>
 					</React.Fragment>
 

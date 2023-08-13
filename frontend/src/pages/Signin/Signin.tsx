@@ -25,16 +25,12 @@ export function Signin() {
 			createCookie("token", rep.data.token);
 			dispatch(saveId(id));
 			const response = await BackApi.getUserById(id, rep.data.token);
-			console.log('USER', response.data);
 			if (response.status === 200) {
 				if (!response.data.all_infos_set) {
-					console.log('1');
 					return navigate('/age');
 				} else if (!response.data.verified) {
-					console.log('2');
 					return navigate('/verifyAccount');
 				} else {
-					console.log('3');
 					return navigate('/search');
 				}
 			}

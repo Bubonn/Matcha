@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
+exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -218,3 +218,49 @@ const insertHistory = (id_user_source, id_user_target) => __awaiter(void 0, void
     }
 });
 exports.insertHistory = insertHistory;
+const userConnected = (idUser) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const currentDateTime = new Date();
+        const localDateTime = currentDateTime.toISOString().replace('T', ' ').slice(0, 19);
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'UPDATE user SET online = ?, lastConnection = ? WHERE id = ?';
+            const values = [true, localDateTime, idUser];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête:', error);
+    }
+});
+exports.userConnected = userConnected;
+const userDisonnected = (idUser) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const currentDateTime = new Date();
+        const localDateTime = currentDateTime.toISOString().replace('T', ' ').slice(0, 19);
+        yield new Promise((resolve, reject) => {
+            const insertQuery = 'UPDATE user SET online = ?, lastConnection = ? WHERE id = ?';
+            const values = [false, localDateTime, idUser];
+            connection.query(insertQuery, values, (error) => {
+                if (error) {
+                    reject(new Error('Error'));
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log('Erreur lors de l\'exécution de la requête:', error);
+    }
+});
+exports.userDisonnected = userDisonnected;

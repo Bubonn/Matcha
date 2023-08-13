@@ -35,7 +35,6 @@ export function Header({ section }: HeaderProps) {
 	}
 
 	function notifReceived(notif: any) {
-		console.log('notif', notif);
 		const existingNotifications = selector.notifications;
 		const updatedNotifications = [...existingNotifications, notif];
 		dispatch(saveNotifications(updatedNotifications));

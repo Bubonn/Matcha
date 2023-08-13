@@ -10,13 +10,14 @@ import { RootState } from '../../store';
 import { getToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
+import { SuggestionCity } from '../../components/SuggestionCity/SuggestionCity';
+import { Api } from '../../api/api';
 import man from '../../assets/settings/man.svg'
 import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import send from '../../assets/send.svg'
 import s from './style.module.css'
-import { SuggestionCity } from '../../components/SuggestionCity/SuggestionCity';
-import { Api } from '../../api/api';
+import { BlockedUserList } from '../../components/BlockedUserList/BlockedUserList';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
@@ -37,6 +38,7 @@ export function Settings() {
 	const [errPhotos, setErrPhotos] = useState<string | null>(null);
 	const [msgInput, setMsgInput] = useState<string | null>(null);
 	const [legalAge, setLegalAge] = useState(true);
+	const [blockList, setBlockList] = useState<any>(null);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
@@ -134,18 +136,15 @@ export function Settings() {
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
 			const city = await Api.getCityByPositionGps(user.location);
 			if (city.status === 200) {
-				console.log('city', city);
 				const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr;
 				setCity(cityCountry);
 			} else {
 				setCity('Enter your city');
 			}
-			
-			// console.log('test ok', city.data.features[0].place_name);
-			// console.log('test ok', city.data.features[0]);
-			// console.log('test ok', city.data.features[0].text_fr);
-			// console.log('test ok', city.data.features[0].language_fr);
-
+			const getBlockList = await BackApi.getBlockList(token);
+			if (getBlockList.status === 200) {
+				setBlockList(getBlockList.data);
+			}
 		}
 	}
 
@@ -276,7 +275,7 @@ export function Settings() {
 	// 	checkPassword(password, confPassword, setMsgInput);
 	// }, [password, confPassword])
 
-	if (selector.id === 0) {
+	if (selector.id === 0 || !blockList) {
 		return (<></>);
 	}
 
@@ -405,6 +404,24 @@ export function Settings() {
 					))}
 				</div>
 			</div>
+			{blockList.length > 0 &&
+				<div className={s.blockList}>
+					<span className={s.title}>Users blocked</span>
+					<div className={s.listUsersBlocked}>
+						{blockList.map((user: any) => {
+							return (
+								<div key={user.id_user_target} className={s.imagesBlock}>
+									<BlockedUserList
+										idUser={user.id_user_target}
+										blockList={blockList}
+										setBlockList={setBlockList}
+									/>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			}
 		</div>
 	);
 }

@@ -539,4 +539,45 @@ export class BackApi {
 			return error.response.data.message;
 		}
 	}
+
+	static async blockUser(token: string, idUserBlock: any) {
+		try {
+			const rep = await axios.post(`${BASE_URL}/users/blockUser`, {idUserBlock}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async getBlockList(token: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/blockList`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
+		}
+	}
+
+	static async delBlockUser(token: string, idUserBlock: number) {
+		try {
+			const response = await axios.patch(`${BASE_URL}/users/delBlockUser`, {
+				"idUserBlock": idUserBlock
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
 }

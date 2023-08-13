@@ -1,5 +1,5 @@
 import express from 'express';
-import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions, manyUsers, getTags, getRelation, getConversationsByUserId, getConversationById, getMessagesById, getLastMessageById, updateNotificationsMessages, getNotificationsMessages, getNotifications, getLikes, getHistory, setReadNotifications } from '../controllers/user';
+import { users, userById, setBirth, setGender, setPreference, setDescription, setInterest, setAllInfosSet, photoUserById, addInterest, delInterest, updateUsername, updateFirstName, updateLastName, updateEmail, updatePassword, updateLocation, sendVerificationEmail, getSuggestions, manyUsers, getTags, getRelation, getConversationsByUserId, getConversationById, getMessagesById, getLastMessageById, updateNotificationsMessages, getNotificationsMessages, getNotifications, getLikes, getHistory, setReadNotifications, blockUser, getBlockList, delBlockUser } from '../controllers/user';
 import acceptJsonOnly from '../middlewares/acceptJsonOnly';
 
 const router = express.Router();
@@ -13,6 +13,7 @@ router.get('/likes', getLikes);
 router.get('/history', getHistory);
 router.get('/tags', getTags);
 router.get('/conversations', getConversationsByUserId);
+router.get('/blockList', getBlockList);
 router.get('/notificationsMessages', getNotificationsMessages);
 router.get('/notifications', getNotifications);
 router.get('/lastMessage/:convId', getLastMessageById);
@@ -26,9 +27,11 @@ router.post('/preference', acceptJsonOnly, setPreference);
 router.post('/description', acceptJsonOnly, setDescription);
 router.post('/interest', acceptJsonOnly, setInterest);
 router.post('/notificationsMessages', acceptJsonOnly, updateNotificationsMessages);
+router.post('/blockUser', acceptJsonOnly, blockUser);
 router.patch('/readNotif', setReadNotifications);
 router.patch('/addInterest', acceptJsonOnly, addInterest);
 router.patch('/delInterest', acceptJsonOnly, delInterest);
+router.patch('/delBlockUser', acceptJsonOnly, delBlockUser);
 router.patch('/allInfosSet', acceptJsonOnly, setAllInfosSet);
 router.patch('/username', acceptJsonOnly, updateUsername);
 router.patch('/firstName', acceptJsonOnly, updateFirstName);

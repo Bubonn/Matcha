@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserRelation } from '../../components/UserRelation/UserRelation';
 import { InterestProfile } from '../../components/InterestProfile/InterestProfile';
 import { UserDetails } from '../../components/UserDetails/UserDetails';
@@ -32,8 +33,10 @@ export function Profile() {
 	const [images, setImages] = useState<any>(null);
 	const [relation, setRelation] = useState<null | string>(null);
 	const [socket, setSocket] = useState<any>(null);
+	const [flagClicked, setFlagClicked] = useState<boolean>(false);
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
+	const navigate = useNavigate();
 
 	const previousImage = () => {
 		const newIndex = (currentImageIndex + images.length - 1) % images.length;
@@ -87,6 +90,34 @@ export function Profile() {
 		setRelation('refresh dislike')
 	}
 
+	async function blockUser() {
+		const token = getToken();
+		if (token) {
+			const rep = await BackApi.blockUser(token, Number(id));
+			setFlagClicked(false);
+			navigate(`/profile/${selector.id}`);
+		}
+	}
+
+	function getFormatDate() {
+		// Format d'entrée
+		// const inputDate = "2023-08-13T15:26:22.000Z";
+
+		// Convertir la date en objet Date
+		const dateObject = new Date(user.lastConnection);
+
+		// Obtenir les composants de la date et de l'heure
+		const year = dateObject.getFullYear();
+		const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+		const day = String(dateObject.getDate()).padStart(2, "0");
+		const hours = String(dateObject.getHours()).padStart(2, "0");
+		const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+
+		// Créer le format souhaité
+		const formattedDate = `Disconnected since ${year}-${month}-${day} ${hours}:${minutes}`;
+		return formattedDate;
+	}
+
 	useEffect(() => {
 		if (images) {
 			const addKeyDownListener = () => {
@@ -137,12 +168,28 @@ export function Profile() {
 				</div>
 				<div className={s.userInfo}>
 					<div className={s.name}>
-						{user.firstName}, {user.age}
-						{selector.id !== Number(id) && <img className={s.imgFlag} src={flag} alt='flag'/>}
+						<div>
+							{user.firstName}, {user.age}
+						</div>
+						<div className={s.actions}>
+							{selector.id !== Number(id) && <img className={s.imgFlag} onClick={() => setFlagClicked(!flagClicked)} src={flag} alt='flag'/>}
+							{flagClicked && 
+								<div className={s.choiceFlag}>
+									<div className={s.report}>Fake account</div>
+									<div className={s.block} onClick={blockUser}>Block user</div>
+								</div>
+							}
+						</div>
 					</div>
 					<div className={s.state}>
-						<div className={s.dot}></div>
-						Online
+						<div
+							className={s.dot}
+							style={{
+								backgroundColor: user.online ? '#8EFF1E' : '#999999'
+							}}
+						>
+						</div>
+						{user.online ? 'Online' : getFormatDate()}
 					</div>
 				</div>
 				<div className={s.relation}>
@@ -180,10 +227,3 @@ export function Profile() {
 		</div>
 	);
 }
-
-
-// SELECT COUNT(*) AS mutual_likes_count
-// FROM likes AS l1
-// JOIN likes AS l2 ON l1.id_utilisateur_source = l2.id_utilisateur_cible
-//                   AND l1.id_utilisateur_cible = l2.id_utilisateur_source
-// WHERE l1.id_utilisateur_source = 1 AND l1.id_utilisateur_cible = 2;

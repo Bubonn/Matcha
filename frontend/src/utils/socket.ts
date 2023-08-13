@@ -10,5 +10,8 @@ export function initSocket() {
 }
 
 export function getSocket(): Socket | null {
-	return socketInstance;
+	if (!socketInstance) {
+		socketInstance = io('http://localhost:3000');
+	}
+		return socketInstance;
 }

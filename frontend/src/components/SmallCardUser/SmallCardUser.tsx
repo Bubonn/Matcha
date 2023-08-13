@@ -17,7 +17,6 @@ export function SmallCardUser({ likeInfo }: { likeInfo: any }) {
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.getUserById(likeInfo.id_user_source, token);
-			console.log(rep.data);
 			setUser(rep.data);
 		}
 	}

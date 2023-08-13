@@ -28,7 +28,6 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 		e.preventDefault();
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== idConv);
-		// console.log('updatedMessages', updatedMessages);
 		dispatch(saveNotifMessages(updatedMessages))
 		setNewMsg(!newMsg);
 		socket.emit('message', {conversation_id: idConv, message_content: message, recipient_id: idUserMatch, sender_id: selector.id, timestamp: new Date().toISOString()});

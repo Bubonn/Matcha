@@ -10,21 +10,14 @@ import { useParams } from 'react-router-dom';
 export function VerifyTokenAccount() {
 	const { token } = useParams();
 	const [message, setMessage] = useState('');
-	console.log('token', token);
-	// const selector = useSelector((store: RootState) => store.user.user);
 	
 	async function checkToken() {
-		// console.log('id', selector.id);
-		// const token = getToken();
 		if (token) {
-			// console.log('HMMM');
 			const response = await BackApi.verifyEmail(token);
 			if (response.status === 200) {
 				setMessage(response.data.message);
-				console.log('response', response.data.message);
 			} else {
 				setMessage(response);
-				console.log('response err', response);
 			}
 		}
 	}

@@ -21,7 +21,6 @@ export function SuggestionCity({ placeHolder }: { placeHolder: string }) {
 	const fetchSuggestions = debounce(async (text: string) => {
 		try {
 			const test = await Api.getSuggestionCity(text);
-			// console.log(test.data.features);
 			setSuggestions(test.data.features);
 		} catch (error) {
 			console.error('Error fetching suggestions:', error);
