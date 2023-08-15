@@ -8,6 +8,85 @@ import { BackApi } from '../../api/back';
 import { SmallCardUser } from '../../components/SmallCardUser/SmallCardUser';
 import s from './style.module.css'
 
+const tmp = [
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+	{
+		id_user_source: 1000,
+		id_user_target: 498
+	},
+]
+
 export function History() {
 	const dispatch = useDispatch();
 	const [history, setHistory] = useState<any>(null);

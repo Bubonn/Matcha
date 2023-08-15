@@ -41,7 +41,7 @@ export function UserInfo() {
 					if (user.all_infos_set && !user.verified) {
 						navigate('/verifyAccount');
 					} else if (user.all_infos_set) {
-						navigate('/search');
+						navigate('/profile');
 					} else if (user.birth === null) {
 						navigate('/age');
 					} else if (!user.gender) {

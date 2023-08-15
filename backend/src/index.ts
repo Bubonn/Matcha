@@ -53,7 +53,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('userDisconnect', (data) => {
-		console.log('A')
 		const userId = data.userId;
 		console.log(`User ${userId} DISconnected via Socket.io`);
 		delete connectedSockets[userId];
@@ -67,7 +66,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		console.log('B')
 		const disconnectedUserId = Object.keys(connectedSockets).find(
 			(userId) => connectedSockets[userId] === socket
 		);
@@ -116,10 +114,10 @@ io.on('connection', (socket) => {
 
 				if (notificationType === 'match') {
 					await createChannel(sender_id, recipient_id);
-					senderUserSocket.emit('notifFromServer', { recipient_id: sender_id, sender_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+					senderUserSocket.emit('notifFromServer', { user_target_id: sender_id, user_source_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
 				}
 				if (userSocket) {
-					userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: notificationType, timestamp: new Date() });
+					userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: notificationType, timestamp: new Date() });
 				}
 			
 			} catch (error) {
@@ -133,7 +131,7 @@ io.on('connection', (socket) => {
 		const recipient_id = data.recipient_id;
 		const userSocket = connectedSockets[recipient_id];
 		if (userSocket) {
-			userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
+			userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
 		}
 		(async () => {
 			try {
@@ -151,7 +149,7 @@ io.on('connection', (socket) => {
 		const recipient_id = data.recipient_id;
 		const userSocket = connectedSockets[recipient_id];
 		if (userSocket) {
-			userSocket.emit('notifFromServer', { recipient_id: recipient_id, sender_id: sender_id, notification_type: 'visited', timestamp: new Date() });
+			userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'visited', timestamp: new Date() });
 		}
 		(async () => {
 			try {

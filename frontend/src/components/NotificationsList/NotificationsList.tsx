@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import s from './style.module.css'
 import { getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { useNavigate } from 'react-router-dom';
+import s from './style.module.css'
 
 export function NotificationsList({notif}: {notif: any}) {
 
@@ -30,14 +30,16 @@ export function NotificationsList({notif}: {notif: any}) {
 			}
 		}
 	}
-
+	
 	useEffect(() => {
 		getUserInfo()
-	}, [])
+	}, [notif])
 
 	if (!user || !message) {
 		return (<></>);
 	}
+
+	console.log(notif);
 
 	return (
 		<div className={s.container} onClick={() => navigate(`/profile/${user.id}`)}>

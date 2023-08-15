@@ -135,13 +135,12 @@ export function Apps() {
 			getNotifications();
 		}
 		// eslint-disable-next-line
-	}, [selector.id])
+	}, [selector.id, ])
 	
 	useEffect(() => {
 		if (selector.id) {
 			const sock: any = getSocket();
 			setSocket(sock);
-			console.log(sock);
 			sock.emit('userConnect', { userId: selector.id });
 			
 			return () => {
@@ -152,11 +151,18 @@ export function Apps() {
 	}, [selector.id]);
 
 	useEffect(() => {
-		if (selector.id && socket) {
-			socket.on('messageFromServer', messageReceived)
+		// if (selector.id && socket && selector.notifMessages) {
+		if (selector.id && socket && selector.notifMessages) {
+			socket.on('messageFromServer', messageReceived);
+
+			// return () => {
+			// 	socket.off('messageFromServer');
+			// };
 		}
+
 		// eslint-disable-next-line
-	}, [socket, selector.id]);
+	}, [socket]);
+// }, [socket, selector.id, selector.notifMessages]);
 
 	if (!verified) {
 		return (

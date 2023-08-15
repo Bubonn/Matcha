@@ -32,10 +32,10 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 		}
 	}
 
-	function getHourLastMessage() {
-		const parsedDate = new Date(infoConv.last_message_timestamp);
+	function getHourLastMessage(timestamp: any) {
+		const parsedDate = new Date(timestamp);
 		const hours = parsedDate.getHours();
-		const minutes = parsedDate.getMinutes();
+		const minutes = parsedDate.getMinutes().toString().padStart(2, '0');;
 		const timeStr = `${hours}:${minutes}`;
 		return timeStr;
 	}
@@ -49,6 +49,14 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 
 		if (objetsAvecId.length > 0) {
 			return objetsAvecId[objetsAvecId.length - 1].message_content;
+		}
+	}
+
+	function lastHourNotification() {
+		const objetsAvecId = selector.notifMessages.filter((objet: any) => objet.conversation_id === infoConv.conversation_id);
+
+		if (objetsAvecId.length > 0) {
+			return objetsAvecId[objetsAvecId.length - 1].timestamp;
 		}
 	}
 
@@ -109,7 +117,8 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 				</div>
 			</div>
 			<div className={s.ctnTime}>
-				{infoConv.last_message_timestamp && <span className={s.hour}>{getHourLastMessage()}</span>}
+				{notification() && getHourLastMessage(lastHourNotification()) !== 'NaN:NaN' && <span className={s.hour}>{getHourLastMessage(lastHourNotification())}</span>}
+				{infoConv.last_message_timestamp && getHourLastMessage(lastHourNotification()) === 'NaN:NaN' && <span className={s.hour}>{getHourLastMessage(infoConv.last_message_timestamp)}</span>}
 				{notification() && <img className={s.notif} src={notif} alt='notif' />}
 			</div>
 		</div>

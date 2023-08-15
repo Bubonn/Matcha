@@ -69,6 +69,7 @@ export function Profile() {
 			const city = await Api.getCityByPositionGps(response.data.location);
 			const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr
 			setCity(cityCountry);
+			setRelation(null);
 		}
 	}
 

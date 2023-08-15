@@ -16,7 +16,7 @@ export function VerifyAccount() {
 		if (token) {
 			const response = await BackApi.getUserById(selector.id, token);
 			if (response.status === 200 && response.data.verified) {
-				return navigate('/search');
+				return navigate('/profile');
 			}
 			// await BackApi.sendEmail(token);
 		}

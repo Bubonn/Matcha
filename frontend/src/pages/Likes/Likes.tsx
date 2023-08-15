@@ -5,9 +5,9 @@ import { saveSection } from '../../store/user/user-slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import s from './style.module.css'
 import { getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
+import s from './style.module.css'
 
 export function Likes() {
 	const [likes, setLikes] = useState<any>(null);

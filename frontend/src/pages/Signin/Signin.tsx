@@ -31,7 +31,7 @@ export function Signin() {
 				} else if (!response.data.verified) {
 					return navigate('/verifyAccount');
 				} else {
-					return navigate('/search');
+					return navigate(`/profile/${response.data.id}`);
 				}
 			}
 		} else {
