@@ -17,6 +17,14 @@ export function Notifications() {
 		return (<></>);
 	}
 
+	if (notifs.length === 0) {
+		return (
+			<div className={s.container}>
+				You don't have any notifications
+			</div>
+		);
+	}
+
 	return (
 		<>
 			{notifs.map((notif: any, index: number) => {

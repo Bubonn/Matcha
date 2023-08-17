@@ -1,4 +1,5 @@
 .container {
+	height: 100%;
 	margin-left: 255px;
 	margin-top: 88px;
 	display: flex;
@@ -18,4 +19,19 @@
 	height: 100%;
 	justify-content: center;
 	align-content: flex-start;
+}
+
+.containerAnyLikes {
+	height: 90%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.text {
+	color: #666F80;
+	font-family: poppins;
+	font-size: 24px;
 }

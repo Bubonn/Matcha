@@ -169,6 +169,9 @@ export const deleteChannel = async (id_user_source: number, id_user_target: numb
 			return ;
 		}
 
+		await updatePopularityScore(id_user_source, -30);
+		await updatePopularityScore(id_user_target, -30);
+
 		const channelId = channel[0].conversation_id;
 
 		await new Promise((resolve, reject) => {
@@ -267,5 +270,75 @@ export const userDisonnected = async (idUser: number) => {
 		});
 	} catch (error) {
 		console.log('Erreur lors de l\'exécution de la requête:', error);
+	}
+}
+
+export const blockUser = async (id: any, idUserBlock: any) => {
+
+	try {
+
+		await deleteChannel(id, idUserBlock);
+		await deleteLike(id, idUserBlock);
+
+		const connection = getConnection();
+
+			const query = 'INSERT INTO blockUser (id_user_source, id_user_target)\
+			VALUES (?, ?);';
+
+			await new Promise((resolve, reject) => {
+				connection.query(query, [id, idUserBlock], (err: any, results: any) => {
+					if (err) {
+						reject(new Error('Erreur lors de l\'exécution de la requête'));
+					} else {
+						resolve(results);
+					}
+				});
+			});
+
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const updatePopularityScore = async (id:number, score: number) => {
+
+	try {
+
+		const connection = getConnection();
+
+			const query = 'SELECT * FROM user WHERE id = ?';
+
+			const user: any = await new Promise((resolve, reject) => {
+				connection.query(query, [id], (err: any, results: any) => {
+					if (err) {
+						reject(new Error('Erreur lors de l\'exécution de la requête'));
+					} else {
+						resolve(results);
+					}
+				});
+			});
+
+			let newScore = user[0].popularity + score;
+
+			if (newScore < 0) {
+				newScore = 0;
+			} else if (newScore > 1000) {
+				newScore = 1000;
+			}
+
+			const popularityQuery = 'UPDATE user SET popularity = ? WHERE id = ?';
+
+			await new Promise((resolve, reject) => {
+				connection.query(popularityQuery, [newScore, id], (err: any, results: any) => {
+					if (err) {
+						reject(new Error('Erreur lors de l\'exécution de la requête'));
+					} else {
+						resolve(results);
+					}
+				});
+			});
+
+	} catch (error) {
+		console.log(error);
 	}
 }

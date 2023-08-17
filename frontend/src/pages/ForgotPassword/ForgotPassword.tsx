@@ -13,6 +13,7 @@ export function ForgotPassword() {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const emailValue = formData.get("email");
+		console.log(emailValue);
 	}
 
 	return (

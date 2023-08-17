@@ -1,5 +1,7 @@
 export function createCookie(name: string, value: string) {
 	document.cookie = name + "=" + value + "; SameSite=None; secure; path=/";
+	// document.cookie = name + "=" + value + "; SameSite=None; path=/";
+	// document.cookie = name + "=" + value + "; path=/";
 }
 
 export function deleteCookie(name: string) {

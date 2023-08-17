@@ -34,6 +34,7 @@ export function Profile() {
 	const [relation, setRelation] = useState<null | string>(null);
 	const [socket, setSocket] = useState<any>(null);
 	const [flagClicked, setFlagClicked] = useState<boolean>(false);
+	const [isReport, setIsReport] = useState<boolean>(false);
 	const dispatch = useDispatch();
 	const selector = useSelector((store: RootState) => store.user.user);
 	const navigate = useNavigate();
@@ -48,17 +49,44 @@ export function Profile() {
 		setCurrentImageIndex(newIndex);
 	};
 
+	function preferenceRespected(myGender: any, myPreference: any, user: any) {
+		if (myGender === "man" && myPreference === "woman") {
+			return (user.gender === "woman" && (user.preference === "man" || user.preference === "both"));
+		} else if (myGender === "woman" && myPreference === "man") {
+			return (user.gender === "man" && (user.preference === "woman" || user.preference === "both"));
+		} else if (myGender === "woman" && myPreference === "both") {
+			return (user.gender === "woman" && (user.preference === "woman" || user.preference === "both")) || (user.gender === "man" && (user.preference === "woman" || user.preference === "both"));
+		} else if (myGender === "man" && myPreference === "both") {
+			return (user.gender === "woman" && (user.preference === "man" || user.preference === "both")) || (user.gender === "man" && (user.preference === "man" || user.preference === "both"));
+		} else if (myGender === "man" && myPreference === "man") {
+			return (user.gender === "man" && (user.preference === "man" || user.preference === "both"));
+		} else if (myGender === "woman" && myPreference === "woman") {
+			return (user.gender === "woman" && (user.preference === "woman" || user.preference === "both"));
+		}
+	}
+
 	async function getUserInfos() {
 		const token = getToken();
 		if (token) {
 			const response = await BackApi.getUserById(Number(id), token);
 			if (response.status === 200) {
 				setUser(response.data);
+				if (response.data.report === true) {
+					setIsReport(true);
+				}
 			}
 
 			const user = await BackApi.getUserById(selector.id, token);
 			if (user.status === 200) {
 				setActiveUser(user.data);
+			}
+
+			const respected = preferenceRespected(user.data.gender, user.data.preference, response.data);
+			const mutualBlock = await BackApi.getMutualBlock(token, Number(id));
+
+			if ((selector.id !== Number(id) && !respected) || mutualBlock.data.length > 0) {
+				setIsReport(false);
+				return navigate(`/profile/${selector.id}`)
 			}
 
 			const rep = await BackApi.getPhotoById(Number(id), token);
@@ -92,29 +120,32 @@ export function Profile() {
 	}
 
 	async function blockUser() {
+		socket.emit('blockUser', { sender_id: selector.id, recipient_id: Number(id) })
+		setFlagClicked(false);
+		setIsReport(false);
+		navigate(`/profile/${selector.id}`);
+	}
+
+	async function reportUser() {
 		const token = getToken();
 		if (token) {
-			const rep = await BackApi.blockUser(token, Number(id));
-			setFlagClicked(false);
-			navigate(`/profile/${selector.id}`);
+			const rep = await BackApi.reportUser(token, Number(id));
+			if (rep.status === 200) {
+				setIsReport(true);
+				setFlagClicked(false);
+			}
 		}
 	}
 
 	function getFormatDate() {
-		// Format d'entrée
-		// const inputDate = "2023-08-13T15:26:22.000Z";
-
-		// Convertir la date en objet Date
 		const dateObject = new Date(user.lastConnection);
 
-		// Obtenir les composants de la date et de l'heure
 		const year = dateObject.getFullYear();
 		const month = String(dateObject.getMonth() + 1).padStart(2, "0");
 		const day = String(dateObject.getDate()).padStart(2, "0");
 		const hours = String(dateObject.getHours()).padStart(2, "0");
 		const minutes = String(dateObject.getMinutes()).padStart(2, "0");
 
-		// Créer le format souhaité
 		const formattedDate = `Disconnected since ${year}-${month}-${day} ${hours}:${minutes}`;
 		return formattedDate;
 	}
@@ -176,12 +207,13 @@ export function Profile() {
 							{selector.id !== Number(id) && <img className={s.imgFlag} onClick={() => setFlagClicked(!flagClicked)} src={flag} alt='flag'/>}
 							{flagClicked && 
 								<div className={s.choiceFlag}>
-									<div className={s.report}>Fake account</div>
+									{!isReport && <div className={s.report}  onClick={reportUser}>Fake account</div>}
 									<div className={s.block} onClick={blockUser}>Block user</div>
 								</div>
 							}
 						</div>
 					</div>
+					{isReport && !user.report && <span className={s.reported}>User Reported</span>}
 					<div className={s.state}>
 						<div
 							className={s.dot}

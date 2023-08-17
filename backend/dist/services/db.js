@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
+exports.updatePopularityScore = exports.blockUser = exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -168,6 +168,8 @@ const deleteChannel = (id_user_source, id_user_target) => __awaiter(void 0, void
         if (channel.length !== 1) {
             return;
         }
+        yield (0, exports.updatePopularityScore)(id_user_source, -30);
+        yield (0, exports.updatePopularityScore)(id_user_target, -30);
         const channelId = channel[0].conversation_id;
         yield new Promise((resolve, reject) => {
             const query = 'DELETE from privateMessages WHERE conversation_id = ?';
@@ -264,3 +266,64 @@ const userDisonnected = (idUser) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.userDisonnected = userDisonnected;
+const blockUser = (id, idUserBlock) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, exports.deleteChannel)(id, idUserBlock);
+        yield (0, exports.deleteLike)(id, idUserBlock);
+        const connection = (0, connectionDb_1.getConnection)();
+        const query = 'INSERT INTO blockUser (id_user_source, id_user_target)\
+			VALUES (?, ?);';
+        yield new Promise((resolve, reject) => {
+            connection.query(query, [id, idUserBlock], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.blockUser = blockUser;
+const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const query = 'SELECT * FROM user WHERE id = ?';
+        const user = yield new Promise((resolve, reject) => {
+            connection.query(query, [id], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        let newScore = user[0].popularity + score;
+        if (newScore < 0) {
+            newScore = 0;
+        }
+        else if (newScore > 1000) {
+            newScore = 1000;
+        }
+        const popularityQuery = 'UPDATE user SET popularity = ? WHERE id = ?';
+        yield new Promise((resolve, reject) => {
+            connection.query(popularityQuery, [newScore, id], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.updatePopularityScore = updatePopularityScore;

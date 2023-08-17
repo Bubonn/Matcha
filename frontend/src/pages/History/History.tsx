@@ -8,85 +8,6 @@ import { BackApi } from '../../api/back';
 import { SmallCardUser } from '../../components/SmallCardUser/SmallCardUser';
 import s from './style.module.css'
 
-const tmp = [
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-	{
-		id_user_source: 1000,
-		id_user_target: 498
-	},
-]
-
 export function History() {
 	const dispatch = useDispatch();
 	const [history, setHistory] = useState<any>(null);
@@ -106,6 +27,16 @@ export function History() {
 
 	if (!history) {
 		return (<></>);
+	}
+
+	if (history.length === 0) {
+		return (
+			<div className={s.container}>
+				<div className={s.containerAnyHistory}>
+					<span className={s.text}>You haven't had any visitors yet</span>
+				</div>
+			</div>
+		);
 	}
 
 	return (

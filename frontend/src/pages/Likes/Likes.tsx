@@ -31,6 +31,16 @@ export function Likes() {
 		return (<></>);
 	}
 
+	if (likes.length === 0) {
+		return (
+			<div className={s.container}>
+				<div className={s.containerAnyLikes}>
+					<span className={s.text}>You haven't received any likes yet</span>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className={s.container}>
 			<div className={s.users}>

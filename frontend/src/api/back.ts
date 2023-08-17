@@ -57,7 +57,6 @@ export class BackApi {
 			return response;
 		} catch (error: any) {
 			return error.response.data.error;
-			// return 'Erreur signin';
 		}
 	}
 
@@ -322,11 +321,14 @@ export class BackApi {
 		}
 	}
 
-	static async sendEmail(token: string) {
+	static async sendEmail(token: string, email: string) {
 		try {
 			const rep = await axios.get(`${BASE_URL}/users/email`, {
 				headers: {
 					Authorization: `Bearer ${token}`
+				},
+				params: {
+					email: email
 				}
 			});
 			return rep;
@@ -540,9 +542,9 @@ export class BackApi {
 		}
 	}
 
-	static async blockUser(token: string, idUserBlock: any) {
+	static async reportUser(token: string, idUserBlock: any) {
 		try {
-			const rep = await axios.post(`${BASE_URL}/users/blockUser`, {idUserBlock}, {
+			const rep = await axios.post(`${BASE_URL}/users/reportUser`, {idUserBlock}, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -578,6 +580,19 @@ export class BackApi {
 			return response;
 		} catch (error: any) {
 			return error.response.data.error;
+		}
+	}
+
+	static async getMutualBlock(token: string, idUser: any) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/users/mutualBlock/${idUser}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.message;
 		}
 	}
 }

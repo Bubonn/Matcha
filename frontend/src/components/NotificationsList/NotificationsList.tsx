@@ -39,8 +39,6 @@ export function NotificationsList({notif}: {notif: any}) {
 		return (<></>);
 	}
 
-	console.log(notif);
-
 	return (
 		<div className={s.container} onClick={() => navigate(`/profile/${user.id}`)}>
 			<div className={s.imageCtn}>

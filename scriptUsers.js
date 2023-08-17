@@ -1,4 +1,5 @@
 const faker = require('faker');
+const argon2 = require('argon2');
 const mysql = require('mysql2/promise');
 const cityFr = require('./coordsCity.json');
 const maleFirstName = require('./manFirstName.json');
@@ -42,7 +43,7 @@ const insertFakeData = async () => {
 	const conn = await mysql.createConnection(connectionConfig);
 
 	try {
-		const numberOfData = 500;
+		const numberOfData = 5;
 
 		for (let i = 0; i < numberOfData; i++) {
 			let selectedPhotos = [];
@@ -58,6 +59,7 @@ const insertFakeData = async () => {
 			const verified = 1;
 			const location = faker.random.arrayElement(cityFr);
 			const password = faker.internet.password(12, false);
+			const hashedPassword = await argon2.hash(password);
 			const photosList = gender === 'man' ? getFilesInFolder(photosManFolder) : getFilesInFolder(photosWomanFolder);
 			const photos = getRandomPhotos(photosList, selectedPhotos).map((photo) => path.join(gender === 'man' ? photosManFolder : photosWomanFolder, photo));
 			selectedPhotos = selectedPhotos.concat(photos.map(photo => path.basename(photo)));
@@ -68,7 +70,7 @@ const insertFakeData = async () => {
 			const photo5 = photos[4];
 
 			const sql = 'INSERT INTO user (email, username, firstName, lastName, birth, gender, preference, description, password, photo1, photo2, photo3, photo4, photo5, all_infos_set, location, verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-			const values = [email, username, firstName, lastName, birth, gender, preference, description, password, photo1, photo2, photo3, photo4, photo5, all_infos_set, location, verified];
+			const values = [email, username, firstName, lastName, birth, gender, preference, description, hashedPassword, photo1, photo2, photo3, photo4, photo5, all_infos_set, location, verified];
 			const newId = await conn.query(sql, values);
 
 			const interests = generateRandomNumbersArray();

@@ -132,6 +132,11 @@
 	background-color: #656565;
 }
 
+.reported {
+	font-family: Poppins;
+	color: greenyellow;
+}
+
 .state {
 	display: flex;
 	align-items: center;

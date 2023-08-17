@@ -97,7 +97,14 @@ io.on('connection', (socket) => {
         if (userSocket) {
             userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
         }
-        (0, db_1.insertMessage)(conversation_id, message_content, recipient_id, sender_id);
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield (0, db_1.insertMessage)(conversation_id, message_content, recipient_id, sender_id);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }))();
     });
     socket.on('like', (data) => {
         const sender_id = data.sender_id;
@@ -105,17 +112,27 @@ io.on('connection', (socket) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield (0, db_1.insertLike)(sender_id, recipient_id);
-                yield (0, db_1.insertNotif)(sender_id, recipient_id, 'like');
                 const userSocket = connectedSockets[recipient_id];
                 const senderUserSocket = connectedSockets[sender_id];
                 const relation = yield (0, db_1.getRelaion)(sender_id, recipient_id);
                 const notificationType = relation.length === 2 ? 'match' : 'like';
                 if (notificationType === 'match') {
+                    yield (0, db_1.insertNotif)(sender_id, recipient_id, 'match');
+                    yield (0, db_1.insertNotif)(recipient_id, sender_id, 'match');
                     yield (0, db_1.createChannel)(sender_id, recipient_id);
-                    senderUserSocket.emit('notifFromServer', { user_target_id: sender_id, user_source_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+                    yield (0, db_1.updatePopularityScore)(recipient_id, 45);
+                    yield (0, db_1.updatePopularityScore)(sender_id, 30);
+                    if (senderUserSocket) {
+                        senderUserSocket.emit('notifFromServer', { user_target_id: sender_id, user_source_id: recipient_id, notification_type: notificationType, timestamp: new Date() });
+                    }
+                }
+                else {
+                    yield (0, db_1.insertNotif)(sender_id, recipient_id, 'like');
+                    yield (0, db_1.updatePopularityScore)(recipient_id, 15);
                 }
                 if (userSocket) {
                     userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: notificationType, timestamp: new Date() });
+                    userSocket.emit('reloadConv');
                 }
             }
             catch (error) {
@@ -127,14 +144,33 @@ io.on('connection', (socket) => {
         const sender_id = data.sender_id;
         const recipient_id = data.recipient_id;
         const userSocket = connectedSockets[recipient_id];
-        if (userSocket) {
-            userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
-        }
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield (0, db_1.deleteChannel)(sender_id, recipient_id);
                 yield (0, db_1.deleteLike)(sender_id, recipient_id);
                 yield (0, db_1.insertNotif)(sender_id, recipient_id, 'dislike');
+                yield (0, db_1.updatePopularityScore)(recipient_id, -15);
+                if (userSocket) {
+                    userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
+                    userSocket.emit('reloadConv');
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }))();
+    });
+    socket.on('blockUser', (data) => {
+        const sender_id = data.sender_id;
+        const recipient_id = data.recipient_id;
+        const userSocket = connectedSockets[recipient_id];
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                yield (0, db_1.blockUser)(sender_id, recipient_id);
+                yield (0, db_1.updatePopularityScore)(recipient_id, -50);
+                if (userSocket) {
+                    userSocket.emit('reloadConv');
+                }
             }
             catch (error) {
                 console.log(error);
@@ -152,6 +188,7 @@ io.on('connection', (socket) => {
             try {
                 yield (0, db_1.insertNotif)(sender_id, recipient_id, 'visited');
                 yield (0, db_1.insertHistory)(sender_id, recipient_id);
+                yield (0, db_1.updatePopularityScore)(recipient_id, 3);
             }
             catch (error) {
                 console.log(error);
@@ -292,6 +329,13 @@ server.listen(port, () => {
 // INSERT INTO history (id_user_source, id_user_target)
 // VALUES (1, 2);
 // CREATE TABLE blockUser(
+// 	id_user_source INT,
+// 	id_user_target INT,
+// 	PRIMARY KEY(id_user_source, id_user_target),
+// 	FOREIGN KEY(id_user_source) REFERENCES user(id),
+// 	FOREIGN KEY(id_user_target) REFERENCES user(id)
+// );
+// CREATE TABLE reportUser(
 // 	id_user_source INT,
 // 	id_user_target INT,
 // 	PRIMARY KEY(id_user_source, id_user_target),

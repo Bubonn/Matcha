@@ -116,6 +116,7 @@ export function Apps() {
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.getNotificationsMessages(token);
+			console.log(rep.data);
 			dispatch(saveNotifMessages(rep.data))
 			const response = await BackApi.getNotifications(token);
 			dispatch(saveNotifications(response.data))
