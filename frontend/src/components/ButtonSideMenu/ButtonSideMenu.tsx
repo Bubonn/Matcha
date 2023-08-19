@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import s from './style.module.css'
-import { getSocket } from '../../utils/socket';
 
 interface ButtonSideMenuProps {
 	section: any;
@@ -24,12 +23,6 @@ export function ButtonSideMenu({ section, updateSection, name, logo, notificatio
 		} else {
 			navigate(name.toLocaleLowerCase());
 		}
-		// else if (name === 'Logout') {
-		// 	const sock: any = getSocket();
-		// 	sock.emit('userDisconnect', { userId: selector.id });
-		// 	// sock.disconnect();
-		// 	navigate(name.toLocaleLowerCase());
-		// } 
 	}
 
 	return (
@@ -40,7 +33,7 @@ export function ButtonSideMenu({ section, updateSection, name, logo, notificatio
 		>
 			<div className={s.menuName}>
 				<img className={s.logo} src={logo} alt='logoMenu'/>
-				{name}
+				<span className={s.nameMenu}>{name}</span>
 			</div>
 			{notification !== undefined && notification > 0 && (<div className={s.notif}>{notification}</div>)}
 		</div>

@@ -9,15 +9,14 @@ export function InterestListProfile({ name, common }: InterestListProps) {
 
 
 	return (
-		<button
-			type='button'
+		<div
 			className={s.container}
 			style={{
 				backgroundColor: common ? '#FB025D' : 'white',
 				color: common ? 'white' : 'black'
 			}}
 		>
-			#{name}
-		</button>
+			<span>#{name}</span>
+		</div>
 	)
 }

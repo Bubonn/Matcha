@@ -75,13 +75,25 @@ html, body {
 }
 
 .input {
-	margin-top: 8vh;
-	margin-bottom: 3vh;
+	margin-top: 5vh;
+	margin-bottom: 5vh;
+}
+
+.forgot {
+	font-family: 'poppins', sans-serif;
+	font-size: 12px;
+	font-weight: 400;
+	margin-top: -10px;
+	cursor: pointer;
+}
+
+.forgot:hover {
+	text-decoration: underline;
 }
 
 .error {
-	font-family: popind;
 	color: red;
-	font-size: 20px;
+	font-family: 'poppins', sans-serif;
+	font-size: 16px;
 	font-weight: 400;
 }

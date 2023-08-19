@@ -10,6 +10,12 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	overflow-y: scroll;
+}
+
+.topMenu {
+	display: flex;
+	flex-direction: column;
 }
 
 .nameSite {
@@ -36,9 +42,25 @@
 .navButtons {
 	display: flex;
 	flex-direction: column;
-	margin-top: -30vh;
 }
 
 .endNavButtons {
 	margin-bottom: 10px;
+}
+
+@media (max-width: 1000px) {
+	.sideMenu {
+		width: 75px;
+		overflow-x: hidden;
+	}
+
+	.flirtopia {
+		visibility: hidden;
+	}
+
+	.logo {
+		margin-left: 135px;
+		width: 70px;
+		height: 70px;
+	}
 }

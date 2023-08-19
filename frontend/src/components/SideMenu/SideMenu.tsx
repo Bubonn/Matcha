@@ -22,20 +22,22 @@ export function SideMenu({ section, updateSection }: SideMenuProps) {
 
 	return (
 		<aside className={s.sideMenu}>
-			<div className={s.nameSite}>
-				<img className={s.logo} src={logo} alt='logo'/>
-				<span className={s.pink}>Flirt</span>opia
-			</div>
-			<div className={s.navButtons}>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Search' logo={search}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Chat' logo={chat} notification={selector.notifMessages.length}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Profile' logo={profile}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Likes' logo={like}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='History' logo={history}/>
+			<div className={s.topMenu}>
+				<div className={s.nameSite}>
+					<img className={s.logo} src={logo} alt='logo' />
+					<span className={s.flirtopia}><span className={s.pink}>Flirt</span>opia</span>
+				</div>
+				<div className={s.navButtons}>
+					<ButtonSideMenu section={section} updateSection={updateSection} name='Search' logo={search} />
+					<ButtonSideMenu section={section} updateSection={updateSection} name='Chat' logo={chat} notification={selector.notifMessages.length} />
+					<ButtonSideMenu section={section} updateSection={updateSection} name='Profile' logo={profile} />
+					<ButtonSideMenu section={section} updateSection={updateSection} name='Likes' logo={like} />
+					<ButtonSideMenu section={section} updateSection={updateSection} name='History' logo={history} />
+				</div>
 			</div>
 			<div className={s.endNavButtons}>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Settings' logo={settings}/>
-				<ButtonSideMenu section={section} updateSection={updateSection} name='Logout' logo={logout}/>
+				<ButtonSideMenu section={section} updateSection={updateSection} name='Settings' logo={settings} />
+				<ButtonSideMenu section={section} updateSection={updateSection} name='Logout' logo={logout} />
 			</div>
 		</aside>
 	);

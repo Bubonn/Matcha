@@ -15,7 +15,7 @@ const insertMessage = (conversation_id, message_content, recipient_id, sender_id
     try {
         const connection = (0, connectionDb_1.getConnection)();
         const query = 'INSERT INTO privateMessages (conversation_id, sender_id, recipient_id, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())';
-        const relation = yield new Promise((resolve, reject) => {
+        yield new Promise((resolve, reject) => {
             connection.query(query, [conversation_id, sender_id, recipient_id, message_content], (err, results) => {
                 if (err) {
                     reject(new Error('Erreur lors de l\'exécution de la requête'));
@@ -327,3 +327,21 @@ const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.updatePopularityScore = updatePopularityScore;
+// export const addNotifMessage = async (id: any, notif: any) => {
+// 	try {
+// 		const connection = getConnection();
+// 		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
+// 		VALUES (?, ?, ?);';
+// 			await new Promise((resolve, reject) => {
+// 				connection.query(query, [id, notif.conversation_id, notif.message_content], (err: any, results: any) => {
+// 					if (err) {
+// 						reject(new Error('Erreur lors de l\'exécution de la requête'));
+// 					} else {
+// 						resolve(results);
+// 					}
+// 				});
+// 			});
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// }

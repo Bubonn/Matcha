@@ -9,7 +9,7 @@ import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveNotifications, saveSection } from '../../store/user/user-slice';
 import { Api } from '../../api/api';
-import { getSocket, initSocket } from '../../utils/socket';
+import { getSocket } from '../../utils/socket';
 import s from './style.module.css'
 
 export function Apps() {
@@ -108,7 +108,7 @@ export function Apps() {
 		dispatch(saveNotifMessages(updatedMessages));
 		const token = getToken();
 		if (token) {
-			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+			await BackApi.updateNotificationsMessages(token, updatedMessages);
 		}
 	}
 
@@ -116,7 +116,6 @@ export function Apps() {
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.getNotificationsMessages(token);
-			console.log(rep.data);
 			dispatch(saveNotifMessages(rep.data))
 			const response = await BackApi.getNotifications(token);
 			dispatch(saveNotifications(response.data))

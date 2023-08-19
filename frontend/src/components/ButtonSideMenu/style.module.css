@@ -39,3 +39,18 @@
 .container:hover {
 	background-color: #00000089 !important;
 }
+
+@media (max-width: 1000px) {
+	.container {
+		width: 75px;
+
+	}
+
+	.nameMenu {
+		visibility: hidden;
+	}
+
+	.logo {
+		margin-left: 22px;
+	}
+}

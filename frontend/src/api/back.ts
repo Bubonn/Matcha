@@ -595,4 +595,30 @@ export class BackApi {
 			return error.response.data.message;
 		}
 	}
+
+	static async sendEmailResetPassword(email: string) {
+		try {
+			const rep = await axios.get(`${BASE_URL}/login/sendEmailResetPassword`, {
+				params: {
+					email: email
+				}
+			});
+			return rep;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
+
+	static async resetPassword(password: any, confPassword: any, token: any) {
+		try {
+			const response = await axios.post(`${BASE_URL}/login/resetPasword`, {
+				"password": password,
+				"confPassword": confPassword,
+				"token": token
+			});
+			return response;
+		} catch (error: any) {
+			return error.response.data.error;
+		}
+	}
 }

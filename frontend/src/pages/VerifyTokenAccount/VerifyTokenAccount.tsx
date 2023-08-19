@@ -1,18 +1,16 @@
 import { useSelector } from 'react-redux';
-import logo from '../../assets/verify.svg';
-import styles from './style.module.css';
 import { RootState } from '../../store';
 import { useEffect, useState } from 'react';
 import { BackApi } from '../../api/back';
-import { getToken } from '../../utils/auth';
 import { useNavigate, useParams } from 'react-router-dom';
+import logo from '../../assets/verify.svg';
+import styles from './style.module.css';
 
 export function VerifyTokenAccount() {
 	const { token } = useParams();
 	const [message, setMessage] = useState('');
 	const [verified, setVerified] = useState<boolean>(false);
 	const navigate = useNavigate();
-	const selector = useSelector((store: RootState) => store.user.user);
 	
 	async function checkToken() {
 		if (token) {

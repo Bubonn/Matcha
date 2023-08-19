@@ -1,28 +1,30 @@
-import { Signup } from './pages/Signup/Signup'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Signin } from './pages/Signin/Signin';
-import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { Age } from './pages/Age/Age';
-import { Gender } from './pages/Gender/Gender';
-import { Preference } from './pages/Preference/Preference';
-import { Description } from './pages/Description/Description';
-import { Interests } from './pages/Interests/Interests';
-import { MainPhoto } from './pages/MainPhoto/MainPhoto';
-import { AdditionalsPhotos } from './pages/AdditionalsPhotos/AdditionalsPhotos';
+import { Provider } from 'react-redux';
+import { Chat } from './pages/Chat/Chat';
 import { Apps } from './pages/Apps/Apps';
-import { Profile } from './pages/Profile/Profile';
 import { Likes } from './pages/Likes/Likes';
 import { Search } from './pages/Search/Search';
+import { Signup } from './pages/Signup/Signup';
+import { Logout } from './pages/Logout/Logout';
+import { Signin } from './pages/Signin/Signin';
+import { Gender } from './pages/Gender/Gender';
+import { Profile } from './pages/Profile/Profile';
 import { History } from './pages/History/History';
 import { Settings } from './pages/Settings/Settings';
-import { Provider } from 'react-redux';
+import { Interests } from './pages/Interests/Interests';
+import { MainPhoto } from './pages/MainPhoto/MainPhoto';
+import { UserInfo } from './components/UserInfo/UserInfo';
+import { Preference } from './pages/Preference/Preference';
+import { Description } from './pages/Description/Description';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
+import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
+import { AdditionalsPhotos } from './pages/AdditionalsPhotos/AdditionalsPhotos';
+import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
+import { EmailResetPassword } from './pages/EmailResetPassword/EmailResetPassword';
 import store from './store';
 import ReactDOM from 'react-dom/client';
-import { UserInfo } from './components/UserInfo/UserInfo';
-import { Logout } from './pages/Logout/Logout';
-import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
-import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccount';
-import { Chat } from './pages/Chat/Chat';
+import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 
 const rootElement = document.getElementById('root');
 
@@ -54,8 +56,10 @@ if (rootElement) {
 					</Route>
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/signin' element={<Signin />} />
+					<Route path='/resetPassword/:token' element={<ResetPassword />} />
 					<Route path='/forgotPassword' element={<ForgotPassword />} />
 					<Route path='/verifyTokenAccount/:token' element={<VerifyTokenAccount />} />
+					<Route path='/emailResetPassword' element={<EmailResetPassword />} />
 				</Routes>
 			</BrowserRouter>
 		</Provider>
