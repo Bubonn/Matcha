@@ -5,7 +5,7 @@ import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
-import { checkPassword, createCookie, parseJwt } from '../../utils/auth';
+import { createCookie, parseJwt } from '../../utils/auth';
 import { useDispatch } from 'react-redux';
 import { saveId } from '../../store/user/user-slice';
 
@@ -55,7 +55,7 @@ export function Signup() {
 				<div className={s.signupBox}>
 					<div className={s.name}>
 						<img className={s.image} src={logo} alt='logo' />
-						Join Flirtopia now
+						Join Flirtopia
 					</div>
 					<form onSubmit={handleSubmit}>
 						<div className={s.form}>
@@ -83,7 +83,7 @@ export function Signup() {
 								placeholder='Enter your last name'
 								small={false}
 							/>
-							<div className={s.space}>
+							<div className={s.inputLogin}>
 								<InputLogin
 									label='Password'
 									name='password'

@@ -62,7 +62,6 @@ html, body {
 
 .textAera {
 	width: 100%;
-	/* height: 100%; */
 	height: 100px;
 	font-family: Poppins;
 	resize: none;
@@ -80,4 +79,20 @@ html, body {
 	display: flex;
 	justify-content: center;
 	margin-top: 32px;
+}
+
+@media (max-width: 700px) {
+	.box {
+		width: 525px;
+		height: 450px;
+	}
+
+	.logo {
+		margin-top: 15px;
+	}
+
+	.description {
+		font-size: 32px;
+		text-align: center;
+	}
 }

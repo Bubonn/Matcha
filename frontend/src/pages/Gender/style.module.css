@@ -57,3 +57,18 @@ html, body {
 	justify-content: center;
 	margin-top: 102px;
 }
+
+@media (max-width: 700px) {
+	.box {
+		width: 525px;
+		height: 450px;
+	}
+
+	.logo {
+		margin-top: 15px;
+	}
+
+	.description {
+		font-size: 32px;
+	}
+}

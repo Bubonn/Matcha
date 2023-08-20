@@ -58,3 +58,24 @@ html, body {
 	font-weight: 600;
 	line-height: 1;
 }
+
+@media (max-width: 700px) {
+	.box {
+		width: 525px;
+		height: 450px;
+	}
+
+	.logo {
+		margin-top: 15px;
+	}
+
+	.description {
+		font-size: 32px;
+		line-height: 1;
+		text-align: center;
+	}
+
+	.verif {
+		font-size: 32px;
+	}
+}

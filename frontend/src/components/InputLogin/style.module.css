@@ -18,11 +18,47 @@
 	font-size: 20px;
 	border-radius: 10px;
 	border: 2px solid #666F80;
-	/* margin-bottom: 15px; */
-	margin-bottom: 2vh;
+	/* margin-bottom: 2vh; */
+	margin-bottom: 9px;
 	min-height: 25px;
 }
 
 .input::placeholder {
 	font-size: 20px;
+}
+
+@media (max-width: 450px) {
+	.container {
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+	}
+
+	.label {
+		margin-right: 0px;
+	}
+
+	.input {
+		width: 150px;
+	}
+}
+
+@media (max-width: 400px) {
+	.container {
+		justify-content: center;
+		align-items: center;
+	}
+
+	.label {
+		margin-right: 0px;
+	}
+
+	.input {
+		width: 200px !important;
+		font-size: 16px;
+	}
+
+	.input::placeholder {
+		font-size: 16px;
+	}
 }
