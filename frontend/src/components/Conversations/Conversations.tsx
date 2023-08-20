@@ -3,10 +3,8 @@ import { ConversationsList } from '../ConversationsList/ConversationsList';
 import { getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { getSocket } from '../../utils/socket';
-import s from './style.module.css'
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { Socket } from 'socket.io-client';
+import s from './style.module.css'
 
 interface ConversationsProps {
 	idConv: any;
@@ -17,7 +15,6 @@ interface ConversationsProps {
 export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps) {
 	const [conversations, setConversations] = useState<any>(null);
 	const [socket, setSocket] = useState<null | Socket>(null);
-	const selector = useSelector((store: RootState) => store.user.user);
 
 	async function getInfosConversations() {
 		const token = getToken();
@@ -33,14 +30,11 @@ export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps)
 		}
 	}
 
-	function test() {
-		console.log('test OK');
-	}
-
 	useEffect(() => {
 		getInfosConversations();
 		const sock: null | Socket = getSocket();
 		setSocket(sock);
+		// eslint-disable-next-line
 	}, [newMsg])
 
 	useEffect(() => {
@@ -51,6 +45,7 @@ export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps)
 				socket.off('reloadConv');
 			}
 		}
+		// eslint-disable-next-line
 	}, [socket])
 
 	if (!conversations) {

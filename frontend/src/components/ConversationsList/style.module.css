@@ -68,3 +68,10 @@
 	height: 15px;
 	width: 15px;
 }
+
+@media (max-width: 1000px) {
+	.ctnPhoto {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}

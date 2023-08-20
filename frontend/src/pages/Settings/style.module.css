@@ -8,7 +8,8 @@
 
 .userInfo {
 	display: flex;
-	height: 70%;
+	/* background-color: #FB025D; */
+	width: calc(100vw - 255px);
 }
 
 .leftCtn {
@@ -17,6 +18,7 @@
 	width: 50%;
 	gap: 25px;
 	margin-left: 25px;
+	/* background-color: cadetblue; */
 }
 
 .title {
@@ -25,7 +27,6 @@
 	font-size: 32px;
 	font-weight: 700;
 	display: block;
-	/* background-color: #FB025D; */
 }
 
 .select {
@@ -43,8 +44,6 @@
 
 .prefAndLoc {
 	display: flex;
-	/* background-color: #FB025D; */
-
 }
 
 .preference {
@@ -94,6 +93,7 @@
 	flex-direction: column;
 	width: 50%;
 	gap: 25px;
+	/* background-color: aquamarine; */
 }
 
 .hobbies {
@@ -179,20 +179,126 @@
 	margin-left: 25px;
 	margin-top: 20px;
 	height: 300px;
-	/* width: 100vw; */
-	/* width: calc(100% - 255px); */
 }
 
 .listUsersBlocked {
 	display: flex;
 	overflow-x: scroll;
 	gap: 20px;
-	/* max-width: 600px; */
-	/* max-width: calc(100vw - 255px); */
 	max-width: calc(100vw - 280px);
 }
 
 .imagesBlock {
 	border-radius: 20px;
 	cursor: pointer;
+}
+
+@media (max-width: 1350px) {
+	.select {
+		width: 90px;
+	}
+
+	.prefAndLoc {
+		flex-direction: column;
+	}
+
+	.input {
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	.textBox {
+		width: 300px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.container {
+		margin-left: 85px;
+		/* width: 100%; */
+		width: 100vw;
+		/* background-color: bisque; */
+	}
+
+	.userInfo {
+		width: calc(100vw - 85px);
+	}
+}
+
+@media (max-width: 700px) {
+	.container {
+		width: calc(100% - 85px);
+	}
+	
+	.userInfo {
+		flex-direction: column;
+		align-items: center;
+		/* width: calc(100vw); */
+		/* background-color: blueviolet; */
+		width: 100%;
+	}
+
+	.leftCtn {
+		width: 100%;
+		align-items: center;
+		/* background-color: #FB025D; */
+	}
+
+	.birth {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		/* background-color: beige; */
+	}
+
+	.selects {
+		display: flex;
+	}
+
+	.hobbies {
+		justify-content: center;
+		align-items: center;
+	}
+
+	.information {
+		justify-content: center;
+		align-items: center;
+		width: 280px;
+	}
+
+	.preference {
+		width: 300px;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 15px;
+	}
+
+	.choicePreference {
+		width: 200px;
+	}
+
+	.description {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.location {
+		justify-content: center;
+		align-items: center;
+		width: 300px;
+	}
+
+	.photos {
+		justify-content: center;
+		align-items: center;
+		margin-top: 30px;
+	}
+
+	.choicePhoto {
+		flex-direction: column;
+		gap: 10px;
+	}
 }

@@ -167,12 +167,12 @@ export function Settings() {
 				parseInt(year),
 				parseInt(month) - 1,
 				parseInt(day)
-				);
+			);
 			const eighteenYearsAgo = new Date();
 			eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
 			setLegalAge(selectedDate <= eighteenYearsAgo);
 			if (selectedDate <= eighteenYearsAgo) {
-				const selectedDate: string = year + '-' + month + '-' +day;
+				const selectedDate: string = year + '-' + month + '-' + day;
 				const token = getToken();
 				if (token) {
 					const rep = await BackApi.updateBirth(token, selectedDate);
@@ -285,45 +285,47 @@ export function Settings() {
 				<div className={s.leftCtn}>
 					<div className={s.birth}>
 						<span className={s.title}>Date of birth</span>
-						<select
-							className={s.select}
-							name="day"
-							value={selectedDay}
-							onChange={handleChangeDate}
-						>
-							<option value="">Day</option>
-							{days.map((day) => (
-								<option key={day} value={day}>
-									{day}
-								</option>
-							))}
-						</select>
-						<select
-							className={s.select}
-							name="month"
-							value={selectedMonth}
-							onChange={handleChangeDate}
-						>
-							<option value="">Month</option>
-							{months.map((month, index) => (
-								<option key={index + 1} value={index + 1}>
-									{month}
-								</option>
-							))}
-						</select>
-						<select
-							className={s.select}
-							name="year"
-							value={selectedYear}
-							onChange={handleChangeDate}
-						>
-							<option value="">Year</option>
-							{years.map((year) => (
-								<option key={year} value={year}>
-									{year}
-								</option>
-							))}
-						</select>
+						<div className={s.selects}>
+							<select
+								className={s.select}
+								name="day"
+								value={selectedDay}
+								onChange={handleChangeDate}
+							>
+								<option value="">Day</option>
+								{days.map((day) => (
+									<option key={day} value={day}>
+										{day}
+									</option>
+								))}
+							</select>
+							<select
+								className={s.select}
+								name="month"
+								value={selectedMonth}
+								onChange={handleChangeDate}
+							>
+								<option value="">Month</option>
+								{months.map((month, index) => (
+									<option key={index + 1} value={index + 1}>
+										{month}
+									</option>
+								))}
+							</select>
+							<select
+								className={s.select}
+								name="year"
+								value={selectedYear}
+								onChange={handleChangeDate}
+							>
+								<option value="">Year</option>
+								{years.map((year) => (
+									<option key={year} value={year}>
+										{year}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
 					{!legalAge && <span className={s.error}>You must be of legal age to create an account</span>}
 					<div className={s.prefAndLoc}>
@@ -374,16 +376,16 @@ export function Settings() {
 					<div className={s.information}>
 						<span className={s.title}>User information</span>
 						<div className={s.input}>
-							<InputSettings handleClick={handleClickFirstName} name='firstName' text={true} content={firstName} setContent={setFirstName} placeholder='First name'/>
-							<InputSettings handleClick={handleClickLastName} name='lastName' text={true} content={lastName} setContent={setLastName} placeholder='Last name'/>
+							<InputSettings handleClick={handleClickFirstName} name='firstName' text={true} content={firstName} setContent={setFirstName} placeholder='First name' />
+							<InputSettings handleClick={handleClickLastName} name='lastName' text={true} content={lastName} setContent={setLastName} placeholder='Last name' />
 						</div>
 						<div className={s.input}>
-							<InputSettings handleClick={handleClickEmail} name='email' text={true} content={email} setContent={setEmail} placeholder='Email'/>
-							<InputSettings handleClick={handleClickUsername} name='username' text={true} content={username} setContent={setUsername} placeholder='Username'/>
+							<InputSettings handleClick={handleClickEmail} name='email' text={true} content={email} setContent={setEmail} placeholder='Email' />
+							<InputSettings handleClick={handleClickUsername} name='username' text={true} content={username} setContent={setUsername} placeholder='Username' />
 						</div>
 						<div className={s.input}>
-							<InputSettings handleClick={handleClickPassword} name='password' text={false} content={password} setContent={setPassword} placeholder='New password'/>
-							<InputSettings handleClick={handleClickPassword} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password'/>
+							<InputSettings handleClick={handleClickPassword} name='password' text={false} content={password} setContent={setPassword} placeholder='New password' />
+							<InputSettings handleClick={handleClickPassword} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password' />
 						</div>
 						{msgInput && <span className={s.msgInput}>{msgInput}</span>}
 					</div>

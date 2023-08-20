@@ -29,3 +29,30 @@
 	overflow-y: scroll;
 }
 
+@media (max-width: 1000px) {
+	.conversationsBox {
+		width: 200px;
+	}
+}
+
+@media (max-width: 700px) {
+	.conversationsBox {
+		flex-direction: row;
+		width: calc(100vw - 100px);
+		height: 70px;
+		padding-left: 7px;
+		padding-right: 1px;
+		overflow: hidden;
+		margin-bottom: 15px;
+	}
+
+	.header {
+		align-items: center;
+	}
+
+	.conversations {
+		flex-direction: row;
+		overflow-x: scroll;
+		border-radius: 0px;
+	}
+}

@@ -1,3 +1,9 @@
+.container {
+	display: flex;
+	justify-content: center;
+	/* background-color: aqua; */
+}
+
 .input {
 	width: 235px;
 	height: 48px;
@@ -7,6 +13,7 @@
 	color: white;
 	font-size: 16px;
 	padding-left: 15px;
+	position: relative;
 }
 
 .sendButton {
@@ -23,4 +30,10 @@
 
 .sendButton:hover {
 	opacity: 0.85;
+}
+
+@media (max-width: 1350px) {
+	.input {
+		width: 190px;
+	}
 }

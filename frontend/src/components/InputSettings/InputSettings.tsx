@@ -17,7 +17,7 @@ export function InputSettings({ name, text, content, setContent, placeholder, ha
 	}
 
 	return (
-		<>
+		<div className={s.container}>
 			<input
 				className={s.input}
 				name={name}
@@ -33,6 +33,6 @@ export function InputSettings({ name, text, content, setContent, placeholder, ha
 				onClick={handleClick}
 				style={{visibility: name === 'password' ? 'hidden' : 'visible'}}
 			/>
-		</>
+		</div>
 	);
 }
