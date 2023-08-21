@@ -1,3 +1,5 @@
+import { getConnection } from "../services/connectionDb";
+
 export function calculateDistance(user1: string, user2: string): number {
 	const R = 6371;
 
@@ -23,4 +25,30 @@ export function calculateDistance(user1: string, user2: string): number {
 	const distance = R * c;
 
 	return parseFloat(distance.toFixed(1));
+}
+
+export async function isBlocked(idUser1: string, idUser2: string) {
+	try {
+		const connection = getConnection();
+		const combinedBlockedQuery = 'SELECT * FROM blockUser WHERE id_user_source = ? OR id_user_target = ?';
+
+		const blockedUsers: any = await new Promise((resolve, reject) => {
+			connection.query(combinedBlockedQuery, [idUser1, idUser1], (checkTagErr: any, checkResults: any) => {
+				if (checkTagErr) {
+					reject(new Error('Une erreur est survenue'));
+				} else {
+					resolve(checkResults);
+				}
+			}
+			);
+		});
+
+		const containId = blockedUsers.some((obj: any) => {
+			return obj.id_user_source === idUser2 || obj.id_user_target === idUser2;
+		});
+
+		return containId;
+	} catch (error) {
+		console.log(error);
+	}
 }

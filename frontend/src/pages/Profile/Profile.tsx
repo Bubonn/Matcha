@@ -74,11 +74,17 @@ export function Profile() {
 				if (response.data.report === true) {
 					setIsReport(true);
 				}
+			} else {
+				setIsReport(false);
+				return navigate(`/profile/${selector.id}`);
 			}
 
 			const user = await BackApi.getUserById(selector.id, token);
 			if (user.status === 200) {
 				setActiveUser(user.data);
+			} else {
+				setIsReport(false);
+				return navigate(`/profile/${selector.id}`);
 			}
 
 			const respected = preferenceRespected(user.data.gender, user.data.preference, response.data);
@@ -86,7 +92,7 @@ export function Profile() {
 
 			if ((selector.id !== Number(id) && !respected) || mutualBlock.data.length > 0) {
 				setIsReport(false);
-				return navigate(`/profile/${selector.id}`)
+				return navigate(`/profile/${selector.id}`);
 			}
 
 			const rep = await BackApi.getPhotoById(Number(id), token);
@@ -235,7 +241,7 @@ export function Profile() {
 					/>
 				</div>
 				<div className={s.interests}>
-					<UserDetails img={fire} info={'130'}/>
+					<UserDetails img={fire} info={user.popularity}/>
 					<UserDetails img={logoUser} info={user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}/>
 					<UserDetails img={heart} info={user.preference.charAt(0).toUpperCase() + user.preference.slice(1)}/>
 					{selector.id !== Number(id) && <UserDetails img={locationFrom} info={`${user.distance} Km from you`}/>}

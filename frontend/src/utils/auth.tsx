@@ -6,7 +6,9 @@ export function createCookie(name: string, value: string) {
 
 export function deleteCookie(name: string) {
 	// eslint-disable-next-line
-	document.cookie = name + "=" + '; SameSite=None; secure; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+	document.cookie = name + "=" + '; SameSite=None; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+	// eslint-disable-next-line
+	// document.cookie = name + "=" + '; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
 }
 
 export function getCookieByName(name: string) {

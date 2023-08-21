@@ -66,6 +66,7 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 				value={message}
 				onChange={(e) => setMessage(e.target.value)}
 				placeholder='Write your message...'
+				maxLength={250}
 			/>
 			<button className={s.button}>
 				<img

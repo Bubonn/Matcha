@@ -135,7 +135,7 @@ export function Apps() {
 			getNotifications();
 		}
 		// eslint-disable-next-line
-	}, [selector.id, ])
+	}, [selector.id])
 	
 	useEffect(() => {
 		if (selector.id) {
@@ -155,13 +155,13 @@ export function Apps() {
 		if (selector.id && socket && selector.notifMessages) {
 			socket.on('messageFromServer', messageReceived);
 
-			// return () => {
-			// 	socket.off('messageFromServer');
-			// };
+			return () => {
+				socket.off('messageFromServer');
+			};
 		}
 
 		// eslint-disable-next-line
-	}, [socket]);
+	}, [socket, selector.notifMessages]);
 // }, [socket, selector.id, selector.notifMessages]);
 
 	if (!verified) {

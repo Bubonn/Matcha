@@ -12,12 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import { SuggestionCity } from '../../components/SuggestionCity/SuggestionCity';
 import { Api } from '../../api/api';
+import { BlockedUserList } from '../../components/BlockedUserList/BlockedUserList';
 import man from '../../assets/settings/man.svg'
 import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import send from '../../assets/send.svg'
 import s from './style.module.css'
-import { BlockedUserList } from '../../components/BlockedUserList/BlockedUserList';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');

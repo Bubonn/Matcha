@@ -4,7 +4,29 @@ export const insertMessage = async (conversation_id: number, message_content: st
 	try {
 
 		const connection = getConnection();
+
+		const convQuery = 'SELECT * FROM privateMessages WHERE conversation_id = ?';
 		
+		const conv: any = await new Promise((resolve, reject) => {
+			connection.query(convQuery, conversation_id, (err: any, results: any) => {
+				if (err) {
+					reject(new Error('Erreur lors de l\'exécution de la requête'));
+				} else {
+					resolve(results);
+				}
+			});
+		});
+
+		const notFirstMessage = conv.some((obj: any) => {
+			return obj.sender_id === sender_id;
+		});
+
+		if (conv.length === 0) {
+			await updatePopularityScore(sender_id, 10);
+		} else if (!notFirstMessage) {
+			await updatePopularityScore(sender_id, 5);
+		}
+
 		const query = 'INSERT INTO privateMessages (conversation_id, sender_id, recipient_id, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())';
 		
 		await new Promise((resolve, reject) => {
@@ -303,7 +325,6 @@ export const blockUser = async (id: any, idUserBlock: any) => {
 export const updatePopularityScore = async (id:number, score: number) => {
 
 	try {
-
 		const connection = getConnection();
 
 			const query = 'SELECT * FROM user WHERE id = ?';
@@ -343,26 +364,26 @@ export const updatePopularityScore = async (id:number, score: number) => {
 	}
 }
 
-// export const addNotifMessage = async (id: any, notif: any) => {
+export const addNotifMessage = async (id: any, conversation_id: any, message_content: any) => {
 
-// 	try {
+	try {
 
-// 		const connection = getConnection();
+		const connection = getConnection();
 
-// 		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
-// 		VALUES (?, ?, ?);';
+		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
+		VALUES (?, ?, ?);';
 
-// 			await new Promise((resolve, reject) => {
-// 				connection.query(query, [id, notif.conversation_id, notif.message_content], (err: any, results: any) => {
-// 					if (err) {
-// 						reject(new Error('Erreur lors de l\'exécution de la requête'));
-// 					} else {
-// 						resolve(results);
-// 					}
-// 				});
-// 			});
+			await new Promise((resolve, reject) => {
+				connection.query(query, [id, conversation_id, message_content], (err: any, results: any) => {
+					if (err) {
+						reject(new Error('Erreur lors de l\'exécution de la requête'));
+					} else {
+						resolve(results);
+					}
+				});
+			});
 
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
+	} catch (error) {
+		console.log(error);
+	}
+}

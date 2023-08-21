@@ -36,6 +36,7 @@ export function InputLogin({ label, name, placeholder, small, password, setPassw
 				value={password ? password : value}
 				onChange={handleChange}
 				type={isPassword ? 'password' : 'text'}
+				maxLength={name === 'firstName' ? 15 : 30}
 			/>
 		</div>
 	);

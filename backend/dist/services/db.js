@@ -9,11 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePopularityScore = exports.blockUser = exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
+exports.addNotifMessage = exports.updatePopularityScore = exports.blockUser = exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const connection = (0, connectionDb_1.getConnection)();
+        const convQuery = 'SELECT * FROM privateMessages WHERE conversation_id = ?';
+        const conv = yield new Promise((resolve, reject) => {
+            connection.query(convQuery, conversation_id, (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+        const notFirstMessage = conv.some((obj) => {
+            return obj.sender_id === sender_id;
+        });
+        if (conv.length === 0) {
+            yield (0, exports.updatePopularityScore)(sender_id, 10);
+        }
+        else if (!notFirstMessage) {
+            yield (0, exports.updatePopularityScore)(sender_id, 5);
+        }
         const query = 'INSERT INTO privateMessages (conversation_id, sender_id, recipient_id, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())';
         yield new Promise((resolve, reject) => {
             connection.query(query, [conversation_id, sender_id, recipient_id, message_content], (err, results) => {
@@ -327,21 +347,24 @@ const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.updatePopularityScore = updatePopularityScore;
-// export const addNotifMessage = async (id: any, notif: any) => {
-// 	try {
-// 		const connection = getConnection();
-// 		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
-// 		VALUES (?, ?, ?);';
-// 			await new Promise((resolve, reject) => {
-// 				connection.query(query, [id, notif.conversation_id, notif.message_content], (err: any, results: any) => {
-// 					if (err) {
-// 						reject(new Error('Erreur lors de l\'exécution de la requête'));
-// 					} else {
-// 						resolve(results);
-// 					}
-// 				});
-// 			});
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
+const addNotifMessage = (id, conversation_id, message_content) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = (0, connectionDb_1.getConnection)();
+        const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
+		VALUES (?, ?, ?);';
+        yield new Promise((resolve, reject) => {
+            connection.query(query, [id, conversation_id, message_content], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.addNotifMessage = addNotifMessage;

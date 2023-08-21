@@ -25,6 +25,7 @@ export function InputSettings({ name, text, content, setContent, placeholder, ha
 				type={text ? 'text' : 'password'}
 				placeholder={placeholder}
 				onChange={handleChange}
+				maxLength={name === 'firstName' ? 15 : 30}
 			/>
 			<img
 				className={s.sendButton}

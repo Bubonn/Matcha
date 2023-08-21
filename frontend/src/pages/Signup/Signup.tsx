@@ -1,13 +1,14 @@
-import logo from '../../assets/logo.png'
-import s from './style.module.css'
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
-import { createCookie, parseJwt } from '../../utils/auth';
+// eslint-disable-next-line
+import { checkPassword, createCookie, parseJwt } from '../../utils/auth';
 import { useDispatch } from 'react-redux';
 import { saveId } from '../../store/user/user-slice';
+import logo from '../../assets/logo.png'
+import s from './style.module.css'
 
 export function Signup() {
 
@@ -45,7 +46,7 @@ export function Signup() {
 
 	useEffect(() => {
 		setBackErr('');
-		// checkPassword(password, confPassword, setErr);
+		checkPassword(password, confPassword, setErr);
 		// eslint-disable-next-line
 	}, [password, confPassword])
 

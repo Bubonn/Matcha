@@ -23,6 +23,7 @@ const uploads_1 = __importDefault(require("./routes/uploads"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_1 = __importDefault(require("http"));
 const db_1 = require("./services/db");
+const userUtils_1 = require("./utils/userUtils");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
@@ -36,7 +37,7 @@ app.use('/users', user_1.default);
 app.use('/uploads', uploads_1.default);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "http://localhost:3001",
+        // origin: "http://localhost:3001",
         methods: ["GET", "POST"],
     },
 });
@@ -93,13 +94,18 @@ io.on('connection', (socket) => {
         const sender_id = data.sender_id;
         const timestamp = data.timestamp;
         socket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+        socket.emit('messageFromServerBis', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
         const userSocket = connectedSockets[recipient_id];
         if (userSocket) {
             userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+            userSocket.emit('messageFromServerBis', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
         }
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield (0, db_1.insertMessage)(conversation_id, message_content, recipient_id, sender_id);
+                if (!userSocket) {
+                    yield (0, db_1.addNotifMessage)(recipient_id, conversation_id, message_content);
+                }
             }
             catch (error) {
                 console.log(error);
@@ -181,11 +187,13 @@ io.on('connection', (socket) => {
         const sender_id = data.sender_id;
         const recipient_id = data.recipient_id;
         const userSocket = connectedSockets[recipient_id];
-        if (userSocket) {
-            userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'visited', timestamp: new Date() });
-        }
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
+                if (userSocket) {
+                    if (!(yield (0, userUtils_1.isBlocked)(sender_id, recipient_id))) {
+                        userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'visited', timestamp: new Date() });
+                    }
+                }
                 yield (0, db_1.insertNotif)(sender_id, recipient_id, 'visited');
                 yield (0, db_1.insertHistory)(sender_id, recipient_id);
                 yield (0, db_1.updatePopularityScore)(recipient_id, 3);

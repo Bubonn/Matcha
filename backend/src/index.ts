@@ -8,7 +8,8 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
-import { blockUser, createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif, updatePopularityScore, userConnected, userDisonnected } from './services/db';
+import { addNotifMessage, blockUser, createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif, updatePopularityScore, userConnected, userDisonnected } from './services/db';
+import { isBlocked } from './utils/userUtils';
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ app.use('/uploads', uploads);
 
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:3001",
+		// origin: "http://localhost:3001",
 		methods: ["GET", "POST"],
 	},
 });
@@ -92,13 +93,18 @@ io.on('connection', (socket) => {
 		const sender_id = data.sender_id;
 		const timestamp = data.timestamp;
 		socket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+		socket.emit('messageFromServerBis', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
 		const userSocket = connectedSockets[recipient_id];
 		if (userSocket) {
 			userSocket.emit('messageFromServer', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
+			userSocket.emit('messageFromServerBis', { conversation_id: conversation_id, message_content: message_content, recipient_id: recipient_id, sender_id: sender_id, timestamp: timestamp });
 		}
 		(async () => {
 			try {
 				await insertMessage(conversation_id, message_content, recipient_id, sender_id);
+				if (!userSocket) {
+					await addNotifMessage(recipient_id, conversation_id, message_content);
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -182,11 +188,13 @@ io.on('connection', (socket) => {
 		const sender_id = data.sender_id;
 		const recipient_id = data.recipient_id;
 		const userSocket = connectedSockets[recipient_id];
-		if (userSocket) {
-			userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'visited', timestamp: new Date() });
-		}
 		(async () => {
 			try {
+				if (userSocket) {
+					if (!(await isBlocked(sender_id, recipient_id))) {
+						userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'visited', timestamp: new Date() });
+					}
+				}
 				await insertNotif(sender_id, recipient_id, 'visited');
 				await insertHistory(sender_id, recipient_id);
 				await updatePopularityScore(recipient_id, 3);

@@ -1,10 +1,10 @@
+import { BackApi } from '../../api/back';
 import { FormEvent, useState } from 'react';
-import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
+import { getCookieByName } from '../../utils/auth';
+import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import logo from '../../assets/signupQuestions/comma.png'
 import s from './style.module.css'
-import { getCookieByName } from '../../utils/auth';
-import { BackApi } from '../../api/back';
 
 export function Description() {
 	const navigate = useNavigate();

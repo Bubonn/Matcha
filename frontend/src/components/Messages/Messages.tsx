@@ -33,8 +33,12 @@ export function Messages({ idConv }: MessagesChatProps) {
 		const sock: any = getSocket();
 		// setSocket(sock)
 		if (sock) {
-			sock.on('messageFromServer', messageListener)
+			sock.on('messageFromServerBis', messageListener)
 		}
+
+		return () => {
+			sock.off('messageFromServerBis');
+		};
 	}, [])
 
 	useEffect(() => {
