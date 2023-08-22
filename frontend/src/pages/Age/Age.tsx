@@ -12,6 +12,9 @@ export function Age() {
 	const [selectedMonth, setSelectedMonth] = useState('');
 	const [selectedYear, setSelectedYear] = useState('');
 	const [legalAge, setLegalAge] = useState(true);
+	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
+	const [endAnimation, setEndAnimation] = useState(false);
+	const [className, setClassName] = useState(s.boxStart);
 
 	const days = Array.from(Array(31), (_, index) => index + 1);
 	const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -19,9 +22,24 @@ export function Age() {
 	const currentYear = new Date().getFullYear();
 	const years = Array.from(Array(100), (_, index) => currentYear - index);
 
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		const selectedDate: string = selectedYear + '-' + selectedMonth + '-' +selectedDay;
+		const token = getCookieByName('token');
+		if (token) {
+			const rep = await BackApi.updateBirth(token, selectedDate);
+			if (rep.status === 200) {
+				setEndAnimation(true);
+				setTimeout(() => {
+					navigate('/gender');
+				}, 700);
+			}
+		}
+	}
+
 	useEffect(() => {
-			if (selectedYear !== '' && selectedMonth !== '' && selectedDay !== '') {
-				const selectedDate = new Date(
+		if (selectedYear !== '' && selectedMonth !== '' && selectedDay !== '') {
+			const selectedDate = new Date(
 					parseInt(selectedYear),
 					parseInt(selectedMonth) - 1,
 					parseInt(selectedDay)
@@ -34,21 +52,25 @@ export function Age() {
 			}
 	}, [selectedDay, selectedMonth, selectedYear]);
 
-	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		const selectedDate: string = selectedYear + '-' + selectedMonth + '-' +selectedDay;
-		const token = getCookieByName('token');
-		if (token) {
-			const rep = await BackApi.updateBirth(token, selectedDate);
-			if (rep.status === 200) {
-				navigate('/gender');
-			}
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setEntrenceAnimation(true);
+		}, 50);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	useEffect(() => {
+		if (endAnimation) {
+			setClassName(s.boxEndAnimate);
+		} else if (entrenceAnimation) {
+			setClassName(s.boxStartAnimate);
 		}
-	}
+	}, [entrenceAnimation, endAnimation])
+
 
 	return (
 		<div className={s.container}>
-			<div className={s.box}>
+			<div className={className}>
 				<div className={s.logo}>
 					<img src={logo} alt="calendar" />
 				</div>

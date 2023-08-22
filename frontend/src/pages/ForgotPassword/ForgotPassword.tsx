@@ -15,7 +15,6 @@ export function ForgotPassword() {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const emailValue: any = formData.get("email");
-		console.log('front email', emailValue);
 		if (emailValue) {
 			const rep = await BackApi.sendEmailResetPassword(emailValue);
 			if (rep.status === 200) {

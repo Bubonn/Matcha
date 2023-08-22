@@ -1,16 +1,19 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { ButtonChoice } from '../../components/ButtonChoice/ButtonChoice';
-import logo from '../../assets/signupQuestions/preference.png'
-import s from './style.module.css'
 import { getCookieByName } from '../../utils/auth';
 import { BackApi } from '../../api/back';
+import logo from '../../assets/signupQuestions/preference.png'
+import s from './style.module.css'
 
 export function Preference() {
 
 	const navigate = useNavigate();
 	const [choice, setChoice] = useState<null | string>(null);
+	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
+	const [endAnimation, setEndAnimation] = useState(false);
+	const [className, setClassName] = useState(s.boxStart);
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -18,14 +21,32 @@ export function Preference() {
 		if (token && choice) {
 			const response = await BackApi.updatePreference(token, choice);
 			if (response.status === 200) {
-				navigate('/description');
+				setEndAnimation(true);
+				setTimeout(() => {
+					navigate('/description');
+				}, 700);
 			}
 		}
 	}
 
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setEntrenceAnimation(true);
+		}, 50);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	useEffect(() => {
+		if (endAnimation) {
+			setClassName(s.boxEndAnimate);
+		} else if (entrenceAnimation) {
+			setClassName(s.boxStartAnimate);
+		}
+	}, [entrenceAnimation, endAnimation])
+
 	return (
 		<div className={s.container}>
-			<div className={s.box}>
+			<div className={className}>
 				<div className={s.logo}>
 					<img src={logo} alt='preference'/>
 				</div>

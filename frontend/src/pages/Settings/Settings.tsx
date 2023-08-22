@@ -113,6 +113,19 @@ export function Settings() {
 		return { year, month, day };
 	}
 
+	async function getUserLocation() {
+		const rep = await Api.getIpInfo();
+		const location = rep.data.loc;
+
+		const token = getToken();
+		if (token) {
+			await BackApi.updateLocation(token, location);
+			return location;
+		} else {
+			navigate('/signin');
+		}
+	}
+
 	async function getInfoUser() {
 		const token = getToken();
 		if (!token) {
@@ -134,6 +147,11 @@ export function Settings() {
 			setInterests(user.interests);
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
+			if (!user.location) {
+				console.log('CALL API');
+				const loc =  await getUserLocation();
+				user.location = loc;
+			}
 			const city = await Api.getCityByPositionGps(user.location);
 			if (city.status === 200) {
 				const cityCountry = city.data.features[0].text_fr + ', ' + city.data.features[0].language_fr;

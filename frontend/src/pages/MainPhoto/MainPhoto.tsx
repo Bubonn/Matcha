@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { SelectPhoto } from '../../components/SelectPhoto/SelectPhoto';
@@ -10,6 +10,9 @@ import s from './style.module.css'
 export function MainPhoto() {
 	const navigate = useNavigate();
 	const [photo, setPhoto] = useState<any>(null);
+	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
+	const [endAnimation, setEndAnimation] = useState(false);
+	const [className, setClassName] = useState(s.boxStart);
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -17,7 +20,10 @@ export function MainPhoto() {
 		if (!photo) {
 			return;
 		}
-		navigate('/additionalsPhoto')
+		setEndAnimation(true);
+		setTimeout(() => {
+			navigate('/additionalsPhoto');
+		}, 700);
 	}
 
 	async function handlePhotoSelection(file: File) {
@@ -49,11 +55,26 @@ export function MainPhoto() {
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
 		}
-	};
+	}
+
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setEntrenceAnimation(true);
+		}, 50);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	useEffect(() => {
+		if (endAnimation) {
+			setClassName(s.boxEndAnimate);
+		} else if (entrenceAnimation) {
+			setClassName(s.boxStartAnimate);
+		}
+	}, [entrenceAnimation, endAnimation])
 
 	return (
 		<div className={s.container}>
-			<div className={s.box}>
+			<div className={className}>
 				<div className={s.logo}>
 					<img className={s.image} src={logo} alt='comma'/>
 				</div>

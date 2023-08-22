@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
 import { useNavigate } from 'react-router-dom';
 import { InterestSignup } from '../../components/InterestSignup/InterestSignup';
@@ -10,6 +10,9 @@ import s from './style.module.css'
 export function Interests() {
 	const navigate = useNavigate();
 	const [interests, setInterests] = useState<number[]>([]);
+	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
+	const [endAnimation, setEndAnimation] = useState(false);
+	const [className, setClassName] = useState(s.boxStart);
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -17,14 +20,32 @@ export function Interests() {
 		if (token && interests) {
 			const response = await BackApi.updateInterests(token, interests);
 			if (response.status === 200) {
-				navigate('/mainPhoto');
+				setEndAnimation(true);
+				setTimeout(() => {
+					navigate('/mainPhoto');
+				}, 700);
 			}
 		}
 	}
 
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setEntrenceAnimation(true);
+		}, 50);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	useEffect(() => {
+		if (endAnimation) {
+			setClassName(s.boxEndAnimate);
+		} else if (entrenceAnimation) {
+			setClassName(s.boxStartAnimate);
+		}
+	}, [entrenceAnimation, endAnimation])
+
 	return (
 		<div className={s.container}>
-			<div className={s.box}>
+			<div className={className}>
 				<div className={s.logo}>
 					<img className={s.image} src={logo} alt='comma'/>
 				</div>

@@ -1,5 +1,5 @@
 import { BackApi } from '../../api/back';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCookieByName } from '../../utils/auth';
 import { ButtonNext } from '../../components/ButtonNext/ButtonNext';
@@ -9,6 +9,9 @@ import s from './style.module.css'
 export function Description() {
 	const navigate = useNavigate();
 	const [description, setDescription] = useState<string>('');
+	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
+	const [endAnimation, setEndAnimation] = useState(false);
+	const [className, setClassName] = useState(s.boxStart);
 	const maxChar = 200;
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -17,10 +20,28 @@ export function Description() {
 		if (token && description) {
 			const response = await BackApi.updateDescripion(token, description);
 			if (response.status === 200) {
-				navigate('/interests');
+				setEndAnimation(true);
+				setTimeout(() => {
+					navigate('/interests');
+				}, 700);
 			}
 		}
 	}
+
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setEntrenceAnimation(true);
+		}, 50);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	useEffect(() => {
+		if (endAnimation) {
+			setClassName(s.boxEndAnimate);
+		} else if (entrenceAnimation) {
+			setClassName(s.boxStartAnimate);
+		}
+	}, [entrenceAnimation, endAnimation])
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const value = event.target.value;
@@ -33,7 +54,7 @@ export function Description() {
 
 	return (
 		<div className={s.container}>
-			<div className={s.box}>
+			<div className={className}>
 				<div className={s.logo}>
 					<img className={s.image} src={logo} alt='comma'/>
 					<img className={s.image} src={logo} alt='comma'/>
