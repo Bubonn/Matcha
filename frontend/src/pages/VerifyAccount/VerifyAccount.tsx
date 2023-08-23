@@ -36,6 +36,7 @@ export function VerifyAccount() {
 
 	useEffect(() => {
 		sendEmail();
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {

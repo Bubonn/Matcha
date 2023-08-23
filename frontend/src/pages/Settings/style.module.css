@@ -215,9 +215,7 @@
 @media (max-width: 1000px) {
 	.container {
 		margin-left: 85px;
-		/* width: 100%; */
 		width: 100vw;
-		/* background-color: bisque; */
 	}
 
 	.userInfo {
@@ -227,21 +225,20 @@
 
 @media (max-width: 700px) {
 	.container {
-		width: calc(100% - 85px);
+		width: calc(100vw - 85px);
 	}
 	
 	.userInfo {
 		flex-direction: column;
 		align-items: center;
-		/* width: calc(100vw); */
-		/* background-color: blueviolet; */
 		width: 100%;
 	}
 
 	.leftCtn {
+		/* width: calc(100vw - 85px); */
 		width: 100%;
 		align-items: center;
-		/* background-color: #FB025D; */
+		margin: 0;
 	}
 
 	.birth {
@@ -249,33 +246,64 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
-		/* background-color: beige; */
+		margin: 0;
+		padding: 0;
+	}
+
+	.title {
+		font-size: 20px;
 	}
 
 	.selects {
 		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+
+	.textBox {
+		width: 100%;
 	}
 
 	.hobbies {
 		justify-content: center;
 		align-items: center;
-	}
+		/* width: calc(100vw - 85px); */
+		width: 100%;
 
+	}
+	
 	.information {
 		justify-content: center;
 		align-items: center;
-		width: 280px;
+		width: 100%;
+		overflow-x: hidden;
+	}
+	
+	.input {
+		width: 100%;
+		margin-left: 10px;
+	}
+
+	.prefAndLoc {
+		width: 100%;
 	}
 
 	.preference {
-		width: 300px;
 		align-items: center;
 		justify-content: center;
 		margin-bottom: 15px;
+		width: 100%;
 	}
 
 	.choicePreference {
-		width: 200px;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.rightCtn {
+		width: 100%;
+		/* background-color: #FB025D; */
 	}
 
 	.description {
@@ -288,13 +316,17 @@
 	.location {
 		justify-content: center;
 		align-items: center;
-		width: 300px;
+		/* width: 300px; */
+		width: 100%;
 	}
 
 	.photos {
 		justify-content: center;
 		align-items: center;
 		margin-top: 30px;
+		width: 100%;
+		height: auto;
+		margin-left: 0;
 	}
 
 	.choicePhoto {

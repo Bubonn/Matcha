@@ -26,7 +26,3 @@ export function MessagesList({ id, message }: MessagesListProps) {
 		</div>
 	);
 }
-
-
-// 	// justifyContent: message.sender_id === id ? 'start' : 'end'
-// 	alignItems: message.sender_id === id ? 'left' : 'right'

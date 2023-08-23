@@ -1,12 +1,9 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { useEffect, useState } from 'react';
 import { BackApi } from '../../api/back';
+import { useEffect, useState } from 'react';
+import { createCookie } from '../../utils/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 import logo from '../../assets/verify.svg';
 import styles from './style.module.css';
-import { createCookie } from '../../utils/auth';
-import { Api } from '../../api/api';
 
 export function VerifyTokenAccount() {
 	const { token } = useParams();
@@ -24,14 +21,11 @@ export function VerifyTokenAccount() {
 			if (response.status === 200) {
 				try {
 					const rep: any = await geoLocation();
-					console.log(rep);
 					const location = rep.latitude + ',' + rep.longitude;
 					await BackApi.updateLocation(response.data.token, location);
 				} catch (error) {
 					setLocationIsSet(true);
 				}
-				// const rep = await Api.getIpInfo();
-				// const location = rep.data.loc;
 				setLocationIsSet(true);
 			} else {
 				setMessage(response);
@@ -60,6 +54,7 @@ export function VerifyTokenAccount() {
 
 	useEffect(() => {
 		checkToken();
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {
@@ -72,6 +67,7 @@ export function VerifyTokenAccount() {
 				clearTimeout(timeoutId);
 			};
 		}
+		// eslint-disable-next-line
 	}, [verified, locationIsSet]);
 
 	return (

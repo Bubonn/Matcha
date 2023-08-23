@@ -59,3 +59,21 @@
 	margin-left: 10px;
 	margin-right: 5px;
 }
+
+@media (max-width: 500px) {
+	.container {
+		height: 220px;
+		width: 200px;
+		/* padding: 0; */
+	}
+
+	.img {
+		height: 220px;
+		width: 200px;
+	}
+
+	.infoUser {
+		height: 60px;
+		width: 200px;
+	}
+}

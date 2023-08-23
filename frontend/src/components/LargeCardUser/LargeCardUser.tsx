@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { LargeCardInfo } from '../LargeCardInfo/LargeCardInfo'
 import fire from '../../assets/LargeCard/fire.svg'
 import logoUser from '../../assets/LargeCard/user.svg'
-import location from '../../assets/LargeCard/location.svg'
 import distance from '../../assets/LargeCard/distance.svg'
 import s from './style.module.css'
 
@@ -18,7 +17,6 @@ export function LargeCardUser({ user }: { user: any }) {
 					<div className={s.otherInfo}>
 						<LargeCardInfo img={logoUser} alt={'user'} content={user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}/>
 						<LargeCardInfo img={fire} alt={'fire'} content={user.popularity}/>
-						{/* <LargeCardInfo img={location} alt={'location'} content='Paris, Ile de france'/> */}
 						<LargeCardInfo img={distance} alt={'distance'} content={`${user.distance} Km from you`}/>
 					</div>
 					<div className={s.name}>

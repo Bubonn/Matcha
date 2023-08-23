@@ -8,7 +8,6 @@ import { getCookieByName, getToken } from '../../utils/auth';
 import { BackApi } from '../../api/back';
 import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveId, saveNotifMessages, saveNotifications, saveSection } from '../../store/user/user-slice';
-import { Api } from '../../api/api';
 import { getSocket } from '../../utils/socket';
 import s from './style.module.css'
 

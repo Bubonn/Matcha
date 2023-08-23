@@ -225,3 +225,17 @@
 		width: calc(100% - 90px);
 	}
 }
+
+@media (max-width: 500px) {
+	.container {
+		/* margin-left: 85px;
+		width: calc(100% - 90px); */
+	}
+	
+	.users {
+	}
+	
+	.ctnLoader {
+		/* background-color: beige; */
+	}
+}

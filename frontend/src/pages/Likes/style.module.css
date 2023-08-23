@@ -6,13 +6,6 @@
 	flex-direction: column;
 }
 
-.choice {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 10px;
-}
-
 .users {
 	display: flex;
 	flex-wrap: wrap;
@@ -39,5 +32,14 @@
 @media (max-width: 1000px) {
 	.container {
 		margin-left: 85px;
+	}
+}
+
+@media (max-width: 500px) {
+	.users {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: nowrap;
 	}
 }

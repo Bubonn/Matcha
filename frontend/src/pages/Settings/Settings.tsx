@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { saveAvatar, saveFirstName, saveSection } from '../../store/user/user-slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { getToken } from '../../utils/auth';
+import { checkPassword, getToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import { SuggestionCity } from '../../components/SuggestionCity/SuggestionCity';
@@ -148,7 +148,6 @@ export function Settings() {
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
 			if (!user.location) {
-				console.log('CALL API');
 				const loc =  await getUserLocation();
 				user.location = loc;
 			}
@@ -221,6 +220,9 @@ export function Settings() {
 	}
 
 	async function handleClickUsername() {
+		if (!username) {
+			return setMsgInput('Username cannot be empty');
+		}
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.updateUsername(token, username);
@@ -233,6 +235,9 @@ export function Settings() {
 	}
 
 	async function handleClickFirstName() {
+		if (!firstName) {
+			return setMsgInput('First name cannot be empty');
+		}
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.updateFirstName(token, firstName);
@@ -246,6 +251,9 @@ export function Settings() {
 	}
 
 	async function handleClickLastName() {
+		if (!lastName) {
+			return setMsgInput('Last name cannot be empty');
+		}
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.updateLastName(token, lastName);
@@ -258,6 +266,9 @@ export function Settings() {
 	}
 
 	async function handleClickEmail() {
+		if (!email) {
+			return setMsgInput('Email cannot be empty');
+		}
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.updateEmail(token, email);
@@ -289,9 +300,9 @@ export function Settings() {
 		// eslint-disable-next-line
 	}, [selector.id])
 
-	// useEffect(() => {
-	// 	checkPassword(password, confPassword, setMsgInput);
-	// }, [password, confPassword])
+	useEffect(() => {
+		checkPassword(password, confPassword, setMsgInput);
+	}, [password, confPassword])
 
 	if (selector.id === 0 || !blockList) {
 		return (<></>);

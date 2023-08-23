@@ -75,3 +75,8 @@
 		margin-right: 10px;
 	}
 }
+@media (max-width: 500px) {
+	.ctnInfosUser {
+		width: 100px;
+	}
+}

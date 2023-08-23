@@ -243,8 +243,8 @@
 	}
 }
 
-/* @media (max-width: 500px) {
+@media (max-width: 500px) {
 	.container {
-		background-color: aqua;
+		width: calc(100vw - 100px);
 	}
-} */
+}

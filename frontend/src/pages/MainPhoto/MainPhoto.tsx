@@ -38,7 +38,7 @@ export function MainPhoto() {
 
 			const token = getCookieByName('token');
 			if (token) {
-				const response = await BackApi.upload(token, formData)
+				await BackApi.upload(token, formData)
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
@@ -50,7 +50,7 @@ export function MainPhoto() {
 		try {
 			const token = getCookieByName('token');
 			if (token) {
-				const response = await BackApi.removePhoto(1, token);
+				await BackApi.removePhoto(1, token);
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);

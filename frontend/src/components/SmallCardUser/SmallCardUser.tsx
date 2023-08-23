@@ -1,12 +1,10 @@
 import fire from '../../assets/profile/fire.svg'
-import tmpUser from '../../assets/test/User.svg'
-// import location from '../../assets/location.svg'
-import distance from '../../assets/LargeCard/distance.svg'
-import s from './style.module.css'
 import { useEffect, useState } from 'react'
 import { getToken } from '../../utils/auth'
 import { BackApi } from '../../api/back'
 import { useNavigate } from 'react-router-dom'
+import distance from '../../assets/LargeCard/distance.svg'
+import s from './style.module.css'
 
 export function SmallCardUser({ likeInfo }: { likeInfo: any }) {
 	
@@ -23,6 +21,7 @@ export function SmallCardUser({ likeInfo }: { likeInfo: any }) {
 
 	useEffect(() => {
 		getUserInfo();
+		// eslint-disable-next-line
 	}, [])
 
 	if (!user) {

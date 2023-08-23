@@ -56,3 +56,9 @@
 		border-radius: 0px;
 	}
 }
+
+@media (max-width: 500px) {
+	.header {
+		font-size: 20px;
+	}
+}

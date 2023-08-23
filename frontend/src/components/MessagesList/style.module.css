@@ -5,12 +5,23 @@
 	font-size: 16px;
 	font-weight: 600;
 	margin-bottom: 10px;
-	/* overflow-y: scroll; */
 }
 
 .message {
 	display: inline-block;
 	padding: 2px;
 	max-width: 47%;
-	/* margin-right: 1%; */
+	word-wrap: break-word;
 }
+
+/* @media (max-width: 500px) {
+	.container {
+		font-size: 14px;
+		background-color: cadetblue;
+		width: 100%;
+	}
+
+	.message {
+		margin: 0 !important;
+	}
+} */
