@@ -16,7 +16,7 @@ const initialState: UserState = {
 		id: 0,
 		firstName: null,
 		avatar: null,
-		section: 'Profile',
+		section: 'Settings',
 		notifMessages: [],
 		notifications: []
 	},

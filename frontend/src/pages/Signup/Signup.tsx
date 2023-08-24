@@ -1,5 +1,6 @@
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
+// eslint-disable-next-line
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackApi } from '../../api/back';
@@ -44,11 +45,11 @@ export function Signup() {
 		}
 	}
 
-	useEffect(() => {
-		setBackErr('');
-		// checkPassword(password, confPassword, setErr);
-		// eslint-disable-next-line
-	}, [password, confPassword])
+	// useEffect(() => {
+	// 	setBackErr('');
+	// 	checkPassword(password, confPassword, setErr);
+	// 	// eslint-disable-next-line
+	// }, [password, confPassword])
 
 	return (
 		<div className={s.container}>

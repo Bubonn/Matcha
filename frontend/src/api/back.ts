@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://192.168.1.15:3000';
+const BASE_URL = `http://${process.env.REACT_APP_IP_FRONT}:${process.env.REACT_APP_FRONT_PORT}`;
 
 export class BackApi {
 	static async getAllUsers(token : string) {

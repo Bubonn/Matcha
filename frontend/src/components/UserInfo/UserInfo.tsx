@@ -17,7 +17,7 @@ export function UserInfo() {
 	async function checkToken() {
 		const token: string | null = getCookieByName('token');
 		if (!token) {
-			navigate('/signin');
+			return navigate('/signin');
 		} else {
 			const rep = await BackApi.checkToken(token);
 			if (rep.status !== 200) {
@@ -41,7 +41,7 @@ export function UserInfo() {
 					if (user.all_infos_set && !user.verified) {
 						navigate('/verifyAccount');
 					} else if (user.all_infos_set) {
-						navigate(`/profile/${user.id}`);
+						navigate(`/settings`);
 					} else if (user.birth === null) {
 						navigate('/age');
 					} else if (!user.gender) {
