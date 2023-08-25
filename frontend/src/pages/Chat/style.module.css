@@ -12,8 +12,7 @@
 }
 
 .chatbox {
-	background-color: aqua;
-	width: 100%;
+	width: calc(100vw - (255px + 10px + 300px));
 	display: flex;
 	flex-direction: column;
 }
@@ -50,11 +49,19 @@
 	.container {
 		margin-left: 80px;
 	}
+
+	.chatbox {
+		width: calc(100vw - (80px + 10px + 200px));
+	}
 }
 
 @media (max-width: 700px) {
 	.container {
 		flex-direction: column;
+	}
+
+	.chatbox {
+		width: calc(100vw - 80px);
 	}
 
 	.header {
@@ -63,24 +70,5 @@
 
 	.messages {
 		max-height: calc(100vh - 260px);
-	}
-}
-
-@media (max-width: 500px) {
-	.container {
-		background-color: aquamarine;
-		/* width: calc(100vw - 75px); */
-	}
-
-	.chatbox {
-		/* background-color: blue; */
-		/* width: calc(100vw - 75px); */
-
-	}
-	
-	.messages {
-		/* overflow-x: hidden; */
-		/* background-color: aqua; */
-		/* width: 100%; */
 	}
 }

@@ -8,13 +8,11 @@ cmd="$@"
 
 apt-get update
 apt-get install -y netcat-openbsd
-# apt-get install -y mysql
 
 until nc -z -v -w30 $host $port; do
   echo "Attente de la disponibilité de $host:$port..."
   sleep 1
 done
-# sleep 15
 
 >&2 echo "$host:$port est disponible, exécution de la commande : $cmd"
 exec $cmd
