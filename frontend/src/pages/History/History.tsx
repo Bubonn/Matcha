@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { PageButton } from '../../components/PageButton/PageButton';
-import { LargeCardUser } from '../../components/LargeCardUser/LargeCardUser';
 import { useDispatch } from 'react-redux';
 import { saveSection } from '../../store/user/user-slice';
 import { getToken } from '../../utils/auth';
@@ -23,6 +21,7 @@ export function History() {
 	useEffect(() => {
 		dispatch(saveSection('History'));
 		getHistory()
+		// eslint-disable-next-line
 	}, [])
 
 	if (!history) {

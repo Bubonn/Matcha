@@ -34,7 +34,7 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 		setMessage('');
 		const token = getToken();
 		if (token) {
-			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+			await BackApi.updateNotificationsMessages(token, updatedMessages);
 		}
 	}
 

@@ -153,6 +153,7 @@ export function VerifyTokenAccount() {
 
 	useEffect(() => {
 		checkToken();
+		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
@@ -165,6 +166,7 @@ export function VerifyTokenAccount() {
 				clearTimeout(timeoutId);
 			};
 		}
+		// eslint-disable-next-line
 	}, [verified, locationIsSet]);
 
 	return (

@@ -17,6 +17,7 @@ import { UserInfo } from './components/UserInfo/UserInfo';
 import { Preference } from './pages/Preference/Preference';
 import { Description } from './pages/Description/Description';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { AdditionalsPhotos } from './pages/AdditionalsPhotos/AdditionalsPhotos';
@@ -24,7 +25,6 @@ import { VerifyTokenAccount } from './pages/VerifyTokenAccount/VerifyTokenAccoun
 import { EmailResetPassword } from './pages/EmailResetPassword/EmailResetPassword';
 import store from './store';
 import ReactDOM from 'react-dom/client';
-import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 
 const rootElement = document.getElementById('root');
 
@@ -42,6 +42,7 @@ if (rootElement) {
 						<Route path='/search' element={<Search />} />
 						<Route path='/history' element={<History />} />
 						<Route path='/settings' element={<Settings />} />
+						{/* <Route path='/test' element={<Test />} /> */}
 						<Route path='/logout' element={<Logout />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >

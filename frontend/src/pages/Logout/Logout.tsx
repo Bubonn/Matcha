@@ -8,6 +8,7 @@ export function Logout() {
 	useEffect(() => {
 		deleteCookie('token');
 		navigate('/signin');
+		// eslint-disable-next-line
 	}, [])
 
 	return (

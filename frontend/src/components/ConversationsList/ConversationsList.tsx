@@ -71,7 +71,7 @@ export function ConversationsList({ infoConv, idConv, setIdConv }: Conversations
 		dispatch(saveNotifMessages(updatedMessages))
 		setIdConv(infoConv.conversation_id);
 		if (token) {
-			const rep = await BackApi.updateNotificationsMessages(token, updatedMessages);
+			await BackApi.updateNotificationsMessages(token, updatedMessages);
 		}
 	}
 

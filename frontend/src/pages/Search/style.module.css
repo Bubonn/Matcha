@@ -11,7 +11,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 20px;
 	margin-bottom: 10px;
 }
 
@@ -24,10 +23,14 @@
 	cursor: pointer;
 	border: none;
 	background-color: #666F80;
-	/* background: white; */
 	margin-right: 10px;
 	text-align: center;
 	font-size: 16px;
+}
+
+.filterMapnotClicked {
+	display: flex;
+	gap: 10px;
 }
 
 .filter {
@@ -43,6 +46,11 @@
 
 .filter:hover {
 	background-color: #FB025D;
+}
+
+.iconMap {
+	width: 30px;
+	height: 30px;
 }
 
 .boxFilters {
@@ -226,16 +234,13 @@
 	}
 }
 
-@media (max-width: 500px) {
+/* @media (max-width: 500px) {
 	.container {
-		/* margin-left: 85px;
-		width: calc(100% - 90px); */
 	}
 	
 	.users {
 	}
 	
 	.ctnLoader {
-		/* background-color: beige; */
 	}
-}
+} */

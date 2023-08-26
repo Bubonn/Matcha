@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import s from './style.module.css'
 import { BackApi } from '../../api/back';
 import { getToken } from '../../utils/auth';
@@ -27,6 +27,7 @@ export function UserRelation({ id, relation, setRelation }: { id: any, relation:
 
 	useEffect(() => {
 		getRelation();
+		// eslint-disable-next-line
 	}, [relation])
 
 	if (!relation || relation === 'refresh like' || relation === 'refresh dislike') {

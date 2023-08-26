@@ -33,6 +33,7 @@ export function NotificationsList({notif}: {notif: any}) {
 	
 	useEffect(() => {
 		getUserInfo()
+		// eslint-disable-next-line
 	}, [notif])
 
 	if (!user || !message) {
@@ -42,7 +43,7 @@ export function NotificationsList({notif}: {notif: any}) {
 	return (
 		<div className={s.container} onClick={() => navigate(`/profile/${user.id}`)}>
 			<div className={s.imageCtn}>
-				<img className={s.image} src={`data:image/jpeg;base64,${user.mainPhoto}`}/>
+				<img className={s.image} src={`data:image/jpeg;base64,${user.mainPhoto}`} alt='photoUser'/>
 			</div>
 			<div className={s.message}>
 				{message}

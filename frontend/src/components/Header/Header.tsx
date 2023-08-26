@@ -57,6 +57,7 @@ export function Header({ section }: HeaderProps) {
 		if (!socket) {
 			setSocket(getSocket());
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {
@@ -75,6 +76,7 @@ export function Header({ section }: HeaderProps) {
 		if (selector.notifications) {
 			noReadNotifications();
 		}
+		// eslint-disable-next-line
 	}, [selector.notifications])
 
 	if (selector.id === 0 || !selector.avatar || !selector.firstName) {

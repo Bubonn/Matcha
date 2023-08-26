@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SmallCardUser } from '../../components/SmallCardUser/SmallCardUser';
-import { PageButton } from '../../components/PageButton/PageButton';
 import { saveSection } from '../../store/user/user-slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -25,6 +24,7 @@ export function Likes() {
 	useEffect(() => {
 		dispatch(saveSection('Likes'));
 		getLikes()
+		// eslint-disable-next-line
 	}, [])
 
 	if (selector.id === 0 || !likes) {
