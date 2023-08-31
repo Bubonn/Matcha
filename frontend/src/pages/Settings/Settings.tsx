@@ -282,7 +282,10 @@ export function Settings() {
 
 	async function handleClickPassword() {
 		const token = getToken();
-		if (token) {
+
+		if (!password) {
+			setMsgInput('Password  cannot be empty');
+		} else if (token && !msgInput) {
 			const rep = await BackApi.updatePassword(token, password);
 			if (rep.status === 200) {
 				setMsgInput(rep.data.message);
@@ -300,9 +303,9 @@ export function Settings() {
 		// eslint-disable-next-line
 	}, [selector.id])
 
-	useEffect(() => {
-		checkPassword(password, confPassword, setMsgInput);
-	}, [password, confPassword])
+	// useEffect(() => {
+	// 	checkPassword(password, confPassword, setMsgInput);
+	// }, [password, confPassword])
 
 	if (selector.id === 0 || !blockList) {
 		return (<></>);
