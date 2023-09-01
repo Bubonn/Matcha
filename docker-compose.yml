@@ -10,7 +10,6 @@ services:
       - "8080:8080"
 
   mysql:
-    # image: mysql:8.0.34
     build:
       context: ./db
     container_name: mon_mysql
@@ -19,8 +18,6 @@ services:
       MYSQL_DATABASE: flirtopia
     ports:
       - "3306:3306"
-    # volumes:
-    #   - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   node_app:
     build:
