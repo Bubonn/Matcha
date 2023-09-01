@@ -37,7 +37,7 @@ app.use('/users', user_1.default);
 app.use('/uploads', uploads_1.default);
 const io = new socket_io_1.Server(server, {
     cors: {
-        // origin: "http://localhost:3001",
+        origin: "http://localhost:3001",
         methods: ["GET", "POST"],
     },
 });

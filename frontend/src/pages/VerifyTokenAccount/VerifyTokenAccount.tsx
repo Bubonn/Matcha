@@ -112,20 +112,26 @@ export function VerifyTokenAccount() {
 	async function checkToken() {
 		if (token) {
 			const response = await BackApi.verifyEmail(token);
-			setMessage(response.data.message + ' Please allow location access');
-			createCookie('token', response.data.token);
-			setVerified(true);
-			if (response.status === 200) {
-				try {
-					// const location = await geoLocation();
-					// await BackApi.updateLocation(response.data.token, location);
-					const rep: any = await geoLocation();
-					const location = rep.latitude + ',' + rep.longitude;
-					await BackApi.updateLocation(response.data.token, location);
-				} catch (error) {
+			if (response.data === 200) {
+				setMessage(response.data.message + ' Please allow location access');
+				createCookie('token', response.data.token);
+				setVerified(true);
+				if (response.status === 200) {
+					try {
+						// const location = await geoLocation();
+						// await BackApi.updateLocation(response.data.token, location);
+						const rep: any = await geoLocation();
+						const location = rep.latitude + ',' + rep.longitude;
+						await BackApi.updateLocation(response.data.token, location);
+					} catch (error) {
+						setLocationIsSet(true);
+					}
 					setLocationIsSet(true);
+				} else {
+					console.log(response);
+					setMessage(response);
 				}
-				setLocationIsSet(true);
+
 			} else {
 				setMessage(response);
 			}

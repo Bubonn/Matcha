@@ -11,7 +11,7 @@ const photosManFolder = './man';
 const photosWomanFolder = './woman';
 
 const connectionConfig = {
-	host: '127.0.0.1',
+	host: 'localhost',
 	user: 'root',
 	password: 'rootpass',
 	database: 'flirtopia',
@@ -43,7 +43,7 @@ const insertFakeData = async () => {
 	const conn = await mysql.createConnection(connectionConfig);
 
 	try {
-		const numberOfData = 499;
+		const numberOfData = 497;
 
 		for (let i = 0; i < numberOfData; i++) {
 			let selectedPhotos = [];
