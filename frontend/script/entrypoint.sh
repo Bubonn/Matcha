@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e 
-npm i
+npm i --force
 #npm start  
 
 npm install -g serve
