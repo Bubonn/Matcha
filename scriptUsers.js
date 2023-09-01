@@ -43,7 +43,7 @@ const insertFakeData = async () => {
 	const conn = await mysql.createConnection(connectionConfig);
 
 	try {
-		const numberOfData = 497;
+		const numberOfData = 979;
 
 		for (let i = 0; i < numberOfData; i++) {
 			let selectedPhotos = [];

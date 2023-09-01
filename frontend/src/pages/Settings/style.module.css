@@ -8,7 +8,7 @@
 
 .userInfo {
 	display: flex;
-	/* background-color: #FB025D; */
+	background-color: #FB025D;
 	width: calc(100vw - 255px);
 }
 
@@ -18,7 +18,7 @@
 	width: 50%;
 	gap: 25px;
 	margin-left: 25px;
-	/* background-color: cadetblue; */
+	background-color: cadetblue;
 }
 
 .title {
@@ -44,12 +44,14 @@
 
 .prefAndLoc {
 	display: flex;
+	background-color: #FB025D;
 }
 
 .preference {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
+	background-color: aqua;
 }
 
 .choicePreference {
@@ -93,13 +95,14 @@
 	flex-direction: column;
 	width: 50%;
 	gap: 25px;
-	/* background-color: aquamarine; */
+	background-color: aquamarine;
 }
 
 .hobbies {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 5px;
+	background-color: azure;
 }
 
 .information {
@@ -116,13 +119,15 @@
 .photos {
 	display: flex;
 	flex-direction: column;
-	height: 30%;
 	margin-left: 25px;
+	background-color: antiquewhite;
+	overflow-x: hidden;
 }
 
 .choicePhoto {
 	display: flex;
-	height: 100%;
+	flex-wrap: wrap;
+	background-color: #FB025D;
 }
 
 .err {
@@ -175,10 +180,8 @@
 .blockList {
 	display: flex;
 	flex-direction: column;
-	/* overflow-x: hidden; */
 	margin-left: 25px;
 	margin-top: 20px;
-	height: 300px;
 }
 
 .listUsersBlocked {
@@ -215,11 +218,21 @@
 @media (max-width: 1000px) {
 	.container {
 		margin-left: 85px;
-		width: 100vw;
+		/* width: 100vw; */
+		width: calc(100vw - 85px);
 	}
 
 	.userInfo {
 		width: calc(100vw - 85px);
+	}
+
+	.blockList {
+		width: calc(100vw - (85px + 25px));
+		background-color: aquamarine;
+	}
+
+	.listUsersBlocked {
+		max-width: calc(100vw - (85px + 25px));
 	}
 }
 
@@ -293,6 +306,7 @@
 		justify-content: center;
 		margin-bottom: 15px;
 		width: 100%;
+
 	}
 
 	.choicePreference {
@@ -332,5 +346,14 @@
 	.choicePhoto {
 		flex-direction: column;
 		gap: 10px;
+	}
+
+	.blockList {
+		justify-content: center;
+		align-items: center;
+	}
+
+	.listUsersBlocked {
+		flex-direction: column;
 	}
 }

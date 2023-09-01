@@ -29,6 +29,22 @@
 	overflow-y: scroll;
 }
 
+.noConversations {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-bottom-left-radius: 35px;
+	border-bottom-right-radius: 35px;
+	overflow-y: scroll;
+	text-align: center;
+	color: #C3C8D3;
+	font-family: Poppins;
+	font-size: 20px;
+	font-weight: 500;
+}
+
 @media (max-width: 1000px) {
 	.conversationsBox {
 		width: 200px;

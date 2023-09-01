@@ -112,7 +112,7 @@ export function VerifyTokenAccount() {
 	async function checkToken() {
 		if (token) {
 			const response = await BackApi.verifyEmail(token);
-			if (response.data === 200) {
+			if (response.status === 200) {
 				setMessage(response.data.message + ' Please allow location access');
 				createCookie('token', response.data.token);
 				setVerified(true);
