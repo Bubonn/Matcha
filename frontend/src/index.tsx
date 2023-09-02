@@ -42,7 +42,6 @@ if (rootElement) {
 						<Route path='/search' element={<Search />} />
 						<Route path='/history' element={<History />} />
 						<Route path='/settings' element={<Settings />} />
-						{/* <Route path='/test' element={<Test />} /> */}
 						<Route path='/logout' element={<Logout />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >

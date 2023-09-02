@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const connectionDb_1 = require("./services/connectionDb");
 const token_1 = require("./utils/token");
 const socket_io_1 = require("socket.io");
+const db_1 = require("./services/db");
+const userUtils_1 = require("./utils/userUtils");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const login_1 = __importDefault(require("./routes/login"));
@@ -22,8 +24,6 @@ const user_1 = __importDefault(require("./routes/user"));
 const uploads_1 = __importDefault(require("./routes/uploads"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_1 = __importDefault(require("http"));
-const db_1 = require("./services/db");
-const userUtils_1 = require("./utils/userUtils");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
             try {
                 yield (0, db_1.insertMessage)(conversation_id, message_content, recipient_id, sender_id);
                 if (!userSocket) {
-                    yield (0, db_1.addNotifMessage)(recipient_id, conversation_id, message_content);
+                    yield (0, db_1.addNotifMessage)(recipient_id, conversation_id, sender_id, message_content);
                 }
             }
             catch (error) {
@@ -173,7 +173,7 @@ io.on('connection', (socket) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield (0, db_1.blockUser)(sender_id, recipient_id);
-                yield (0, db_1.updatePopularityScore)(recipient_id, -50);
+                yield (0, db_1.deleteNotifsMessages)(recipient_id, -50);
                 if (userSocket) {
                     userSocket.emit('reloadConv');
                 }

@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS notifications (
 CREATE TABLE IF NOT EXISTS notificationsMessages (
   `notification_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
+  `user_id_source` int DEFAULT NULL,
   `conversation_id` int DEFAULT NULL,
   `message_content` text,
   PRIMARY KEY (`notification_id`),

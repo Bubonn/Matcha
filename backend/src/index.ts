@@ -1,6 +1,8 @@
 import { createConnection } from './services/connectionDb';
 import { authenticateToken } from './utils/token';
 import { Server, Socket } from 'socket.io'
+import { addNotifMessage, blockUser, createChannel, deleteChannel, deleteLike, deleteNotifsMessages, getRelaion, insertHistory, insertLike, insertMessage, insertNotif, updatePopularityScore, userConnected, userDisonnected } from './services/db';
+import { isBlocked } from './utils/userUtils';
 import express from 'express';
 import cors from 'cors';
 import login from './routes/login';
@@ -8,8 +10,6 @@ import users from './routes/user';
 import uploads from './routes/uploads';
 import dotenv from 'dotenv';
 import http from 'http';
-import { addNotifMessage, blockUser, createChannel, deleteChannel, deleteLike, getRelaion, insertHistory, insertLike, insertMessage, insertNotif, updatePopularityScore, userConnected, userDisonnected } from './services/db';
-import { isBlocked } from './utils/userUtils';
 
 dotenv.config();
 
@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
 			try {
 				await insertMessage(conversation_id, message_content, recipient_id, sender_id);
 				if (!userSocket) {
-					await addNotifMessage(recipient_id, conversation_id, message_content);
+					await addNotifMessage(recipient_id, conversation_id, sender_id, message_content);
 				}
 			} catch (error) {
 				console.log(error);
@@ -174,7 +174,7 @@ io.on('connection', (socket) => {
 		(async () => {
 			try {
 				await blockUser(sender_id, recipient_id);
-				await updatePopularityScore(recipient_id, -50);
+				await deleteNotifsMessages(recipient_id, -50);
 				if (userSocket) {
 					userSocket.emit('reloadConv');
 				}

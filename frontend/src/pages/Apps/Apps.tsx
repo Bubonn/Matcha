@@ -118,7 +118,6 @@ export function Apps() {
 
 		// eslint-disable-next-line
 	}, [socket, selector.notifMessages]);
-// }, [socket, selector.id, selector.notifMessages]);
 
 	if (!verified) {
 		return (

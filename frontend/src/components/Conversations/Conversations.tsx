@@ -52,8 +52,6 @@ export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps)
 		return (<></>);
 	}
 
-	console.log('conversations');
-
 	return (
 		<div className={s.conversationsBox}>
 			<div className={s.header}>Matchs</div>
@@ -72,15 +70,6 @@ export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps)
 					You don't have any matches yet
 				</div>
 			}
-			{/* <div className={s.conversations}>
-				{conversations.map((conv: any, index: number) => {
-					return (
-						<React.Fragment key={index}>
-							<ConversationsList infoConv={conv} idConv={idConv} setIdConv={setIdConv} />
-						</React.Fragment>
-					);
-				})}
-			</div> */}
 		</div>
 	);
 }

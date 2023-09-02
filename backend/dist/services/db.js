@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNotifMessage = exports.updatePopularityScore = exports.blockUser = exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
+exports.addNotifMessage = exports.updatePopularityScore = exports.deleteNotifsMessages = exports.blockUser = exports.userDisonnected = exports.userConnected = exports.insertHistory = exports.deleteChannel = exports.createChannel = exports.getRelaion = exports.insertNotif = exports.deleteLike = exports.insertLike = exports.insertMessage = void 0;
 const connectionDb_1 = require("./connectionDb");
 const insertMessage = (conversation_id, message_content, recipient_id, sender_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -309,6 +309,30 @@ const blockUser = (id, idUserBlock) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.blockUser = blockUser;
+const deleteNotifsMessages = (id, idUserBlock) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, exports.deleteChannel)(id, idUserBlock);
+        yield (0, exports.deleteLike)(id, idUserBlock);
+        const connection = (0, connectionDb_1.getConnection)();
+        const query = 'DELETE FROM ma_table \
+			WHERE (user_id_source = a AND user_id = b) OR\
+			(user_id_source = b AND user_id = a);';
+        yield new Promise((resolve, reject) => {
+            connection.query(query, [id, idUserBlock], (err, results) => {
+                if (err) {
+                    reject(new Error('Erreur lors de l\'exécution de la requête'));
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteNotifsMessages = deleteNotifsMessages;
 const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const connection = (0, connectionDb_1.getConnection)();
@@ -347,13 +371,13 @@ const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.updatePopularityScore = updatePopularityScore;
-const addNotifMessage = (id, conversation_id, message_content) => __awaiter(void 0, void 0, void 0, function* () {
+const addNotifMessage = (id, conversation_id, sender_id, message_content) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const connection = (0, connectionDb_1.getConnection)();
-        const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
-		VALUES (?, ?, ?);';
+        const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, user_id_source, message_content)\
+		VALUES (?, ?, ?, ?);';
         yield new Promise((resolve, reject) => {
-            connection.query(query, [id, conversation_id, message_content], (err, results) => {
+            connection.query(query, [id, conversation_id, sender_id, message_content], (err, results) => {
                 if (err) {
                     reject(new Error('Erreur lors de l\'exécution de la requête'));
                 }

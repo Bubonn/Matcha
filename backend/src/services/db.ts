@@ -322,6 +322,34 @@ export const blockUser = async (id: any, idUserBlock: any) => {
 	}
 }
 
+export const deleteNotifsMessages = async (id: any, idUserBlock: any) => {
+
+	try {
+
+		await deleteChannel(id, idUserBlock);
+		await deleteLike(id, idUserBlock);
+
+		const connection = getConnection();
+
+			const query = 'DELETE FROM ma_table \
+			WHERE (user_id_source = a AND user_id = b) OR\
+			(user_id_source = b AND user_id = a);';
+
+			await new Promise((resolve, reject) => {
+				connection.query(query, [id, idUserBlock], (err: any, results: any) => {
+					if (err) {
+						reject(new Error('Erreur lors de l\'exécution de la requête'));
+					} else {
+						resolve(results);
+					}
+				});
+			});
+
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const updatePopularityScore = async (id:number, score: number) => {
 
 	try {
@@ -364,17 +392,17 @@ export const updatePopularityScore = async (id:number, score: number) => {
 	}
 }
 
-export const addNotifMessage = async (id: any, conversation_id: any, message_content: any) => {
+export const addNotifMessage = async (id: any, conversation_id: any, sender_id: any, message_content: any) => {
 
 	try {
 
 		const connection = getConnection();
 
-		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, message_content)\
-		VALUES (?, ?, ?);';
+		const query = 'INSERT INTO notificationsMessages (user_id, conversation_id, user_id_source, message_content)\
+		VALUES (?, ?, ?, ?);';
 
 			await new Promise((resolve, reject) => {
-				connection.query(query, [id, conversation_id, message_content], (err: any, results: any) => {
+				connection.query(query, [id, conversation_id, sender_id, message_content], (err: any, results: any) => {
 					if (err) {
 						reject(new Error('Erreur lors de l\'exécution de la requête'));
 					} else {
