@@ -31,7 +31,7 @@ export function Settings() {
 	const [lastName, setLastName] = useState<string>('');
 	const [username, setUsername] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	const [newPassword, setNewPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [city, setCity] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
@@ -282,15 +282,19 @@ export function Settings() {
 
 	async function handleClickPassword() {
 		const token = getToken();
+		console.log(newPassword);
+		console.log(confPassword);
 
-		if (!password) {
+		if (!newPassword) {
 			setMsgInput('Password  cannot be empty');
-		} else if (token && !msgInput) {
-			const rep = await BackApi.updatePassword(token, password);
+		} else if (newPassword !== confPassword) {
+			setMsgInput('passwords must be the same');
+		} else if (token) {
+			const rep = await BackApi.updatePassword(token, newPassword);
 			if (rep.status === 200) {
 				setMsgInput(rep.data.message);
-			} else {
-				setMsgInput(rep);
+		} else {
+			setMsgInput(rep);
 			}
 		}
 	}
@@ -415,10 +419,12 @@ export function Settings() {
 							<InputSettings handleClick={handleClickEmail} name='email' text={true} content={email} setContent={setEmail} placeholder='Email' />
 							<InputSettings handleClick={handleClickUsername} name='username' text={true} content={username} setContent={setUsername} placeholder='Username' />
 						</div>
-						<div className={s.input}>
-							<InputSettings handleClick={handleClickPassword} name='password' text={false} content={password} setContent={setPassword} placeholder='New password' />
-							<InputSettings handleClick={handleClickPassword} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password' />
-						</div>
+						<form>
+							<div className={s.input}>
+								<InputSettings handleClick={handleClickPassword} name='newPassword' text={false} content={newPassword} setContent={setNewPassword} placeholder='New password' />
+								<InputSettings handleClick={handleClickPassword} name='confirmPassword' text={false} content={confPassword} setContent={setConfPassword} placeholder='Confirm new password' />
+							</div>
+						</form>
 						{msgInput && <span className={s.msgInput}>{msgInput}</span>}
 					</div>
 				</div>

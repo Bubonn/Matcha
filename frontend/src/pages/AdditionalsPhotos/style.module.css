@@ -42,7 +42,7 @@ html, body {
 	max-height: 100%;
 	border-radius: 32px;
 	backdrop-filter: blur(25px);
-	overflow-y: scroll;
+	overflow-y: auto;
 
 	transform: translateX(0);
 	transition: transform 0.6s ease-in-out;
@@ -99,7 +99,7 @@ html, body {
 
 @media (max-width: 700px) {
 	.boxStartAnimate {
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 
 	.logo {

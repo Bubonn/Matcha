@@ -155,7 +155,7 @@ const createChannel = (id_user_source, id_user_target) => __awaiter(void 0, void
             return;
         }
         yield new Promise((resolve, reject) => {
-            const query = 'INSERT INTO Conversations (user1_id, user2_id, creation_date) VALUES (?, ?, NOW())';
+            const query = 'INSERT INTO conversations (user1_id, user2_id, creation_date) VALUES (?, ?, NOW())';
             connection.query(query, [id_user_source, id_user_target], (err, results) => {
                 if (err) {
                     reject(new Error('Erreur lors de l\'exécution de la requête'));

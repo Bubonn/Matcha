@@ -155,7 +155,7 @@ export const createChannel = async (id_user_source: number, id_user_target: numb
 		}
 
 		await new Promise((resolve, reject) => {
-			const query = 'INSERT INTO Conversations (user1_id, user2_id, creation_date) VALUES (?, ?, NOW())';
+			const query = 'INSERT INTO conversations (user1_id, user2_id, creation_date) VALUES (?, ?, NOW())';
 
 			connection.query(query, [id_user_source, id_user_target], (err: any, results: any) => {
 				if (err) {

@@ -26,13 +26,14 @@ export function InputSettings({ name, text, content, setContent, placeholder, ha
 				placeholder={placeholder}
 				onChange={handleChange}
 				maxLength={name === 'firstName' ? 15 : 30}
+				autoComplete={'off'}
 			/>
 			<img
 				className={s.sendButton}
 				src={send}
 				alt='sendButton'
 				onClick={handleClick}
-				style={{visibility: name === 'password' ? 'hidden' : 'visible'}}
+				style={{visibility: name === 'newPassword' ? 'hidden' : 'visible'}}
 			/>
 		</div>
 	);
