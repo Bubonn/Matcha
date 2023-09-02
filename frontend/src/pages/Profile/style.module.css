@@ -179,7 +179,7 @@
 	align-items: center;
 	margin-top: 20px;
 	gap: 5px;
-	overflow-y: scroll;
+	flex-wrap: wrap;
 }
 
 .interests {

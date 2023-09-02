@@ -8,8 +8,7 @@
 
 .userInfo {
 	display: flex;
-	background-color: #FB025D;
-	width: calc(100vw - 255px);
+	width: calc(100vw - 270px);
 }
 
 .leftCtn {
@@ -18,7 +17,6 @@
 	width: 50%;
 	gap: 25px;
 	margin-left: 25px;
-	background-color: cadetblue;
 }
 
 .title {
@@ -44,14 +42,12 @@
 
 .prefAndLoc {
 	display: flex;
-	background-color: #FB025D;
 }
 
 .preference {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
-	background-color: aqua;
 }
 
 .choicePreference {
@@ -60,13 +56,9 @@
 }
 
 .location {
-	/* background-color: aqua; */
 	width: 50%;
 	display: flex;
 	flex-direction: column;
-	/* text-align: left; */
-	/* justify-content: start; */
-	/* align-items: start; */
 }
 
 .textBox {
@@ -95,14 +87,12 @@
 	flex-direction: column;
 	width: 50%;
 	gap: 25px;
-	background-color: aquamarine;
 }
 
 .hobbies {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 5px;
-	background-color: azure;
 }
 
 .information {
@@ -120,14 +110,11 @@
 	display: flex;
 	flex-direction: column;
 	margin-left: 25px;
-	background-color: antiquewhite;
-	overflow-x: hidden;
 }
 
 .choicePhoto {
 	display: flex;
 	flex-wrap: wrap;
-	background-color: #FB025D;
 }
 
 .err {
@@ -186,9 +173,9 @@
 
 .listUsersBlocked {
 	display: flex;
-	overflow-x: scroll;
+	overflow-x: auto;
 	gap: 20px;
-	max-width: calc(100vw - 280px);
+	max-width: calc(100vw - 295px);
 }
 
 .imagesBlock {
@@ -218,37 +205,35 @@
 @media (max-width: 1000px) {
 	.container {
 		margin-left: 85px;
-		/* width: 100vw; */
-		width: calc(100vw - 85px);
+		width: calc(100vw - (85px + 25px));
 	}
 
 	.userInfo {
-		width: calc(100vw - 85px);
+		width: calc(100vw - 100px);
 	}
 
 	.blockList {
-		width: calc(100vw - (85px + 25px));
-		background-color: aquamarine;
+		width: calc(100vw - (100px + 25px));
 	}
 
 	.listUsersBlocked {
-		max-width: calc(100vw - (85px + 25px));
+		max-width: calc(100vw - (110px));
 	}
 }
 
 @media (max-width: 700px) {
 	.container {
-		width: calc(100vw - 85px);
+		width: calc(100vw - 100px);
 	}
 	
 	.userInfo {
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
+		margin: 0;
 	}
 
 	.leftCtn {
-		/* width: calc(100vw - 85px); */
 		width: 100%;
 		align-items: center;
 		margin: 0;
@@ -280,7 +265,6 @@
 	.hobbies {
 		justify-content: center;
 		align-items: center;
-		/* width: calc(100vw - 85px); */
 		width: 100%;
 
 	}
@@ -289,11 +273,9 @@
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		overflow-x: hidden;
 	}
 	
 	.input {
-		width: 100%;
 		margin-left: 10px;
 	}
 
@@ -317,7 +299,6 @@
 
 	.rightCtn {
 		width: 100%;
-		/* background-color: #FB025D; */
 	}
 
 	.description {
@@ -330,7 +311,6 @@
 	.location {
 		justify-content: center;
 		align-items: center;
-		/* width: 300px; */
 		width: 100%;
 	}
 

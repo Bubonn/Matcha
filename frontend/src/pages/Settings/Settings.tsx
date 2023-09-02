@@ -423,7 +423,7 @@ export function Settings() {
 					</div>
 				</div>
 			</div>
-			{/* <div className={s.photos}>
+			<div className={s.photos}>
 				<span className={s.title}>Photos</span>
 				{errPhotos && <span className={s.err}>{errPhotos}</span>}
 				<div className={s.choicePhoto}>
@@ -455,7 +455,7 @@ export function Settings() {
 						})}
 					</div>
 				</div>
-			} */}
+			}
 		</div>
 	);
 }

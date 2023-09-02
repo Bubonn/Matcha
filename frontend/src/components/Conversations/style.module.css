@@ -26,7 +26,7 @@
 	flex-direction: column;
 	border-bottom-left-radius: 35px;
 	border-bottom-right-radius: 35px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .noConversations {
@@ -37,7 +37,7 @@
 	align-items: center;
 	border-bottom-left-radius: 35px;
 	border-bottom-right-radius: 35px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	text-align: center;
 	color: #C3C8D3;
 	font-family: Poppins;
@@ -68,7 +68,7 @@
 
 	.conversations {
 		flex-direction: row;
-		overflow-x: scroll;
+		overflow-x: auto;
 		border-radius: 0px;
 	}
 }
