@@ -282,8 +282,6 @@ export function Settings() {
 
 	async function handleClickPassword() {
 		const token = getToken();
-		console.log(newPassword);
-		console.log(confPassword);
 
 		if (!newPassword) {
 			setMsgInput('Password  cannot be empty');
@@ -307,9 +305,9 @@ export function Settings() {
 		// eslint-disable-next-line
 	}, [selector.id])
 
-	// useEffect(() => {
-	// 	checkPassword(password, confPassword, setMsgInput);
-	// }, [password, confPassword])
+	useEffect(() => {
+		checkPassword(newPassword, confPassword, setMsgInput);
+	}, [newPassword, confPassword])
 
 	if (selector.id === 0 || !blockList) {
 		return (<></>);

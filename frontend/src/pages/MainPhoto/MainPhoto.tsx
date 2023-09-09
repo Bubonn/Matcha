@@ -10,6 +10,7 @@ import s from './style.module.css'
 export function MainPhoto() {
 	const navigate = useNavigate();
 	const [photo, setPhoto] = useState<any>(null);
+	const [err, setErr] = useState<null | string>(null);
 	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
 	const [endAnimation, setEndAnimation] = useState(false);
 	const [className, setClassName] = useState(s.boxStart);
@@ -27,7 +28,6 @@ export function MainPhoto() {
 	}
 
 	async function handlePhotoSelection(file: File) {
-		setPhoto(file);
 		if (!file) {
 			return;
 		}
@@ -38,7 +38,13 @@ export function MainPhoto() {
 
 			const token = getCookieByName('token');
 			if (token) {
-				await BackApi.upload(token, formData)
+				const rep = await BackApi.upload(token, formData);
+				if (rep.status === 200) {
+					setPhoto(file);
+					setErr(null);
+				} else {
+					setErr(rep.data);
+				}
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
@@ -89,6 +95,7 @@ export function MainPhoto() {
 							handleRemovePhoto={() => handleRemovePhoto()}
 						/>
 					</div>
+					{err && <span className={s.error}>{err}</span>}
 					<div className={s.button}>
 						<ButtonNext disabled={photo === null}/>
 					</div>

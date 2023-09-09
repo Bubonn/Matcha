@@ -6,12 +6,14 @@ const maleFirstName = require('./manFirstName.json');
 const femaleFirstName = require('./womanFirstName.json');
 const path = require('path');
 const fs = require('fs');
+const { SingleBar } = require('cli-progress');
 
 const photosManFolder = './man';
 const photosWomanFolder = './woman';
 
 const connectionConfig = {
 	host: 'localhost',
+	// host: 'mon_mysql',
 	user: 'root',
 	password: 'rootpass',
 	database: 'flirtopia',
@@ -42,8 +44,16 @@ function generateRandomNumbersArray() {
 const insertFakeData = async () => {
 	const conn = await mysql.createConnection(connectionConfig);
 
+	const progressBar = new SingleBar({
+		format: 'Progress [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}',
+		barCompleteChar: '\u2588',
+		barIncompleteChar: '\u2591',
+		hideCursor: true,
+	});
+
 	try {
-		const numberOfData = 200;
+		const numberOfData = 20;
+		progressBar.start(numberOfData, 0);
 
 		for (let i = 0; i < numberOfData; i++) {
 			let selectedPhotos = [];
@@ -79,8 +89,9 @@ const insertFakeData = async () => {
 				const valuesInterests = [newId[0].insertId, interest];
 				await conn.query(sqlInterests, valuesInterests);
 			}
+			progressBar.update(i + 1);
 		}
-
+		progressBar.stop();
 
 		console.log(`${numberOfData} fausses données ont été insérées dans la base de données.`);
 	} catch (error) {

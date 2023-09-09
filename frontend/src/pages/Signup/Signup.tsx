@@ -45,11 +45,11 @@ export function Signup() {
 		}
 	}
 
-	// useEffect(() => {
-	// 	setBackErr('');
-	// 	checkPassword(password, confPassword, setErr);
-	// 	// eslint-disable-next-line
-	// }, [password, confPassword])
+	useEffect(() => {
+		setBackErr('');
+		checkPassword(password, confPassword, setErr);
+		// eslint-disable-next-line
+	}, [password, confPassword])
 
 	return (
 		<div className={s.container}>

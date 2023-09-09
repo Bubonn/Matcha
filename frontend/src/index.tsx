@@ -16,7 +16,7 @@ import { MainPhoto } from './pages/MainPhoto/MainPhoto';
 import { UserInfo } from './components/UserInfo/UserInfo';
 import { Preference } from './pages/Preference/Preference';
 import { Description } from './pages/Description/Description';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
@@ -41,8 +41,9 @@ if (rootElement) {
 						<Route path='/chat' element={<Chat />} />
 						<Route path='/search' element={<Search />} />
 						<Route path='/history' element={<History />} />
-						<Route path='/settings' element={<Settings />} />
 						<Route path='/logout' element={<Logout />} />
+						<Route path='/settings' element={<Settings />} />
+						<Route path='*' element={<Settings />} />
 					</Route>
 					<Route path='/' element={<UserInfo />} >
 						<Route path='/age' element={<Age />} />

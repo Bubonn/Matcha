@@ -46,7 +46,7 @@ html, body {
 	width: 100%;
 	height: 100px;
 	margin-top: 1vh;
-	font-family: 'poppins', sans-serif;
+	font-family: Poppins;
 	font-size: 32px;
 	font-weight: 700;
 }
@@ -93,8 +93,8 @@ html, body {
 
 .error {
 	color: red;
-	font-family: 'poppins', sans-serif;
-	font-size: 16px;
+	font-family: Poppins;
+	font-size: 14px;
 	font-weight: 400;
 }
 

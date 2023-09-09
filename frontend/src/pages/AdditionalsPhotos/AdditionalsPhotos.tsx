@@ -10,6 +10,7 @@ import s from './style.module.css';
 export function AdditionalsPhotos() {
 	const navigate = useNavigate();
 	const [photos, setPhotos] = useState<Array<any>>([]);
+	const [err, setErr] = useState<null | string>(null);
 	const [entrenceAnimation, setEntrenceAnimation] = useState(false);
 	const [endAnimation, setEndAnimation] = useState(false);
 	const [className, setClassName] = useState(s.boxStart);
@@ -29,18 +30,21 @@ export function AdditionalsPhotos() {
 	}
 
 	async function handlePhotoSelection(index: number, file: File) {
-		const updatedPhotos = [...photos];
-		updatedPhotos[index] = file;
-		setPhotos(updatedPhotos);
 		try {
 			const formData: any = new FormData();
 			formData.append('photo_profil', file);
 			formData.append('photoId', index + 2);
 
 			const token = getCookieByName('token');
-
 			if (token)  {
-				await BackApi.upload(token, formData)
+				const rep = await BackApi.upload(token, formData)
+				if (rep.status === 200) {
+					const updatedPhotos = [...photos];
+					updatedPhotos[index] = file;
+					setPhotos(updatedPhotos);
+				} else {
+					setErr(rep.data);
+				}
 			}
 		} catch (error) {
 			console.error('Une erreur est survenue lors de la requête au backend :', error);
@@ -97,6 +101,7 @@ export function AdditionalsPhotos() {
 							/>
 						))}
 					</div>
+					{err && <span className={s.error}>{err}</span>}
 					<div className={s.button}>
 						<ButtonNext />
 					</div>

@@ -29,4 +29,8 @@ services:
       - mysql
     volumes:
       - ./test.sh:/test.sh
+      - ./coordsCity.json:/app/coordsCity.json
+      - ./manFirstName.json:/app/manFirstName.json
+      - ./womanFirstName.json:/app/womanFirstName.json
+      - ./scriptUsers.js:/app/scriptUsers.js
     command: ["/test.sh", "mon_mysql:3306", "--", "node", "dist/index.js"]

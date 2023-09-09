@@ -53,6 +53,11 @@ export function Apps() {
 		} else {
 			navigate('/signin');
 		}
+
+		const currentPath = window.location.pathname;
+		if (currentPath === '/') {
+			navigate('/settings');
+		}
 	}
 
 	async function messageReceived(message: any) {

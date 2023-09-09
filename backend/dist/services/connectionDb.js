@@ -8,8 +8,8 @@ const mysql2_1 = __importDefault(require("mysql2"));
 let connection;
 const createConnection = () => {
     connection = mysql2_1.default.createConnection({
-        host: '127.0.0.1',
-        // host: 'mon_mysql',
+        // host: '127.0.0.1',
+        host: 'mon_mysql',
         port: 3306,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,

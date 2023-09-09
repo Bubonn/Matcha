@@ -91,6 +91,12 @@ html, body {
 	justify-content: center;
 }
 
+.error {
+	font-family: Poppins;
+	font-size: 16px;
+	color: red;
+}
+
 .button {
 	display: flex;
 	justify-content: center;
