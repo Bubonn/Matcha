@@ -13,15 +13,14 @@ export function SuggestionCity({ placeHolder }: { placeHolder: string }) {
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const text = event.target.value;
-		// const text = event.target.value.trim();
 		setInputText(text);
 		fetchSuggestions(text);
 	};
 
 	const fetchSuggestions = debounce(async (text: string) => {
 		try {
-			const test = await Api.getSuggestionCity(text);
-			setSuggestions(test.data.features);
+			const response = await Api.getSuggestionCity(text);
+			setSuggestions(response.data.features);
 		} catch (error) {
 			console.error('Error fetching suggestions:', error);
 		}

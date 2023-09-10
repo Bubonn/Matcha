@@ -28,9 +28,9 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./test.sh:/test.sh
+      - ./wait-for-it.sh:/wait-for-it.sh
       - ./coordsCity.json:/app/coordsCity.json
       - ./manFirstName.json:/app/manFirstName.json
       - ./womanFirstName.json:/app/womanFirstName.json
       - ./scriptUsers.js:/app/scriptUsers.js
-    command: ["/test.sh", "mon_mysql:3306", "--", "node", "dist/index.js"]
+    command: ["/wait-for-it.sh", "mon_mysql:3306", "--", "node", "dist/index.js"]
