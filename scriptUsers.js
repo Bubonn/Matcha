@@ -8,8 +8,11 @@ const path = require('path');
 const fs = require('fs');
 const { SingleBar } = require('cli-progress');
 
-const photosManFolder = './man';
-const photosWomanFolder = './woman';
+const photosManFolder = './backend/uploads/man';
+const photosWomanFolder = './backend/uploads/woman';
+
+// const photosManPath = './man';
+// const photosWomanPath = './backend/uploads/woman';
 
 const connectionConfig = {
 	host: 'localhost',
@@ -52,7 +55,7 @@ const insertFakeData = async () => {
 	});
 
 	try {
-		const numberOfData = 200;
+		const numberOfData = 500;
 		progressBar.start(numberOfData, 0);
 
 		for (let i = 0; i < numberOfData; i++) {
@@ -71,7 +74,7 @@ const insertFakeData = async () => {
 			const password = faker.internet.password(12, false);
 			const hashedPassword = await argon2.hash(password);
 			const photosList = gender === 'man' ? getFilesInFolder(photosManFolder) : getFilesInFolder(photosWomanFolder);
-			const photos = getRandomPhotos(photosList, selectedPhotos).map((photo) => path.join(gender === 'man' ? photosManFolder : photosWomanFolder, photo));
+			const photos = getRandomPhotos(photosList, selectedPhotos).map((photo) => path.join(gender === 'man' ? './man' : './woman', photo));
 			selectedPhotos = selectedPhotos.concat(photos.map(photo => path.basename(photo)));
 			const photo1 = photos[0];
 			const photo2 = photos[1];
