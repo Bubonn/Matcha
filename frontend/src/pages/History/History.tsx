@@ -14,7 +14,8 @@ export function History() {
 		const token = getToken();
 		if (token) {
 			const rep = await BackApi.getHistory(token);
-			setHistory(rep.data);
+			const reversedHistory = rep.data.reverse();
+			setHistory(reversedHistory);
 		}
 	}
 
