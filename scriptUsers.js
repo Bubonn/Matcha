@@ -55,7 +55,7 @@ const insertFakeData = async () => {
 	});
 
 	try {
-		const numberOfData = 500;
+		const numberOfData = 100;
 		progressBar.start(numberOfData, 0);
 
 		for (let i = 0; i < numberOfData; i++) {

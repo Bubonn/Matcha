@@ -39,6 +39,7 @@ export function MapUser({usersSelected}: {usersSelected: any}) {
 
 	useEffect(() => {
 		getUsersSelected();
+		// eslint-disable-next-line
 	}, [])
 
 	if (!usersCoords) {

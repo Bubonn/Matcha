@@ -16,7 +16,7 @@ import { MainPhoto } from './pages/MainPhoto/MainPhoto';
 import { UserInfo } from './components/UserInfo/UserInfo';
 import { Preference } from './pages/Preference/Preference';
 import { Description } from './pages/Description/Description';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { VerifyAccount } from './pages/VerifyAccount/VerifyAccount';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
