@@ -17,14 +17,16 @@ export function HeaderChat({ idConv }: HeaderChatProps) {
 	const navigate = useNavigate();
 
 	async function getInfosUser() {
-		const token = getToken();
-		if (token) {
-			const response = await BackApi.getConversationById(token, idConv);
-			const conv = response.data
-			const id = conv.user1_id === selector.id ? conv.user2_id : conv.user1_id;
-			const rep = await BackApi.getUserById(id, token);
-			if (rep.status === 200) {
-				setUser(rep.data);
+		if (idConv) {
+			const token = getToken();
+			if (token) {
+				const response = await BackApi.getConversationById(token, idConv);
+				const conv = response.data;
+				const id = conv.user1_id === selector.id ? conv.user2_id : conv.user1_id;
+				const rep = await BackApi.getUserById(id, token);
+				if (rep.status === 200) {
+					setUser(rep.data);
+				}
 			}
 		}
 	}

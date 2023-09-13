@@ -21,11 +21,9 @@ export function Conversations({ idConv, setIdConv, newMsg }: ConversationsProps)
 		if (token) {
 			const rep = await BackApi.getConversationsByUserId(token);
 			setConversations(rep.data);
-			if (idConv) {
 				const containsId = rep.data.some((conv: any) => conv.conversation_id === idConv);
 				if (!containsId) {
 					setIdConv(null);
-				}
 			}
 		}
 	}
