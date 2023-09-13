@@ -18,6 +18,7 @@ import woman from '../../assets/settings/woman.svg'
 import bi from '../../assets/settings/bi.svg'
 import send from '../../assets/send.svg'
 import s from './style.module.css'
+import { SettingsGender } from '../../components/SettingsGender/SettingsGender';
 
 export function Settings() {
 	const [selectedDay, setSelectedDay] = useState('');
@@ -34,6 +35,7 @@ export function Settings() {
 	const [newPassword, setNewPassword] = useState<string>('');
 	const [confPassword, setConfPassword] = useState<string>('');
 	const [city, setCity] = useState<string>('');
+	const [gender, setGender] = useState<string>('');
 	const [photos, setPhotos] = useState<Array<any>>([]);
 	const [errPhotos, setErrPhotos] = useState<string | null>(null);
 	const [msgInput, setMsgInput] = useState<string | null>(null);
@@ -145,6 +147,7 @@ export function Settings() {
 			setEmail(user.email);
 			setUsername(user.username);
 			setInterests(user.interests);
+			setGender(user.gender);
 			const rep = await BackApi.getPhotoById(selector.id, token);
 			setPhotos([rep.data.photo1, rep.data.photo2, rep.data.photo3, rep.data.photo4, rep.data.photo5]);
 			if (!user.location) {
@@ -386,6 +389,13 @@ export function Settings() {
 							<span className={s.title}>Location</span>
 							<SuggestionCity placeHolder={city} />
 						</div>
+					</div>
+					<div className={s.gender}>
+						<span className={s.title}>Gender</span>
+						<div className={s.choicePreference}>
+								<SettingsGender name='man' logo={man} isSelected={gender === 'man'} setSelectedGender={setGender} />
+								<SettingsGender name='woman' logo={woman} isSelected={gender === 'woman'} setSelectedGender={setGender} />
+							</div>
 					</div>
 					<div className={s.description}>
 						<span className={s.title}>Description</span>
