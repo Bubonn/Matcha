@@ -208,11 +208,22 @@ export function Settings() {
 		return inputString.replace(pattern, " ");
 	}
 
+	function removeExtraSpace(str: any) {
+		str = str.replace(/[\s]{2,}/g, " ");
+		str = str.replace(/^[\s]/, "");
+		str = str.replace(/[\s]$/, "");
+		return str;
+	}
+
 	async function sendDescription() {
 		const token = getToken();
 		if (token) {
 			const newDescription = removeNewlines(description);
-			const rep = await BackApi.updateDescripion(token, newDescription);
+			const newDescriptionBis = removeExtraSpace(newDescription);
+			if (newDescription.length === 0) {
+				return setMsgDescription('Description can\'t be empty');
+			}
+			const rep = await BackApi.updateDescripion(token, newDescriptionBis);
 			if (rep.status === 200) {
 				setMsgDescription('Description updated');
 			}

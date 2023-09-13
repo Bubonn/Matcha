@@ -44,7 +44,6 @@ export function Signup() {
 			obj.username = removeExtraSpace(obj.username);
 			obj.firstName = removeExtraSpace(obj.firstName);
 			obj.lastName = removeExtraSpace(obj.lastName);
-			console.log(obj);
 			const rep = await BackApi.signup(obj);
 			if (rep.status === 200) {
 				const id = parseJwt(rep.data.token).userId;

@@ -14,11 +14,35 @@ export function Description() {
 	const [className, setClassName] = useState(s.boxStart);
 	const maxChar = 200;
 
+	function descriptionIsVoid() {
+		const newDescription = removeNewlines(description);
+		const newDescriptionBis = removeExtraSpace(newDescription);
+		return newDescriptionBis.length === 0;
+	}
+
+	function removeNewlines(inputString: string): string {
+		const pattern = /[\r\n]+/g;
+		return inputString.replace(pattern, " ");
+	}
+
+	function removeExtraSpace(str: any) {
+		str = str.replace(/[\s]{2,}/g, " ");
+		str = str.replace(/^[\s]/, "");
+		str = str.replace(/[\s]$/, "");
+		return str;
+	}
+
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const token = getCookieByName('token');
 		if (token && description) {
-			const response = await BackApi.updateDescripion(token, description);
+			const newDescription = removeNewlines(description);
+			const newDescriptionBis = removeExtraSpace(newDescription);
+			if (newDescription.length === 0) {
+				// return setMsgDescription('Description can\'t be empty');
+				return ;
+			}
+			const response = await BackApi.updateDescripion(token, newDescriptionBis);
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
@@ -74,7 +98,7 @@ export function Description() {
 					</div>
 					<p className={s.char}>{description?.length}/{maxChar}</p>
 					<div className={s.button}>
-						<ButtonNext disabled={description.length === 0}/>
+						<ButtonNext disabled={descriptionIsVoid()}/>
 					</div>
 				</form>
 			</div>
