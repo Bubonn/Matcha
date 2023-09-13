@@ -17,6 +17,10 @@
 	position: relative;
 }
 
+.input::placeholder {
+	color: rgba(255, 255, 255, 0.7) ;
+}
+
 .sendButton {
 	background-color: #FB025D;
 	display: flex;

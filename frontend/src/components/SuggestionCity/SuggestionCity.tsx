@@ -46,6 +46,7 @@ export function SuggestionCity({ placeHolder }: { placeHolder: string }) {
 				value={inputText}
 				onChange={handleInputChange}
 				placeholder={placeHolder}
+				maxLength={50}
 			/>
 			{suggestions.length > 0 && (
 				<ul className={s.ul}>
