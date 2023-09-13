@@ -17,8 +17,6 @@ export function ResetPassword() {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// const formData = new FormData(e.currentTarget);
-		// const obj = Object.fromEntries(formData);
 		if (!password) {
 			setErr('Passwords can\'t be empty');
 		} else if (!err) {
@@ -48,21 +46,7 @@ export function ResetPassword() {
 					<form onSubmit={handleSubmit}>
 						<div className={s.form}>
 							<div className={s.input}>
-								{/* <InputLogin
-									label='Password'
-									name='password'
-									placeholder='Enter your password'
-									small={false}
-									isPassword={true}
-								/>
 								<InputLogin
-									label='Confirm Password'
-									name='confPassword'
-									placeholder='Confirm your password'
-									small={false}
-									isPassword={true}
-								/> */}
-																<InputLogin
 									label='Password'
 									name='password'
 									placeholder='Enter your password'

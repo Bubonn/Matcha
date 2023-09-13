@@ -20,6 +20,13 @@ export function Signup() {
 	const [err, setErr] = useState<string>('');
 	const [backErr, setBackErr] = useState<string>('');
 
+	function removeExtraSpace(str: any) {
+		str = str.replace(/[\s]{2,}/g, " ");
+		str = str.replace(/^[\s]/, "");
+		str = str.replace(/[\s]$/, "");
+		return str;
+	}
+
 	function checkValues(obj: any) {
 		const { email, username, firstName, lastName, password, confirmPassword } = obj;
 		if (!email || !username || !firstName || !lastName || !password || !confirmPassword ) {
@@ -33,6 +40,11 @@ export function Signup() {
 		const obj = Object.fromEntries(formData);
 		checkValues(obj);
 		if (!err) {
+			obj.email = removeExtraSpace(obj.email);
+			obj.username = removeExtraSpace(obj.username);
+			obj.firstName = removeExtraSpace(obj.firstName);
+			obj.lastName = removeExtraSpace(obj.lastName);
+			console.log(obj);
 			const rep = await BackApi.signup(obj);
 			if (rep.status === 200) {
 				const id = parseJwt(rep.data.token).userId;
