@@ -331,12 +331,12 @@ export const deleteNotifsMessages = async (id: any, idUserBlock: any) => {
 
 		const connection = getConnection();
 
-			const query = 'DELETE FROM ma_table \
-			WHERE (user_id_source = a AND user_id = b) OR\
-			(user_id_source = b AND user_id = a);';
+			const query = 'DELETE FROM notificationsMessages \
+			WHERE (user_id_source = ? AND user_id = ?) OR\
+			(user_id_source = ? AND user_id = ?);';
 
 			await new Promise((resolve, reject) => {
-				connection.query(query, [id, idUserBlock], (err: any, results: any) => {
+				connection.query(query, [id, idUserBlock, idUserBlock, id], (err: any, results: any) => {
 					if (err) {
 						reject(new Error('Erreur lors de l\'exécution de la requête'));
 					} else {

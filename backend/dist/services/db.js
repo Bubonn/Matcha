@@ -314,11 +314,11 @@ const deleteNotifsMessages = (id, idUserBlock) => __awaiter(void 0, void 0, void
         yield (0, exports.deleteChannel)(id, idUserBlock);
         yield (0, exports.deleteLike)(id, idUserBlock);
         const connection = (0, connectionDb_1.getConnection)();
-        const query = 'DELETE FROM ma_table \
-			WHERE (user_id_source = a AND user_id = b) OR\
-			(user_id_source = b AND user_id = a);';
+        const query = 'DELETE FROM notificationsMessages \
+			WHERE (user_id_source = ? AND user_id = ?) OR\
+			(user_id_source = ? AND user_id = ?);';
         yield new Promise((resolve, reject) => {
-            connection.query(query, [id, idUserBlock], (err, results) => {
+            connection.query(query, [id, idUserBlock, idUserBlock, id], (err, results) => {
                 if (err) {
                     reject(new Error('Erreur lors de l\'exécution de la requête'));
                 }

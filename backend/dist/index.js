@@ -156,6 +156,7 @@ io.on('connection', (socket) => {
                 yield (0, db_1.deleteLike)(sender_id, recipient_id);
                 yield (0, db_1.insertNotif)(sender_id, recipient_id, 'dislike');
                 yield (0, db_1.updatePopularityScore)(recipient_id, -15);
+                yield (0, db_1.deleteNotifsMessages)(recipient_id, sender_id);
                 if (userSocket) {
                     userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
                     userSocket.emit('reloadConv');
@@ -173,7 +174,7 @@ io.on('connection', (socket) => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 yield (0, db_1.blockUser)(sender_id, recipient_id);
-                yield (0, db_1.deleteNotifsMessages)(recipient_id, -50);
+                yield (0, db_1.deleteNotifsMessages)(recipient_id, sender_id);
                 if (userSocket) {
                     userSocket.emit('reloadConv');
                 }

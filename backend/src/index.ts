@@ -157,6 +157,7 @@ io.on('connection', (socket) => {
 				await deleteLike(sender_id, recipient_id);
 				await insertNotif(sender_id, recipient_id, 'dislike');
 				await updatePopularityScore(recipient_id, -15);
+				await deleteNotifsMessages(recipient_id, sender_id);
 				if (userSocket) {
 					userSocket.emit('notifFromServer', { user_target_id: recipient_id, user_source_id: sender_id, notification_type: 'dislike', timestamp: new Date() });
 					userSocket.emit('reloadConv');
@@ -174,7 +175,7 @@ io.on('connection', (socket) => {
 		(async () => {
 			try {
 				await blockUser(sender_id, recipient_id);
-				await deleteNotifsMessages(recipient_id, -50);
+				await deleteNotifsMessages(recipient_id, sender_id);
 				if (userSocket) {
 					userSocket.emit('reloadConv');
 				}
