@@ -13,7 +13,9 @@ interface InputSettingsProps {
 export function InputSettings({ name, text, content, setContent, placeholder, handleClick }: InputSettingsProps) {
 
 	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setContent(e.target.value);
+		const value = e.target.value;
+		const newValue = value.replace(/\s/g, "");
+		setContent(newValue);
 	}
 
 	return (
