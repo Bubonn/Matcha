@@ -23,14 +23,26 @@ export function InputChat({ idConv, newMsg,setNewMsg }: InputChatProps) {
 	const [socket, setSocket] = useState<any>(null);
 	const [idUserMatch, setIdUserMatch] = useState<null | number>(null);
 
-	
+	function removeExtraSpace(str: any) {
+		str = str.replace(/[\s]{2,}/g, " ");
+		str = str.replace(/^[\s]/, "");
+		str = str.replace(/[\s]$/, "");
+		return str;
+	}
+
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		const messageSend = removeExtraSpace(message);
+		if (messageSend.length === 0) {
+			return ;
+		}
+		
 		const existingMessages = selector.notifMessages;
 		const updatedMessages = existingMessages.filter((objet: any) => objet.conversation_id !== idConv);
 		dispatch(saveNotifMessages(updatedMessages))
 		setNewMsg(!newMsg);
-		socket.emit('message', {conversation_id: idConv, message_content: message, recipient_id: idUserMatch, sender_id: selector.id, timestamp: new Date().toISOString()});
+		socket.emit('message', {conversation_id: idConv, message_content: messageSend, recipient_id: idUserMatch, sender_id: selector.id, timestamp: new Date().toISOString()});
 		setMessage('');
 		const token = getToken();
 		if (token) {
