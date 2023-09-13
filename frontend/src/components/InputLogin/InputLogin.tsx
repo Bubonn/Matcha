@@ -37,6 +37,7 @@ export function InputLogin({ label, name, placeholder, small, password, setPassw
 				onChange={handleChange}
 				type={isPassword ? 'password' : 'text'}
 				maxLength={name === 'firstName' ? 15 : 30}
+				autoComplete={'off'}
 			/>
 		</div>
 	);
