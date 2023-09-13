@@ -1,26 +1,28 @@
 import { InputLogin } from '../../components/InputLogin/InputLogin';
 import { ButtonLogin } from '../../components/ButtonLogin/ButtonLogin';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BackApi } from '../../api/back';
 import logo from '../../assets/logo.png'
 import s from './style.module.css'
+import { checkPassword } from '../../utils/auth';
 
 export function ResetPassword() {
 	const navigate = useNavigate();
 	const [backErr, setBackErr] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [confPassword, setConfPassword] = useState<string>('');
+	const [err, setErr] = useState<string>('');
 	const { token } = useParams();
-	
-
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const obj = Object.fromEntries(formData);
-		if (obj.password !== obj.confPassword) {
-			setBackErr('Passwords must be the same');
-		} else {
-			const rep = await BackApi.resetPassword(obj.password, obj.confPassword, token);
+		// const formData = new FormData(e.currentTarget);
+		// const obj = Object.fromEntries(formData);
+		if (!password) {
+			setErr('Passwords can\'t be empty');
+		} else if (!err) {
+			const rep = await BackApi.resetPassword(password, confPassword, token);
 			if (rep.status === 200) {
 				navigate('/signin')
 			} else {
@@ -28,6 +30,12 @@ export function ResetPassword() {
 			}
 		}
 	}
+
+	useEffect(() => {
+		setBackErr('');
+		checkPassword(password, confPassword, setErr);
+		// eslint-disable-next-line
+	}, [password, confPassword])
 
 	return (
 		<div className={s.container}>
@@ -40,7 +48,7 @@ export function ResetPassword() {
 					<form onSubmit={handleSubmit}>
 						<div className={s.form}>
 							<div className={s.input}>
-								<InputLogin
+								{/* <InputLogin
 									label='Password'
 									name='password'
 									placeholder='Enter your password'
@@ -53,9 +61,28 @@ export function ResetPassword() {
 									placeholder='Confirm your password'
 									small={false}
 									isPassword={true}
+								/> */}
+																<InputLogin
+									label='Password'
+									name='password'
+									placeholder='Enter your password'
+									small={true}
+									password={password}
+									setPassword={setPassword}
+									isPassword={true}
+								/>
+								<InputLogin
+									label='Confirm Password'
+									name='confirmPassword'
+									placeholder='Enter your password'
+									small={true}
+									password={confPassword}
+									setPassword={setConfPassword}
+									isPassword={true}
 								/>
 							</div>
-							{backErr && <span className={s.error}>{backErr}</span>}
+							{err && <span className={s.error}>{err}</span>}
+							{!err && backErr && <span className={s.error}>{backErr}</span>}
 							<div className={s.space}>
 								<div className={s.button}>
 									<ButtonLogin
