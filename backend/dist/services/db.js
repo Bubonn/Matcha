@@ -347,6 +347,9 @@ const updatePopularityScore = (id, score) => __awaiter(void 0, void 0, void 0, f
                 }
             });
         });
+        if (user.length === 0) {
+            return;
+        }
         let newScore = user[0].popularity + score;
         if (newScore < 0) {
             newScore = 0;

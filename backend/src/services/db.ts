@@ -367,6 +367,10 @@ export const updatePopularityScore = async (id:number, score: number) => {
 				});
 			});
 
+			if (user.length === 0) {
+				return ;
+			}
+
 			let newScore = user[0].popularity + score;
 
 			if (newScore < 0) {
