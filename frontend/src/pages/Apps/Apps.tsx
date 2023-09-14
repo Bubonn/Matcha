@@ -106,13 +106,11 @@ export function Apps() {
 			
 			return () => {
 				sock.emit('userDisconnect', { userId: selector.id });
-				// sock.disconnect();
 			};
 		}
 	}, [selector.id]);
 
 	useEffect(() => {
-		// if (selector.id && socket && selector.notifMessages) {
 		if (selector.id && socket && selector.notifMessages) {
 			socket.on('messageFromServer', messageReceived);
 

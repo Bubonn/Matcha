@@ -73,7 +73,6 @@ const setPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }
                 else {
                     console.log('File saved successfully');
-                    // res.status(200).json({ message: 'File saved successfully' });
                 }
             });
             const query = `UPDATE user SET photo${photoId} = ? WHERE id = ?`;
@@ -125,7 +124,6 @@ const deletePhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             connection.query(query, [id], (err, result) => {
                 if (err) {
                     console.error('Error while deleting the photo:', err);
-                    // Gérer l'erreur
                     res.status(500).json({ error: 'Error while deleting the photo' });
                 }
                 else {

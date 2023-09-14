@@ -14,22 +14,8 @@ const photosWomanFolder = './backend/uploads/woman';
 
 dotenv.config();
 
-// const photosManPath = './man';
-// const photosWomanPath = './backend/uploads/woman';
-
-// DB_NAME=flirtopia
-// DB_USER=root
-// DB_PASSWORD=rootpass
-
-	console.log('TEST', process.env.DB_USER);
-
 const connectionConfig = {
 	host: 'localhost',
-	// host: 'mon_mysql',
-	// user: 'root',
-	// password: 'rootpass',
-	// database: 'flirtopia',
-
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,

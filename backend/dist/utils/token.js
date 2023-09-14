@@ -40,8 +40,8 @@ const authenticateToken = (req, res, next) => {
         if (err) {
             return res.status(403).json({ error: 'Invalid token.' });
         }
-        req.user = user; // Stocker les informations utilisateur décodées dans l'objet req
-        next(); // Appeler le middleware suivant
+        req.user = user;
+        next();
     });
 };
 exports.authenticateToken = authenticateToken;

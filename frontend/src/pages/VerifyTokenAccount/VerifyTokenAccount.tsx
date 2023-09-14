@@ -64,13 +64,7 @@ export function VerifyTokenAccount() {
 
 	useEffect(() => {
 		if (verified && locationIsSet) {
-			// const timeoutId = setTimeout(() => {
 				return navigate(`/settings`);
-			// }, 1000);
-
-			// return () => {
-			// 	clearTimeout(timeoutId);
-			// };
 		}
 		// eslint-disable-next-line
 	}, [verified, locationIsSet]);

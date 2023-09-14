@@ -40,7 +40,6 @@ export const setPhoto = async (req: Request, res: Response) => {
 					res.status(500).json({ error: 'An error occurred while saving the file' });
 				} else {
 					console.log('File saved successfully');
-					// res.status(200).json({ message: 'File saved successfully' });
 				}
 			});
 			const query = `UPDATE user SET photo${photoId} = ? WHERE id = ?`;
@@ -90,7 +89,6 @@ export const deletePhoto = async (req: Request, res: Response) => {
 			connection.query(query, [id], (err, result) => {
 				if (err) {
 					console.error('Error while deleting the photo:', err);
-					// Gérer l'erreur
 					res.status(500).json({ error: 'Error while deleting the photo' });
 				} else {
 					console.log('Photo deleted successfully.');

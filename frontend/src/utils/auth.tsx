@@ -1,14 +1,9 @@
 export function createCookie(name: string, value: string) {
-	// document.cookie = name + "=" + value + "; SameSite=None; secure; path=/";
-	// document.cookie = name + "=" + value + "; SameSite=None; path=/";
 	document.cookie = name + "=" + value + "; path=/";
 }
 
 export function deleteCookie(name: string) {
-	// eslint-disable-next-line
 	document.cookie = name + "=" + '; SameSite=None; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-	// eslint-disable-next-line
-	// document.cookie = name + "=" + '; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
 }
 
 export function getCookieByName(name: string) {
@@ -62,7 +57,6 @@ function containsDigit(str: string) {
 
 // eslint-disable-next-line
 export function checkPassword(password: string, confPassword: string, setErr: any) {
-	// setBackErr('');
 	if (!password && !confPassword) {
 		return setErr('');
 	}

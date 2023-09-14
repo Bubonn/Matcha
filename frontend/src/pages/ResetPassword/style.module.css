@@ -126,11 +126,6 @@ html, body {
 }
 
 @media (max-width: 400px) {
-	/* .container {
-		justify-content: center;
-		align-items: center;
-	} */
-
 	.bgSignupBox {
 		width: 10px;
 		height: 500px;

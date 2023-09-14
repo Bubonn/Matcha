@@ -39,7 +39,6 @@ export function Description() {
 			const newDescription = removeNewlines(description);
 			const newDescriptionBis = removeExtraSpace(newDescription);
 			if (newDescription.length === 0) {
-				// return setMsgDescription('Description can\'t be empty');
 				return ;
 			}
 			const response = await BackApi.updateDescripion(token, newDescriptionBis);

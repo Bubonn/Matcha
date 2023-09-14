@@ -44,8 +44,6 @@ html, body {
 	border-radius: 32px;
 	backdrop-filter: blur(25px);
 	overflow-y: auto;
-	/* background-color: #FB6D6C; */
-
 	transform: translateX(0);
 	transition: transform 0.6s ease-in-out;
 }

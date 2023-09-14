@@ -98,8 +98,6 @@ html, body {
 
 @media (max-width: 700px) {
 	.box {
-		/* width: 525px; */
-		/* height: 450px; */
 		overflow-y: scroll;
 	}
 
