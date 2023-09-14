@@ -23,7 +23,7 @@ export function AdditionalsPhotos() {
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/verifyAccount');
+					return navigate('/verifyAccount');
 				}, 700);
 			}
 		}

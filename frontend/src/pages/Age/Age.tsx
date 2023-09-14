@@ -31,7 +31,7 @@ export function Age() {
 			if (rep.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/gender');
+					return navigate('/gender');
 				}, 700);
 			}
 		}

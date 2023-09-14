@@ -18,7 +18,7 @@ export function ForgotPassword() {
 		if (emailValue) {
 			const rep = await BackApi.sendEmailResetPassword(emailValue);
 			if (rep.status === 200) {
-				navigate('/emailResetPassword')
+				return navigate('/emailResetPassword')
 			} else {
 				setErr(rep);
 			}

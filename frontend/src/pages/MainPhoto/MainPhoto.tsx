@@ -23,7 +23,7 @@ export function MainPhoto() {
 		}
 		setEndAnimation(true);
 		setTimeout(() => {
-			navigate('/additionalsPhoto');
+			return navigate('/additionalsPhoto');
 		}, 700);
 	}
 

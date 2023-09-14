@@ -22,7 +22,7 @@ export function Interests() {
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/mainPhoto');
+					return navigate('/mainPhoto');
 				}, 700);
 			}
 		}

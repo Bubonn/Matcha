@@ -49,7 +49,7 @@ export function Signup() {
 				const id = parseJwt(rep.data.token).userId;
 				createCookie("token", rep.data.token);
 				dispatch(saveId(id));
-				navigate('/age');
+				return navigate('/age');
 			} else {
 				setBackErr(rep);
 			}

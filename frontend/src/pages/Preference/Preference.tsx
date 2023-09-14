@@ -23,7 +23,7 @@ export function Preference() {
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/description');
+					return navigate('/description');
 				}, 700);
 			}
 		}

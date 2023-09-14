@@ -65,7 +65,7 @@ export function VerifyTokenAccount() {
 	useEffect(() => {
 		if (verified && locationIsSet) {
 			// const timeoutId = setTimeout(() => {
-				navigate(`/settings`);
+				return navigate(`/settings`);
 			// }, 1000);
 
 			// return () => {

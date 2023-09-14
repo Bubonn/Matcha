@@ -129,7 +129,7 @@ export function Profile() {
 		socket.emit('blockUser', { sender_id: selector.id, recipient_id: Number(id) })
 		setFlagClicked(false);
 		setIsReport(false);
-		navigate(`/profile/${selector.id}`);
+		return navigate(`/profile/${selector.id}`);
 	}
 
 	async function reportUser() {

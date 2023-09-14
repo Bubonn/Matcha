@@ -46,7 +46,7 @@ export function Description() {
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/interests');
+					return navigate('/interests');
 				}, 700);
 			}
 		}

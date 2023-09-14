@@ -124,7 +124,7 @@ export function Settings() {
 			await BackApi.updateLocation(token, location);
 			return location;
 		} else {
-			navigate('/signin');
+			return navigate('/signin');
 		}
 	}
 

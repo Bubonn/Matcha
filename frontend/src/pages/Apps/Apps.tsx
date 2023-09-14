@@ -26,12 +26,12 @@ export function Apps() {
 	async function checkToken() {
 		const token: string | null = getCookieByName('token');
 		if (!token) {
-			navigate('/signin');
+			return navigate('/signin');
 		}
 		else {
 			const rep = await BackApi.checkToken(token);
 			if (rep.status !== 200) {
-				navigate('/signin');
+				return navigate('/signin');
 			}
 			if (selector.id === 0) {
 				dispatch(saveId(rep.data.userId));
@@ -46,17 +46,17 @@ export function Apps() {
 			dispatch(saveAvatar(response.data.mainPhoto));
 			dispatch(saveFirstName(response.data.firstName));
 			if (!response.data.verified) {
-				navigate('/verifyAccount');
+				return navigate('/verifyAccount');
 			} else {
 				setVerified(true);
 			}
 		} else {
-			navigate('/signin');
+			return navigate('/signin');
 		}
 
 		const currentPath = window.location.pathname;
 		if (currentPath === '/') {
-			navigate('/settings');
+			return navigate('/settings');
 		}
 	}
 

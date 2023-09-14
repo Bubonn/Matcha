@@ -19,9 +19,9 @@ export function ButtonSideMenu({ section, updateSection, name, logo, notificatio
 	function handleClick() {
 		updateSection(name)
 		if (name === 'Profile') {
-			navigate(name.toLocaleLowerCase() + '/' + selector.id);
+			return navigate(name.toLocaleLowerCase() + '/' + selector.id);
 		} else {
-			navigate(name.toLocaleLowerCase());
+			return navigate(name.toLocaleLowerCase());
 		}
 	}
 

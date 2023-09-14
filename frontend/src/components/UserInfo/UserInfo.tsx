@@ -21,7 +21,7 @@ export function UserInfo() {
 		} else {
 			const rep = await BackApi.checkToken(token);
 			if (rep.status !== 200) {
-				navigate('/signin');
+				return navigate('/signin');
 			} else {
 				let id;
 				if (selector.id === 0) {
@@ -39,23 +39,23 @@ export function UserInfo() {
 					const user = response.data;
 
 					if (user.all_infos_set && !user.verified) {
-						navigate('/verifyAccount');
+						return navigate('/verifyAccount');
 					} else if (user.all_infos_set) {
-						navigate(`/settings`);
+						return navigate(`/settings`);
 					} else if (user.birth === null) {
-						navigate('/age');
+						return navigate('/age');
 					} else if (!user.gender) {
-						navigate('/gender');
+						return navigate('/gender');
 					} else if (!user.preference) {
-						navigate('/preference');
+						return navigate('/preference');
 					} else if (!user.description) {
-						navigate('/description');
+						return navigate('/description');
 					} else if (user.interests.length === 0) {
-						navigate('/interests');
+						return navigate('/interests');
 					} else if (!user.photo1) {
-						navigate('/mainPhoto');
+						return navigate('/mainPhoto');
 					} else {
-						navigate('/additionalsPhoto');
+						return navigate('/additionalsPhoto');
 					}
 				}
 			}

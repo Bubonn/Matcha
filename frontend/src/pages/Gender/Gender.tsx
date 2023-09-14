@@ -23,7 +23,7 @@ export function Gender() {
 			if (response.status === 200) {
 				setEndAnimation(true);
 				setTimeout(() => {
-					navigate('/preference');
+					return navigate('/preference');
 				}, 700);
 			}
 		}

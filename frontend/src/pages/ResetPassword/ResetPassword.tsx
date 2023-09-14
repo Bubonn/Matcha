@@ -22,7 +22,7 @@ export function ResetPassword() {
 		} else if (!err) {
 			const rep = await BackApi.resetPassword(password, confPassword, token);
 			if (rep.status === 200) {
-				navigate('/signin')
+				return navigate('/signin')
 			} else {
 				setBackErr(rep);
 			}
