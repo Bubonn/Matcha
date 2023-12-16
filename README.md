@@ -7,7 +7,7 @@ Matcha est un projet de site de rencontres développé dans le cadre du cursus d
 - [Fonctionnalités](#fonctionnalites)
 - [Technologies Utilisées](#technologies-utilisees)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
+- [Présentation du projet](#presentation)
 
 <div id='fonctionnalites'/>  
   
@@ -47,4 +47,40 @@ Pour exécuter ce projet localement, suivez ces étapes :
 7. Démarrer l'application : `docker compose up --build`
 8. Accéder à l'application dans votre navigateur à `http://localhost:3001`
 
-- Vidéo de présentation du projet : https://www.youtube.com/watch?v=5H538Js2X10
+<div id='presentation'/> 
+  
+## Présentation du projet
+
+- Vidéo du projet : https://www.youtube.com/watch?v=5H538Js2X10
+
+### Pages de login
+
+#### Signin
+![My Image](assets/signin.png)
+
+#### Signup
+![My Image](assets/signup.png)
+
+### Pages d'informations de l'utilisateur
+
+<img src="assets/birth.png" alt="My Image" width="500"/>
+<img src="assets/gender.png" alt="My Image" width="500"/>
+<img src="assets/preference.png" alt="My Image" width="500"/>
+<img src="assets/tags.png" alt="My Image" width="500"/>
+<img src="assets/description.png" alt="My Image" width="500"/>
+<img src="assets/mainPhoto.png" alt="My Image" width="500"/>
+
+## Pages du site
+
+### Profile
+![My Image](assets/profile.png)
+
+### Suggestions
+![My Image](assets/suggestions.png)
+
+### Settings
+![My Image](assets/settings.png)
+
+### Chat
+![My Image](assets/chat.png)
+
